@@ -1,5 +1,6 @@
 <?php $fields = json_decode($form->fields)?>
 
+{{ csrf_field() }}
 
 @foreach($fields as $index => $field)
 
