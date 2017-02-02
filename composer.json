@@ -1,6 +1,6 @@
 {
     	
-	"name": "imagina/iforms",
+	"name": "imagina/iforms-module",
     "description": "",
     "type": "asgard-module",
     "license": "MIT",
@@ -20,7 +20,7 @@
             "Modules\\": "Modules/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "authors": [
         {
