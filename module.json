@@ -1,0 +1,16 @@
+{
+    "name": "Iforms",
+    "alias": "iforms",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Iforms\\Providers\\IformsServiceProvider",
+        "Modules\\Iforms\\Providers\\RouteServiceProvider"
+    ],
+    "aliases":{},
+    "files": [
+        "helpers.php"
+    ]
+}
