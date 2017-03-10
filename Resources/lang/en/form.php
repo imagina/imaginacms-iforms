@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'single' => 'Form',
     'list' => 'Forms',
     'create' => 'Create Form',
     'edit' => 'Edit Forms',

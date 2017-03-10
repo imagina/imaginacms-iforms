@@ -125,8 +125,6 @@ class LeadController extends BcrudController
                 'fake' => true,
                 'store_in' => 'options'
             ]);
-
-
             // ------ CRUD FIELDS
             $this->crud->addField([
                 'name' => $field['name'],
