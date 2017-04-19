@@ -2,7 +2,7 @@
 ?>
 
 {{ csrf_field() }}
-@if(setting('iforms::trans')=="1")
+@if(Setting::get('iforms::trans')=="1")
     <div class="form-group">
         @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio")
             <div class="col-sm-12">
@@ -18,6 +18,13 @@
                 <label>
                     <input  name="{!!$field['name']!!}" type="{!!$field['type']!!}" value="{!!$field['name']!!}">
                     {!!$field['label']!!}
+                </label>
+            </div>
+        @elseif($field['type'] == "terms")
+            <div class="checkbox col-sm-10">
+                <label>
+                    <input name="{!!$field['name']!!}" type="checkbox" required>{{trans('iforms:form.form.terms_ini')}}<a
+                            href="{{url($field['description'])}}" target="_blank">{{trans('iforms:form.form.terms_end')}} </a>
                 </label>
             </div>
 
@@ -40,6 +47,14 @@
                     <label>
                         <input  name="{!!$field['name']!!}" type="{!!$field['type']!!}" value="{!!$field['name']!!}">
                         {!!$field['label']!!}
+                    </label>
+                </div>
+            @elseif($field['type'] == "terms")
+                <div class="checkbox col-sm-10">
+                    <label>
+                        <input name="{!!$field['name']!!}" type="checkbox" required> Estoy de acuerdo <a
+                                href="{{url($field['description'])}}" target="_blank">la politica de proteccion de datos
+                            personales </a>
                     </label>
                 </div>
             @endif

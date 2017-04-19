@@ -1,19 +1,20 @@
 <div class="content-form">
    <form id="{{$form->title}}" class="form-horizontal" action="{{url('/iforms/lead')}}">
       <input type="hidden" name="form_id" value="{{$form->id}}" required="">
-      @include('iforms::frontend.form.bt-horizontal.fields')
-      @if(setting('iforms::captcha')=="1")
-         <div class="g-recaptcha" data-sitekey="{{setting('iforms::api') or ''}}"></div>
+      @include('iforms::frontend.form.bt-nolabel.fields')
+      @if(Setting::get('iforms::captcha')=="1")
+         <div class="g-recaptcha" data-sitekey="{{Setting::get('iforms::api') or ''}}"></div>
       @endif
       <div class="form-group">
          <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary">{{trans('iforms::forms.forms.submit')}}</button>
          </div>
       </div>
    </form>
 
    </div>
-@section('scripts')
+@section('scripts-owl')
+   @parent
 <script>
    $(document).ready(function(){
       var formid='#{{$form->title}}';
@@ -35,7 +36,7 @@
             var content =  data.status;
 
             if(content=="success"){
-               $(".content-form").html('<p class="alert bg-primary" role="alert"><span>Registro Enviado</span> </p>')
+               $(".content-form").html('<p class="alert bg-primary" role="alert"><span>{{trans("iforms::forms.forms.sent")}}</span> </p>')
             }
             else {
                $(".content-form").html('<p class="alert bg-primary" role="alert"><span>'+data.msg+'</span> </p>')

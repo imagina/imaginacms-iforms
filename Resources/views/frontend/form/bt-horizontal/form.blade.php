@@ -1,19 +1,26 @@
 <div class="content-form">
-    <form id="{{$form->title}}" class="form-horizontal" action="{{URL::to('/iforms/lead')}}">
+    <form id="{{$form->title}}" class="form-horizontal" action="{{url('/iforms/lead')}}">
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">
+
         @include('iforms::frontend.form.bt-horizontal.fields')
-        @if(setting('iforms::captcha')=="1")
-            <div class="g-recaptcha" data-sitekey="{{setting('iforms::api') or ''}}"></div>
+
+
+
+        @if(Setting::get('iforms::captcha')=="1")
+            <div class="g-recaptcha" data-sitekey="{{Setting::get('iforms::api') or ''}}"></div>
         @endif
+
+
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">{{trans('icustom::iforms.field.submit')}}</button>
+                <button type="submit" class="btn btn-primary">{{trans('iforms::forms.forms.submit')}}</button>
             </div>
         </div>
     </form>
 
 </div>
-@section('scripts')
+@section('scripts-owl')
+    @parent
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script>
         $(document).ready(function () {

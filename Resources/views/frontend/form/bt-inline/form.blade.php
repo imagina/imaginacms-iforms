@@ -1,16 +1,21 @@
 <div class="content-form">
 
-   <form id="{{$form->title}}" class="form-inline" action="{{URL::to('/iforms/lead')}}">
+   <form id="{{$form->title}}" class="form-inline" action="{{url('/iforms/lead')}}">
 
       <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
       @include('iforms::frontend.form.bt-inline.fields')
-      
-      <button type="submit" class="btn btn-primary">Enviar</button>
+
+      @if(Setting::get('iforms::captcha')=="1")
+         <div class="g-recaptcha" data-sitekey="{{Setting::get('iforms::api') or ''}}"></div>
+      @endif
+
+      <button type="submit" class="btn btn-primary">{{trans('iforms::forms.forms.submit')}}</button>
    </form>
    </div>
 
-@section('scripts')
+@section('scripts-owl')
+   @parent
 <script>
 
    $(document).ready(function(){
@@ -37,7 +42,7 @@
             var content =  data.status;
             if(content=="success"){
 
-               $(".content-form").html('<p class="alert bg-primary" role="alert"><span>Registro Enviado</span> </p>')
+               $(".content-form").html('<p class="alert bg-primary" role="alert"><span>{{trans("iforms::forms.forms.sent")}}</span> </p>')
             }
 
             else {

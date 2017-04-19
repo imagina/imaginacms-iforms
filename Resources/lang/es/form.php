@@ -20,6 +20,10 @@ return [
     'table' => [
     ],
     'form' => [
+        'submit'=>'Enviar',
+        'sent'=>'Registro Enviado',
+        'term-ini'=>'Estoy de acuerdo con',
+        'term-end'=>'la politica de proteccion de datos',
     ],
     'messages' => [
     ],

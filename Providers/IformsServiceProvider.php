@@ -28,6 +28,7 @@ class IformsServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('iforms', 'config');
+        $this->publishConfig('iforms', 'settings');
         $this->publishConfig('iforms', 'permissions');
     }
 
