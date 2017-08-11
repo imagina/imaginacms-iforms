@@ -22,8 +22,8 @@ return [
     'form' => [
         'submit'=>'Enviar',
         'sent'=>'Registro Enviado',
-        'term-ini'=>'Estoy de acuerdo con',
-        'term-end'=>'la politica de proteccion de datos',
+        'terms'=>'Estoy de acuerdo con la <a href="%s">política de proteccion de datos</a>',
+        'verifyhuman'=>'Por favor, verifique que usted es humano',
     ],
     'messages' => [
     ],

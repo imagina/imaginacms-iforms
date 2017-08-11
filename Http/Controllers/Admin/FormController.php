@@ -78,8 +78,13 @@ class FormController extends BcrudController
             'label' => trans('iforms::common.title'),
         ]);
 
-
-
+        $this->crud->addField([
+            'name' => 'destination_email',
+            'type' => 'email',
+            'label' => trans('iforms::common.to'),
+            'fake' => true,
+            'store_in' => 'options',
+        ]);
 
         $this->crud->addField([ // Table
             'name' => 'fields',

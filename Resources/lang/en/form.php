@@ -17,6 +17,10 @@ return [
     'table' => [
     ],
     'form' => [
+        'submit'=>'Submit',
+        'sent'=>'Registration Submitted',
+        'terms'=>'I agree with the <a href="%s">data protection policy</a>',
+        'verifyhuman'=>'Please verify you are human',
     ],
     'messages' => [
     ],

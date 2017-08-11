@@ -4,7 +4,7 @@
 @if(Setting::get('iforms::trans')=="1")
     @foreach($fields as $index => $field)
         <div class="form-group">
-            @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio")
+            @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio"&& $field['type']!="terms")
                 <label for="{!!$field['name']!!}"
                        class="col-sm-2 control-label">{{ trans('icustom::iforms.field.'.$field['name']) }} </label>
                 <div class="col-sm-10">
@@ -31,8 +31,7 @@
             @elseif($field['type'] == "terms")
                 <div class="checkbox col-sm-10">
                     <label>
-                        <input name="{!!$field['name']!!}" type="checkbox" required>{{trans('iforms:form.form.terms_ini')}}<a
-                                href="{{url($field['description'])}}" target="_blank">{{trans('iforms:form.form.terms_end')}} </a>
+                        <input name="{!!$field['name']!!}" type="checkbox" required>{!!sprintf(trans('iforms::form.form.terms'),url($field['description']))!!}
                     </label>
                 </div>
             @endif
@@ -41,7 +40,7 @@
 @else
     @foreach($fields as $index => $field)
         <div class="form-group">
-            @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio")
+            @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio" && $field['type']!="terms")
                 <label for="{!!$field['name']!!}" class="col-sm-2 control-label">{{$field['label']}} </label>
                 <div class="col-sm-10">
                     <input type="{!!$field['type']!!}" class="form-control" name="{!!$field['name']!!}"
@@ -64,9 +63,7 @@
             @elseif($field['type'] == "terms")
                 <div class="checkbox col-sm-10">
                     <label>
-                        <input name="{!!$field['name']!!}" type="checkbox" required> Estoy de acuerdo <a
-                                href="{{url($field['description'])}}" target="_blank">la politica de proteccion de datos
-                            personales </a>
+                        <input name="{!!$field['name']!!}" type="checkbox" required>{!!sprintf(trans('iforms::form.form.terms'),url($field['description']))!!}
                     </label>
                 </div>
             @endif

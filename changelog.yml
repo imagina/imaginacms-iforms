@@ -1,0 +1,17 @@
+url: https://github.com/imagina/asgardcms-iforms
+versions:
+    "0.1.2":
+        added:
+          - Email Templates
+          - Variables for sending and receiving emails
+          - ReplyTo Parameter
+        removed:
+
+        changed:
+          - Translation of buttons and messages
+          - Google Recaptcha Fix
+
+    "0.1.1":
+        changed:
+            - Fixes AsgardCms/Platform#46 - Old input is kept in all fields
+            - Using the <code>old()</code> method helper

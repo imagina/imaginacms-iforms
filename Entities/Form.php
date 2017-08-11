@@ -14,7 +14,7 @@ class Form extends Model
     protected $table = 'iforms_forms';
 
     protected $fillable = ['title','user_id','options','fields'];
-
+    protected $fakeColumns = ['options'];
 
     /**
      * The attributes that should be casted to native types.
@@ -39,6 +39,9 @@ class Form extends Model
     {
         return $this->hasMany("Modules\\Iforms\\Entities\\Lead");
     }
+    public function getOptionsAttribute($value) {
+        return json_decode(json_decode($value));
 
+    }
 
 }
