@@ -1,24 +1,19 @@
-@extends('iforms::frontend.form.mainlayout')
 @php
-    $id=str_slug($form->title).rand(1,999);
+    $id=str_slug($form->title).$options['rand'];;
 @endphp
-@section('content')
-<div class="content-form">
+
+<div class="content-form{{$options['rand']}}">
     <div class="formerror"></div>
     <form id="{{$id}}" class="form-horizontal" action="{{url('/iforms/lead')}}">
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
         @include('iforms::frontend.form.bt-nolabel.fields')
 
-
-
         @if(Setting::get('iforms::captcha')=="1")
             <div class="col-sm-offset-2 col-sm-10">
                 {!!app('captcha')->display($attributes = ['data-sitekey'=>Setting::get('iforms::api')])!!}
                 </br>
-
             </div>
-
         @endif
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -28,4 +23,5 @@
     </form>
 
 </div>
-@stop
+
+@include('iforms::frontend.form.mainlayout')

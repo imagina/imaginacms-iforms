@@ -1,6 +1,5 @@
 <?php $fields = $form->fields;
 ?>
-
 {{ csrf_field() }}
 @if(Setting::get('iforms::trans')=="1")
     <div class="form-group">

@@ -1,9 +1,8 @@
-@extends('iforms::frontend.form.mainlayout')
 @php
     $id=str_slug($form->title).rand(1,999);
 @endphp
-@section('content')
-<div class="content-form">
+
+<div class="content-form{{$id}}">
     <div class="formerror"></div>
     <form id="{{$id}}" class="form-inline" action="{{url('/iforms/lead')}}">
 
@@ -24,4 +23,4 @@
     </form>
 
 </div>
-@stop
+@include('iforms::frontend.form.mainlayout')
