@@ -1,6 +1,6 @@
 <?php
 $fields = array();
-if(isset($form) && !empty($form)) $fields = $form->fields;
+if(isset($form) && is_array($form->fields)) $fields = $form->fields;
 ?>
 {{ csrf_field() }}
 @if(Setting::get('iforms::trans')=="1")
