@@ -112,7 +112,7 @@ class PublicController extends BasePublicController
             }
             $sender = $this->setting->get('core::site-name');
             $title = $this->form->title;
-            Mail::send("iforms::frontend.emails.form",
+            Mail::send(['iforms::frontend.emails.form', 'iforms::frontend.emails.textform'],
                 [
                     'data' => $data,
                     'form' => $this->form,
