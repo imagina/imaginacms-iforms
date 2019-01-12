@@ -1,5 +1,8 @@
 url: https://github.com/imagina/asgardcms-iforms
 versions:
+    "3.0.5":
+        added:
+          - ApiController
     "3.0.4":
         added:
           - view text send Email
