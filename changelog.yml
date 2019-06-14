@@ -1,5 +1,10 @@
 url: https://github.com/imagina/asgardcms-iforms
 versions:
+    "3.0.6":
+        changed:
+          - FormApiContrller send method
+        delete:
+          - Route Api LeadApiController
     "3.0.5":
         added:
           - ApiController

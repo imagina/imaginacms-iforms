@@ -43,7 +43,7 @@ $router->group(['prefix' => 'iform'], function (Router $router) {
         ]);
     });
     $router->group(['prefix' => 'lead'], function (Router $router) {
-        $router->get('/', [
+        /*$router->get('/', [
             'as' => 'iform.api.leads.index',
             'uses' => 'LeadController@index',
         ]);
@@ -73,7 +73,7 @@ $router->group(['prefix' => 'iform'], function (Router $router) {
             'as' => 'iform.api.leads.delete',
             'uses' => 'LeadController@delete',
             'middleware' => ['api.token', 'token-can:iforms.leads.destroy']
-        ]);
+        ]);*/
     });
 
 

@@ -5,7 +5,7 @@ namespace Modules\Iforms\Entities;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Leads extends Model
+class LeadDetail extends Model
 {
 
     protected $table = 'iforms_lead_details';

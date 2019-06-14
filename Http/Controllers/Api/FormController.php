@@ -36,7 +36,7 @@ class FormController extends BaseApiController
 
         try {
 
-            $data = Request::all();
+            $data = Request::input('attributes');
             Log::info(var_export($data, true));
             $this->form = Form::find($data['form_id']);
             if (empty($this->form->id)) {
