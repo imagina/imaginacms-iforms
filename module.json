@@ -1,9 +1,9 @@
 {
     "name": "Iforms",
     "alias": "iforms",
-    "description": "",
+    "description": "Iforms allows you to manage multiple contact forms, The form supports sending with Ajax, CAPTCHA",
     "keywords": [],
-    "version": "3.0.6",
+    "version": "3.0.7",
     "active": 1,
     "order": 1,
     "providers": [

@@ -11,6 +11,7 @@ if (! function_exists('iform')) {
 
         $iform = Form::find($id);
 
+        if(!isset($iform)&& empty($iform)) return null;
         $view = View::make($template)
             ->with([
                 'form' => $iform,

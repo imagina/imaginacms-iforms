@@ -14,5 +14,6 @@ return [
     'api'=>'API',
     'email_from'=>'Email From',
     'forms_not_found'=>'Forms not found',
-    'captcha_required'=> 'Captcha is required'
+    'captcha_required'=> 'Captcha is required',
+    'referer'=>'Referer'
 ];

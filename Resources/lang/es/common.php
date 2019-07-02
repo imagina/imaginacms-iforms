@@ -13,6 +13,6 @@ return [
     'api' => 'API',
     'email_from' => 'Email de Remitente',
     'forms_not_found'=>'Formulario no encontrado',
-    'captcha_required'=> 'Captcha no valida'
-
+    'captcha_required'=> 'Captcha no valida',
+    'referer'=>'Pagina de Envio'
 ];

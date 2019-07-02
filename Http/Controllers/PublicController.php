@@ -49,13 +49,14 @@ class PublicController extends BasePublicController
                 throw new Exception(trans('iforms::common.forms_not_found'));
             }
 
-            $this->form->fields = $this->form->fields;
-
             $attr = array();
             $attr['form_id'] = $this->form->id;
             $attr['options'] = array();
+            if(config('asgard.iforms.config.referer')){
+                $data['referer']=Request::server('HTTP_REFERER');
+            }
 
-            if (array_key_exists('g-recaptcha-response', $data)) {
+            if ($this->setting->get('iforms::captcha')=="1") {
 
                 $validator = \Validator::make($data, [
                     'g-recaptcha-response' => 'required|captcha'
@@ -131,7 +132,7 @@ class PublicController extends BasePublicController
             //var_dump($t);
             $response['status'] = 'error';
             $response['message'] = $t->getMessage();
-            Log::error($response);
+            Log::error($t);
         }
 
 

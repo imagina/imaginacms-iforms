@@ -46,8 +46,11 @@ class FormController extends BaseApiController
             $attr = array();
             $attr['form_id'] = $this->form->id;
             $attr['options'] = array();
+            if(config('asgard.iforms.config.referer')){
+                $data['referer']=Request::server('HTTP_REFERER');
+            }
 
-            if (array_key_exists('g-recaptcha-response', $data)) {
+            if ($this->setting->get('iforms::captcha')=="1") {
 
                 $validator = \Validator::make($data, [
                     'g-recaptcha-response' => 'required|captcha'
