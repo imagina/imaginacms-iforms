@@ -16,8 +16,8 @@ class CreateIformFieldTranslationsTable extends Migration
       $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('label')->index();
-      $table->string('placeholder')->index();
-      $table->string('description')->index();
+      $table->string('placeholder');
+      $table->string('description');
       $table->integer('field_id')->unsigned();
       $table->string('locale')->index();
       $table->unique(['field_id', 'locale']);
