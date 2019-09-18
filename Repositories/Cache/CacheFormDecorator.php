@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iforms\Repositories\Cache;
+namespace Modules\Iform\Repositories\Cache;
 
-use Modules\Iforms\Repositories\FormRepository;
+use Modules\Iform\Repositories\FormRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
 
 class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
@@ -10,7 +10,7 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
     public function __construct(FormRepository $form)
     {
         parent::__construct();
-        $this->entityName = 'iforms.form';
+        $this->entityName = 'iform.forms';
         $this->repository = $form;
     }
 }

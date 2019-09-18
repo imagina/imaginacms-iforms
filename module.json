@@ -1,17 +1,18 @@
 {
-    "name": "Iforms",
-    "alias": "iforms",
-    "description": "Iforms allows you to manage multiple contact forms, The form supports sending with Ajax, CAPTCHA",
+    "name": "Iform",
+    "alias": "iform",
+    "description": "",
     "keywords": [],
-    "version": "3.0.7",
-    "active": 1,
+    "version": "1.0.0",
+	"active": 1,
     "order": 1,
     "providers": [
-        "Modules\\Iforms\\Providers\\IformsServiceProvider",
-        "Modules\\Iforms\\Providers\\RouteServiceProvider"
+        "Modules\\Iform\\Providers\\IformServiceProvider",
+        "Modules\\Iform\\Providers\\RouteServiceProvider"
     ],
-    "aliases":{},
+    "aliases": {},
     "files": [
-        "helpers.php"
-    ]
+        
+    ],
+    "requires": []
 }

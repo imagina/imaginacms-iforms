@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iforms\Providers;
+namespace Modules\Iform\Providers;
 
 use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
 
@@ -10,14 +10,14 @@ class RouteServiceProvider extends CoreRoutingServiceProvider
      * The root namespace to assume when generating URLs to actions.
      * @var string
      */
-    protected $namespace = 'Modules\Iforms\Http\Controllers';
+    protected $namespace = 'Modules\Iform\Http\Controllers';
 
     /**
      * @return string
      */
     protected function getFrontendRoute()
     {
-        return __DIR__ . '/../Http/frontendRoutes.php';
+        return false;
     }
 
     /**
@@ -33,6 +33,6 @@ class RouteServiceProvider extends CoreRoutingServiceProvider
      */
     protected function getApiRoute()
     {
-        return __DIR__ . '/../Http/apiRoutes.php';
+        return false;
     }
 }

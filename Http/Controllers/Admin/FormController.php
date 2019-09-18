@@ -1,155 +1,102 @@
 <?php
 
-namespace Modules\Iforms\Http\Controllers\Admin;
+namespace Modules\Iform\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iforms\Entities\Form;
-use Modules\Iforms\Repositories\FormRepository;
+use Modules\Iform\Entities\Form;
+use Modules\Iform\Http\Requests\CreateFormRequest;
+use Modules\Iform\Http\Requests\UpdateFormRequest;
+use Modules\Iform\Repositories\FormRepository;
+use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
-use Modules\Iforms\Http\Requests\FormRequest as UpdateRequest;
-use Modules\Iforms\Http\Requests\FormRequest as StoreRequest;
-
-use Modules\Bcrud\Http\Controllers\BcrudController;
-use Modules\User\Contracts\Authentication;
-
-class FormController extends BcrudController
+class FormController extends AdminBaseController
 {
     /**
-     * @var formRepository
+     * @var FormRepository
      */
     private $form;
-    private $auth;
 
-    public function __construct(Authentication $auth)
+    public function __construct(FormRepository $form)
     {
         parent::__construct();
 
-        $this->auth = $auth;
-
-        $driver = config('asgard.user.config.driver');
-
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
-        $this->crud->setModel('Modules\Iforms\Entities\Form');
-        $this->crud->setRoute('backend/iforms/form');
-        $this->crud->setEntityNameStrings(trans('iforms::form.single'), trans('iforms::form.plural'));
-        $this->access = [];
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | COLUMNS AND FIELDS
-        |--------------------------------------------------------------------------
-        */
-        // ------ CRUD COLUMNS
-        $this->crud->addColumn([
-            'name' => 'id',
-            'label' => 'ID',
-        ]);
-
-
-        $this->crud->addColumn([
-            'name' => 'title',
-            'label' => trans('iforms::common.title'),
-        ]);
-
-
-        $this->crud->addColumn([  // Select
-            'name' => 'user_id', // the db column for the foreign key
-            'label' => trans('iforms::common.form_user'),
-            'type' => 'select',
-            'entity' => 'user', // the method that defines the relationship in your Model
-            'attribute' => 'email', // foreign key attribute that is shown to user
-            'model' => "Modules\\User\\Entities\\{$driver}\\User" // foreign key model
-        ]);
-
-        $this->crud->addColumn([
-            'name' => 'created_at',
-            'label' => trans('iforms::common.created_at'),
-        ]);
-
-        // ------ CRUD FIELDS
-        $this->crud->addField([
-            'name' => 'title',
-            'label' => trans('iforms::common.title'),
-        ]);
-
-        $this->crud->addField([
-            'name' => 'destination_email',
-            'type' => 'email',
-            'label' => trans('iforms::common.to'),
-            'fake' => true,
-            'store_in' => 'options',
-        ]);
-
-        $this->crud->addField([ // Table
-            'name' => 'fields',
-            'label' => trans('iforms::common.fields'),
-            'type' => 'table',
-            'entity_singular' => 'field', // used on the "Add X" button
-            'columns' => [
-                'name' => 'Name',
-                'label' => 'Label',
-                'type' => 'Type',
-                'description' => 'Description'
-            ],
-            'max' => 100, // maximum rows allowed in the table
-            'min' => 0 // minimum rows allowed in the table
-        ]);
-
-
-
-        // ------ CRUD FIELDS
-        $this->crud->addField([  // Select
-            'name' => 'user_id', // the db column for the foreign key
-            'label' => trans('iforms::common.form_user'),
-            'type' => 'select',
-            'entity' => 'user', // the method that defines the relationship in your Model
-            'attribute' => 'email', // foreign key attribute that is shown to user
-            'model' => "Modules\\User\\Entities\\{$driver}\\User" // foreign key model
-        ]);
-
+        $this->form = $form;
     }
 
-
-    public function setup()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
     {
-        parent::setup();
+        //$forms = $this->form->all();
 
-        $permissions = ['index', 'create', 'edit', 'destroy'];
-        $allowpermissions = [];
-        foreach($permissions as $permission) {
-
-            if($this->auth->hasAccess("iforms.forms.$permission")) {
-                if($permission=='index') $permission = 'list';
-                if($permission=='edit') $permission = 'update';
-                if($permission=='destroy') $permission = 'delete';
-                $allowpermissions[] = $permission;
-            }
-
-        }
-
-        $this->crud->access = $allowpermissions;
+        return view('iform::admin.forms.index', compact(''));
     }
 
-
-
-    public function store(StoreRequest $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
     {
-        return parent::storeCrud();
+        return view('iform::admin.forms.create');
     }
 
-
-
-    public function update(UpdateRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  CreateFormRequest $request
+     * @return Response
+     */
+    public function store(CreateFormRequest $request)
     {
-        return parent::updateCrud($request);
+        $this->form->create($request->all());
+
+        return redirect()->route('admin.iform.form.index')
+            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iform::forms.title.forms')]));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  Form $form
+     * @return Response
+     */
+    public function edit(Form $form)
+    {
+        return view('iform::admin.forms.edit', compact('form'));
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Form $form
+     * @param  UpdateFormRequest $request
+     * @return Response
+     */
+    public function update(Form $form, UpdateFormRequest $request)
+    {
+        $this->form->update($form, $request->all());
 
+        return redirect()->route('admin.iform.form.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iform::forms.title.forms')]));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Form $form
+     * @return Response
+     */
+    public function destroy(Form $form)
+    {
+        $this->form->destroy($form);
+
+        return redirect()->route('admin.iform.form.index')
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iform::forms.title.forms')]));
+    }
 }
