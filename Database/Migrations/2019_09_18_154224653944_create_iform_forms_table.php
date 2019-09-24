@@ -15,7 +15,7 @@ class CreateIformFormsTable extends Migration
     Schema::create('iform__forms', function (Blueprint $table) {
       $table->engine = 'InnoDB';
       $table->increments('id');
-      $table->integer('user_id')->unsigned();
+      $table->integer('user_id')->unsigned()->nullable();;
       $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('cascade');
       $table->text('options')->default('')->nullable();
       $table->timestamps();
