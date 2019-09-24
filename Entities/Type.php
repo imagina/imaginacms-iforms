@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
-  const TEXT = 0;
-  const NUMBER = 1;
-
+  const TEXT = 1;
+  const TEXTAREA = 2;
+  const NUMBER = 3;
+  const EMAIL = 4;
+  const SELECT = 5;
+  const SELECTMULTIPLE = 6;
+  const CHECKBOX = 7;
+  const RADIO = 8;
+  const LOCATION = 9;
 
   /**
    * @var array
@@ -18,8 +24,38 @@ class Type extends Model
   public function __construct()
   {
     $this->types = [
-      self::TEXT => trans('iform::common.types.text'),
-      self::NUMBER => trans('iform::common.types.number'),
+      [
+        'id' => self::TEXT,
+        'name' => trans('iform::common.types.text'),
+      ],
+      [
+        'id' => self::TEXTAREA,
+        'name' => trans('iform::common.types.textarea'),
+      ],
+      [
+        'id' => self::NUMBER,
+        'name' => trans('iform::common.types.number'),
+      ],
+      [
+        'id' => self::EMAIL,
+        'name' => trans('iform::common.types.email'),
+      ],
+      [
+        'id' => self::SELECT,
+        'name' => trans('iform::common.types.select'),
+      ],
+      [
+        'id' => self::SELECTMULTIPLE,
+        'name' => trans('iform::common.types.selectmultiple'),
+      ],
+      [
+        'id' => self::CHECKBOX,
+        'name' => trans('iform::common.types.checkbox'),
+      ],
+      [
+        'id' => self::RADIO,
+        'name' => trans('iform::common.types.radio'),
+      ],
     ];
   }
 
@@ -39,6 +75,7 @@ class Type extends Model
    */
   public function get($id)
   {
+    $id --;
     if (isset($this->types[$id])) {
       return $this->types[$id];
     }

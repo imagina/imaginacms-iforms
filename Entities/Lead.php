@@ -13,6 +13,10 @@ class Lead extends Model
     'values'
   ];
 
+  protected $casts = [
+    'values' => 'array'
+  ];
+
   public function form()
   {
     return $this->belongsTo(Form::class);

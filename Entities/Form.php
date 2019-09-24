@@ -29,8 +29,14 @@ class Form extends Model
     return $this->hasMany(Field::class);
   }
 
-  public function lead()
+  public function leads()
   {
     return $this->hasMany(Lead::class);
+  }
+
+  public function user()
+  {
+    $driver = config('asgard.user.config.driver');
+    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User",'user_id');
   }
 }
