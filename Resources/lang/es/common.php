@@ -20,9 +20,19 @@ return [
     ],
     'validation' => [
     ],
-    'status' => [
+    'types' => [
         'text' => 'Texto',
         'number' => 'Nùmero',
+        'textarea' => 'Área de Texto',
+        'email' => 'Correo electrónico',
+        'select' => 'Seleccion',
+        'selectmultiple' => 'Seleccion Multiple',
+        'checkbox' => 'Check',
+        'radio' => 'Radio',
+        'city' => 'Ciudad',
+        'department' => 'Departamento',
+        'country' => 'País',
+        'location' => 'Localizaciòn',
     ],
 
     'status_text' => 'Estatus',
