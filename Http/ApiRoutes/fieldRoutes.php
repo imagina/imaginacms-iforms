@@ -38,4 +38,12 @@ $router->group(['prefix' => 'fields'], function (Router $router) {
     'uses' => 'FieldApiController@delete',
     //'middleware' => ['auth:api']
   ]);
+
+  //Route update
+  $router->post('/updateOrders', [
+    'as' => 'api.iform.fields.updateOrders',
+    'uses' => 'FieldApiController@updateOrders',
+    'middleware' => ['auth:api']
+  ]);
+
 });

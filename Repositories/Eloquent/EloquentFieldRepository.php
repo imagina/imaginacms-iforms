@@ -143,4 +143,13 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     $model = $query->where($field ?? 'id', $criteria)->first();
     $model ? $model->delete() : false;
   }
+
+  public function updateOrders ($data)
+  {
+    $fields = [];
+    foreach ($data['fields'] as $field){
+      $fields[] = $this->model->find($field['id'])->update(['order' => $field['order']]);
+    }
+    return $fields;
+  }
 }
