@@ -47,7 +47,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       //Order by
       if (isset($filter->order)) {
         $orderByField = $filter->order->field ?? 'order';//Default field
-        $orderWay = $filter->order->way ?? 'asc';//Default way
+        $orderWay = $filter->order->way ?? 'desc';//Default way
         $query->orderBy($orderByField, $orderWay);//Add order to query
       }
 
