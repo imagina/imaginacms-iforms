@@ -18,7 +18,7 @@ use Modules\Iform\Transformers\LeadTransformer as Transformer;
 use Modules\Iform\Repositories\LeadRepository;
 
 // Export
-use Modules\Iform\Exports\LeadsExport;
+use Modules\Iform\Services\LeadsExportService;
 
 class LeadApiController extends BaseApiController
 {
@@ -43,7 +43,8 @@ class LeadApiController extends BaseApiController
       $data = $this->resource->getItemsBy($params);
 
       if (isset($params->filter->export) && $params->filter->export == true){
-        return \Excel::download(new LeadsExport( Transformer::collection($data)), 'leads.xlsx');
+        $LeadsExportService = new LeadsExportService();
+        return $LeadsExportService->exportFile($data);
       }
 
       //Response

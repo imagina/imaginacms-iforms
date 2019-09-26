@@ -14,7 +14,7 @@ class Lead extends Model
   ];
 
   protected $casts = [
-    'values' => 'array'
+
   ];
 
   public function form()

@@ -3,12 +3,13 @@
 
 namespace Modules\Iform\Exports;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class LeadsExport implements FromCollection
+class LeadsExport implements FromCollection,WithHeadings
 {
 
   private $leads;
-  
+
   public function __construct($leads)
   {
     $this->leads = $leads;
@@ -18,4 +19,10 @@ class LeadsExport implements FromCollection
   {
     return $this->leads;
   }
+
+  public function headings(): array
+  {
+    return [];
+  }
+
 }
