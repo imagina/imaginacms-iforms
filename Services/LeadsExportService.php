@@ -20,6 +20,6 @@ class LeadsExportService
       }
     }
     //return $response;
-    return \Excel::download(new LeadsExport( collect($response) ), 'leads.xlsx');
+    return \Excel::store(new LeadsExport( collect($response) ), 'leads.xlsx');
   }
 }
