@@ -54,6 +54,12 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       if (isset($filter->parentId)) {
         $query->where("parent_id", $filter->parentId);
       }
+
+      //Filter by parent ID
+      if (isset($filter->formId)) {
+        $query->where("form_id", $filter->formId);
+      }
+
     }
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
