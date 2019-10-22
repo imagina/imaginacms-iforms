@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Iform\Providers;
+namespace Modules\Iforms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
-use Modules\Iform\Events\Handlers\RegisterIformSidebar;
+use Modules\Iforms\Events\Handlers\RegisterIformsSidebar;
 
-class IformServiceProvider extends ServiceProvider
+class IformsServiceProvider extends ServiceProvider
 {
     use CanPublishConfiguration;
     /**
@@ -26,12 +26,12 @@ class IformServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->app['events']->listen(BuildingSidebar::class, RegisterIformSidebar::class);
+        $this->app['events']->listen(BuildingSidebar::class, RegisterIformsSidebar::class);
 
         $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('forms', array_dot(trans('iform::forms')));
-            $event->load('fields', array_dot(trans('iform::fields')));
-            $event->load('leads', array_dot(trans('iform::leads')));
+            $event->load('forms', array_dot(trans('iforms::forms')));
+            $event->load('fields', array_dot(trans('iforms::fields')));
+            $event->load('leads', array_dot(trans('iforms::leads')));
             // append translations
 
 
@@ -41,7 +41,7 @@ class IformServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->publishConfig('iform', 'permissions');
+        $this->publishConfig('iforms', 'permissions');
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
@@ -59,39 +59,39 @@ class IformServiceProvider extends ServiceProvider
     private function registerBindings()
     {
         $this->app->bind(
-            'Modules\Iform\Repositories\FormRepository',
+            'Modules\Iforms\Repositories\FormRepository',
             function () {
-                $repository = new \Modules\Iform\Repositories\Eloquent\EloquentFormRepository(new \Modules\Iform\Entities\Form());
+                $repository = new \Modules\Iforms\Repositories\Eloquent\EloquentFormRepository(new \Modules\Iforms\Entities\Form());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Iform\Repositories\Cache\CacheFormDecorator($repository);
+                return new \Modules\Iforms\Repositories\Cache\CacheFormDecorator($repository);
             }
         );
         $this->app->bind(
-            'Modules\Iform\Repositories\FieldRepository',
+            'Modules\Iforms\Repositories\FieldRepository',
             function () {
-                $repository = new \Modules\Iform\Repositories\Eloquent\EloquentFieldRepository(new \Modules\Iform\Entities\Field());
+                $repository = new \Modules\Iforms\Repositories\Eloquent\EloquentFieldRepository(new \Modules\Iforms\Entities\Field());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Iform\Repositories\Cache\CacheFieldDecorator($repository);
+                return new \Modules\Iforms\Repositories\Cache\CacheFieldDecorator($repository);
             }
         );
         $this->app->bind(
-            'Modules\Iform\Repositories\LeadRepository',
+            'Modules\Iforms\Repositories\LeadRepository',
             function () {
-                $repository = new \Modules\Iform\Repositories\Eloquent\EloquentLeadRepository(new \Modules\Iform\Entities\Lead());
+                $repository = new \Modules\Iforms\Repositories\Eloquent\EloquentLeadRepository(new \Modules\Iforms\Entities\Lead());
 
                 if (! config('app.cache')) {
                     return $repository;
                 }
 
-                return new \Modules\Iform\Repositories\Cache\CacheLeadDecorator($repository);
+                return new \Modules\Iforms\Repositories\Cache\CacheLeadDecorator($repository);
             }
         );
 // add bindings

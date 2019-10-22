@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iform\Repositories\Cache;
+namespace Modules\Iforms\Repositories\Cache;
 
-use Modules\Iform\Repositories\LeadRepository;
+use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
 
 class CacheLeadDecorator extends BaseCacheDecorator implements LeadRepository
@@ -10,7 +10,7 @@ class CacheLeadDecorator extends BaseCacheDecorator implements LeadRepository
   public function __construct(LeadRepository $lead)
   {
     parent::__construct();
-    $this->entityName = 'iform.leads';
+    $this->entityName = 'iforms.leads';
     $this->repository = $lead;
   }
 

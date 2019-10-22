@@ -1,30 +1,32 @@
 <?php
 
-namespace Modules\Iform\Presenters;
+namespace Modules\Iforms\Presenters;
 
 use Laracasts\Presenter\Presenter;
 
 class FieldPresenter extends Presenter
 {
     /**
-     * @var \Modules\Iform\Entities\Type
+     * @var \Modules\Iforms\Entities\Type
      */
     protected $types;
     /**
-     * @var \Modules\Iform\Repositories\FieldRepository
+     * @var \Modules\Iforms\Repositories\FieldRepository
      */
     private $field;
 
     public function __construct($entity)
     {
         parent::__construct($entity);
-        $this->field = app('Modules\Iform\Repositories\FieldRepository');
-        $this->types = app('Modules\Iform\Entities\Type');
+        $this->field = app('Modules\Iforms\Repositories\FieldRepository');
+        $this->types = app('Modules\Iforms\Entities\Type');
     }
 
     public function type()
     {
         return $this->types->get($this->entity->type);
     }
+
+
 
 }

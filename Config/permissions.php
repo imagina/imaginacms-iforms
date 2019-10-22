@@ -1,23 +1,23 @@
 <?php
 
 return [
-    'iform.forms' => [
-        'index' => 'iform::forms.list resource',
-        'create' => 'iform::forms.create resource',
-        'edit' => 'iform::forms.edit resource',
-        'destroy' => 'iform::forms.destroy resource',
+    'iforms.forms' => [
+        'index' => 'iforms::forms.list resource',
+        'create' => 'iforms::forms.create resource',
+        'edit' => 'iforms::forms.edit resource',
+        'destroy' => 'iforms::forms.destroy resource',
     ],
-    'iform.fields' => [
-        'index' => 'iform::fields.list resource',
-        'create' => 'iform::fields.create resource',
-        'edit' => 'iform::fields.edit resource',
-        'destroy' => 'iform::fields.destroy resource',
+    'iforms.fields' => [
+        'index' => 'iforms::fields.list resource',
+        'create' => 'iforms::fields.create resource',
+        'edit' => 'iforms::fields.edit resource',
+        'destroy' => 'iforms::fields.destroy resource',
     ],
-    'iform.leads' => [
-        'index' => 'iform::leads.list resource',
-        'create' => 'iform::leads.create resource',
-        'edit' => 'iform::leads.edit resource',
-        'destroy' => 'iform::leads.destroy resource',
+    'iforms.leads' => [
+        'index' => 'iforms::leads.list resource',
+        'create' => 'iforms::leads.create resource',
+        'edit' => 'iforms::leads.edit resource',
+        'destroy' => 'iforms::leads.destroy resource',
     ],
 // append
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iform\Repositories\Cache;
+namespace Modules\Iforms\Repositories\Cache;
 
-use Modules\Iform\Repositories\FieldRepository;
+use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
 
 class CacheFieldDecorator extends BaseCacheDecorator implements FieldRepository
@@ -10,7 +10,7 @@ class CacheFieldDecorator extends BaseCacheDecorator implements FieldRepository
   public function __construct(FieldRepository $field)
   {
     parent::__construct();
-    $this->entityName = 'iform.fields';
+    $this->entityName = 'iforms.fields';
     $this->repository = $field;
   }
 

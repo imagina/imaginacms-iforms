@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Http\Requests;
+namespace Modules\Iforms\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 
@@ -8,7 +8,9 @@ class CreateLeadRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'g-recaptcha-response' => 'required|captcha'
+        ];
     }
 
     public function translationRules()
@@ -23,7 +25,10 @@ class CreateLeadRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
+        return [
+            'g-recaptcha-response.required' => trans('iforms::common.captcha_required'),
+            'g-recaptcha-response.captcha'=> trans('iforms::common.captcha_required'),
+        ];
     }
 
     public function translationMessages()

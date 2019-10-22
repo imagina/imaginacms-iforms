@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iform\Repositories\Eloquent;
+namespace Modules\Iforms\Repositories\Eloquent;
 
-use Modules\Iform\Repositories\LeadRepository;
+use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepository

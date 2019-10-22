@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Events\Handlers;
+namespace Modules\Iforms\Events\Handlers;
 
 use Maatwebsite\Sidebar\Group;
 use Maatwebsite\Sidebar\Item;
@@ -8,7 +8,7 @@ use Maatwebsite\Sidebar\Menu;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\User\Contracts\Authentication;
 
-class RegisterIformSidebar implements \Maatwebsite\Sidebar\SidebarExtender
+class RegisterIformsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
 {
     /**
      * @var Authentication
@@ -37,37 +37,37 @@ class RegisterIformSidebar implements \Maatwebsite\Sidebar\SidebarExtender
     public function extendWith(Menu $menu)
     {
         $menu->group(trans('core::sidebar.content'), function (Group $group) {
-            $group->item(trans('iform::iforms.title.iforms'), function (Item $item) {
+            $group->item(trans('iforms::iforms.title.iforms'), function (Item $item) {
                 $item->icon('fa fa-copy');
                 $item->weight(10);
                 $item->authorize(
                      /* append */
                 );
-                $item->item(trans('iform::forms.title.forms'), function (Item $item) {
+                $item->item(trans('iforms::forms.title.forms'), function (Item $item) {
                     $item->icon('fa fa-copy');
                     $item->weight(0);
-                    $item->append('admin.iform.form.create');
-                    $item->route('admin.iform.form.index');
+                    $item->append('admin.iforms.form.create');
+                    $item->route('admin.iforms.form.index');
                     $item->authorize(
-                        $this->auth->hasAccess('iform.forms.index')
+                        $this->auth->hasAccess('iforms.forms.index')
                     );
                 });
-                $item->item(trans('iform::fields.title.fields'), function (Item $item) {
+                $item->item(trans('iforms::fields.title.fields'), function (Item $item) {
                     $item->icon('fa fa-copy');
                     $item->weight(0);
-                    $item->append('admin.iform.field.create');
-                    $item->route('admin.iform.field.index');
+                    $item->append('admin.iforms.field.create');
+                    $item->route('admin.iforms.field.index');
                     $item->authorize(
-                        $this->auth->hasAccess('iform.fields.index')
+                        $this->auth->hasAccess('iforms.fields.index')
                     );
                 });
-                $item->item(trans('iform::leads.title.leads'), function (Item $item) {
+                $item->item(trans('iforms::leads.title.leads'), function (Item $item) {
                     $item->icon('fa fa-copy');
                     $item->weight(0);
-                    $item->append('admin.iform.lead.create');
-                    $item->route('admin.iform.lead.index');
+                    $item->append('admin.iforms.lead.create');
+                    $item->route('admin.iforms.lead.index');
                     $item->authorize(
-                        $this->auth->hasAccess('iform.leads.index')
+                        $this->auth->hasAccess('iforms.leads.index')
                     );
                 });
 // append

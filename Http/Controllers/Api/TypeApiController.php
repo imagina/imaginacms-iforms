@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\Iform\Http\Controllers\Api;
+namespace Modules\Iforms\Http\Controllers\Api;
 
 // Requests & Response
 use Illuminate\Http\Request;
@@ -11,10 +11,10 @@ use Illuminate\Http\Response;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 // Transformers
-use Modules\Iform\Transformers\TypeTransformer;
+use Modules\Iforms\Transformers\TypeTransformer;
 
 // Entity
-use Modules\Iform\Entities\Type;
+use Modules\Iforms\Entities\Type;
 
 class TypeApiController extends BaseApiController
 {

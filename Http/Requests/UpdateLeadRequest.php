@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Http\Requests;
+namespace Modules\Iforms\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 

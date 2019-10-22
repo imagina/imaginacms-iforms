@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIformFormsTable extends Migration
+class CreateIformsFormsTable extends Migration
 {
   /**
    * Run the migrations.
@@ -12,7 +12,7 @@ class CreateIformFormsTable extends Migration
    */
   public function up()
   {
-    Schema::create('iform__forms', function (Blueprint $table) {
+    Schema::create('iforms__forms', function (Blueprint $table) {
       $table->engine = 'InnoDB';
       $table->increments('id');
       $table->integer('user_id')->unsigned()->nullable();;
@@ -29,6 +29,6 @@ class CreateIformFormsTable extends Migration
    */
     public function down()
     {
-      Schema::dropIfExists('iform__forms');
+      Schema::dropIfExists('iforms__forms');
     }
 }

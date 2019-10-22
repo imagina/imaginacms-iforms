@@ -1,14 +1,14 @@
 {
-    "name": "Iform",
-    "alias": "iform",
+    "name": "Iforms",
+    "alias": "iforms",
     "description": "",
     "keywords": [],
-    "version": "1.0.0",
+    "version": "4.0.0",
 	"active": 1,
     "order": 1,
     "providers": [
-        "Modules\\Iform\\Providers\\IformServiceProvider",
-        "Modules\\Iform\\Providers\\RouteServiceProvider"
+        "Modules\\Iforms\\Providers\\IformsServiceProvider",
+        "Modules\\Iforms\\Providers\\RouteServiceProvider"
     ],
     "aliases": {},
     "files": [

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Modules\Iform\Services;
+namespace Modules\Iforms\Services;
 
-use Modules\Iform\Exports\LeadsExport;
+use Modules\Iforms\Exports\LeadsExport;
 
 class LeadsExportService
 {

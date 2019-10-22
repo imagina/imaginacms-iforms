@@ -1,24 +1,24 @@
 <?php
 
-namespace Modules\Iform\Http\Controllers\Api;
+namespace Modules\Iforms\Http\Controllers\Api;
 
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iform\Http\Requests\CreateLeadRequest as CreateRequest;
-use Modules\Iform\Http\Requests\UpdateLeadRequest as UpdateRequest;
+use Modules\Iforms\Http\Requests\CreateLeadRequest as CreateRequest;
+use Modules\Iforms\Http\Requests\UpdateLeadRequest as UpdateRequest;
 
 // Base Api
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 // Transformers
-use Modules\Iform\Transformers\LeadTransformer as Transformer;
+use Modules\Iforms\Transformers\LeadTransformer as Transformer;
 
 // Repositories
-use Modules\Iform\Repositories\LeadRepository;
+use Modules\Iforms\Repositories\LeadRepository;
 
 // Export
-use Modules\Iform\Services\LeadsExportService;
+use Modules\Iforms\Services\LeadsExportService;
 
 class LeadApiController extends BaseApiController
 {

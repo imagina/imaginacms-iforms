@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iform::fields.title.fields') }}
+        {{ trans('iforms::fields.title.fields') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('iform::fields.title.fields') }}</li>
+        <li class="active">{{ trans('iforms::fields.title.fields') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.iform.field.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('iform::fields.button.create field') }}
+                    <a href="{{ route('admin.iforms.field.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('iforms::fields.button.create field') }}
                     </a>
                 </div>
             </div>
@@ -38,14 +38,14 @@
                             <?php foreach ($fields as $field): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.iform.field.edit', [$field->id]) }}">
+                                    <a href="{{ route('admin.iforms.field.edit', [$field->id]) }}">
                                         {{ $field->created_at }}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.iform.field.edit', [$field->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iform.field.destroy', [$field->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.iforms.field.edit', [$field->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iforms.field.destroy', [$field->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('iform::fields.title.create field') }}</dd>
+        <dd>{{ trans('iforms::fields.title.create field') }}</dd>
     </dl>
 @stop
 
@@ -84,7 +84,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.iform.field.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.iforms.field.create') ?>" }
                 ]
             });
         });

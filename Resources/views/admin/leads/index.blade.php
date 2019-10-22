@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iform::leads.title.leads') }}
+        {{ trans('iforms::leads.title.leads') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('iform::leads.title.leads') }}</li>
+        <li class="active">{{ trans('iforms::leads.title.leads') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.iform.lead.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('iform::leads.button.create lead') }}
+                    <a href="{{ route('admin.iforms.lead.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('iforms::leads.button.create lead') }}
                     </a>
                 </div>
             </div>
@@ -38,14 +38,14 @@
                             <?php foreach ($leads as $lead): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.iform.lead.edit', [$lead->id]) }}">
+                                    <a href="{{ route('admin.iforms.lead.edit', [$lead->id]) }}">
                                         {{ $lead->created_at }}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.iform.lead.edit', [$lead->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iform.lead.destroy', [$lead->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.iforms.lead.edit', [$lead->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iforms.lead.destroy', [$lead->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('iform::leads.title.create lead') }}</dd>
+        <dd>{{ trans('iforms::leads.title.create lead') }}</dd>
     </dl>
 @stop
 
@@ -84,7 +84,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.iform.lead.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.iforms.lead.create') ?>" }
                 ]
             });
         });

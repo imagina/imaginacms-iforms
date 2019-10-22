@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Entities;
+namespace Modules\Iforms\Entities;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,7 @@ class Form extends Model
 {
   use Translatable;
 
-  protected $table = 'iform__forms';
+  protected $table = 'iforms__forms';
 
   public $translatedAttributes = [
     'title'

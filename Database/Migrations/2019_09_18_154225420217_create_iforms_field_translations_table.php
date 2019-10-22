@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIformFieldTranslationsTable extends Migration
+class CreateIformsFieldTranslationsTable extends Migration
 {
   /**
    * Run the migrations.
@@ -12,7 +12,7 @@ class CreateIformFieldTranslationsTable extends Migration
    */
   public function up()
   {
-    Schema::create('iform__field_translations', function (Blueprint $table) {
+    Schema::create('iforms__field_translations', function (Blueprint $table) {
       $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('label')->index();
@@ -21,7 +21,7 @@ class CreateIformFieldTranslationsTable extends Migration
       $table->integer('field_id')->unsigned();
       $table->string('locale')->index();
       $table->unique(['field_id', 'locale']);
-      $table->foreign('field_id')->references('id')->on('iform__fields')->onDelete('cascade');
+      $table->foreign('field_id')->references('id')->on('iforms__fields')->onDelete('cascade');
     });
   }
 
@@ -32,9 +32,9 @@ class CreateIformFieldTranslationsTable extends Migration
    */
   public function down()
   {
-    Schema::table('iform__field_translations', function (Blueprint $table) {
+    Schema::table('iforms__field_translations', function (Blueprint $table) {
       $table->dropForeign(['field_id']);
     });
-    Schema::dropIfExists('iform__field_translations');
+    Schema::dropIfExists('iforms__field_translations');
   }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Iform\Database\Seeders;
+namespace Modules\Iforms\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class IformDatabaseSeeder extends Seeder
+class IformsDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIformLeadsTable extends Migration
+class CreateIformsLeadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateIformLeadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('iform__leads', function (Blueprint $table) {
+        Schema::create('iforms__leads', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('form_id')->unsigned();
-            $table->foreign('form_id')->references('id')->on('iform__forms')->onDelete('cascade');
+            $table->foreign('form_id')->references('id')->on('iforms__forms')->onDelete('cascade');
             $table->text('values')->default('')->nullable();
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateIformLeadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('iform__leads');
+        Schema::dropIfExists('iforms__leads');
     }
 }

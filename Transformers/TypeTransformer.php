@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\Iform\Transformers;
+namespace Modules\Iforms\Transformers;
 use Illuminate\Http\Resources\Json\Resource;
 
 class TypeTransformer extends Resource

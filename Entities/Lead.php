@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Iform\Entities;
+namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Lead extends Model
 {
-  protected $table = 'iform__leads';
+  protected $table = 'iforms__leads';
 
   protected $fillable = [
     'form_id',

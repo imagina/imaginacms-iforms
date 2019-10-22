@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Iform\Entities;
+namespace Modules\Iforms\Entities;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
-use Modules\Iform\Presenters\FieldPresenter;
+use Modules\Iforms\Presenters\FieldPresenter;
 
 class Field extends Model
 {
   use Translatable, PresentableTrait;
 
-  protected $table = 'iform__fields';
+  protected $table = 'iforms__fields';
 
   public $translatedAttributes = [
     'label',

@@ -42,8 +42,8 @@ This will create a new config file named config/excel.php.
 ### End Points
   | PATH | METHODS |
   | ------------- | ------------- | 
-  | /iform/v4/forms | [GET, POST, PUT, DELETE] |
-  | /iform/v4/fields | [GET, POST, PUT, DELETE] |
-  | /iform/v4/types | [GET] |
-  | /iform/v4/leads | [GET, POST] |
+  | /iforms/v4/forms | [GET, POST, PUT, DELETE] |
+  | /iforms/v4/fields | [GET, POST, PUT, DELETE] |
+  | /iforms/v4/types | [GET] |
+  | /iforms/v4/leads | [GET, POST] |
 

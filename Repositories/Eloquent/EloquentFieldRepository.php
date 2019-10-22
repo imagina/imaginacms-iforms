@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Iform\Repositories\Eloquent;
+namespace Modules\Iforms\Repositories\Eloquent;
 
-use Modules\Iform\Repositories\FieldRepository;
+use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository

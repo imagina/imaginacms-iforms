@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Iform\Http\Controllers\Admin;
+namespace Modules\Iforms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iform\Entities\Field;
-use Modules\Iform\Http\Requests\CreateFieldRequest;
-use Modules\Iform\Http\Requests\UpdateFieldRequest;
-use Modules\Iform\Repositories\FieldRepository;
+use Modules\Iforms\Entities\Field;
+use Modules\Iforms\Http\Requests\CreateFieldRequest;
+use Modules\Iforms\Http\Requests\UpdateFieldRequest;
+use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 class FieldController extends AdminBaseController
@@ -33,7 +33,7 @@ class FieldController extends AdminBaseController
     {
         //$fields = $this->field->all();
 
-        return view('iform::admin.fields.index', compact(''));
+        return view('iforms::admin.fields.index', compact(''));
     }
 
     /**
@@ -43,7 +43,7 @@ class FieldController extends AdminBaseController
      */
     public function create()
     {
-        return view('iform::admin.fields.create');
+        return view('iforms::admin.fields.create');
     }
 
     /**
@@ -56,8 +56,8 @@ class FieldController extends AdminBaseController
     {
         $this->field->create($request->all());
 
-        return redirect()->route('admin.iform.field.index')
-            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iform::fields.title.fields')]));
+        return redirect()->route('admin.iforms.field.index')
+            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iforms::fields.title.fields')]));
     }
 
     /**
@@ -68,7 +68,7 @@ class FieldController extends AdminBaseController
      */
     public function edit(Field $field)
     {
-        return view('iform::admin.fields.edit', compact('field'));
+        return view('iforms::admin.fields.edit', compact('field'));
     }
 
     /**
@@ -82,8 +82,8 @@ class FieldController extends AdminBaseController
     {
         $this->field->update($field, $request->all());
 
-        return redirect()->route('admin.iform.field.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iform::fields.title.fields')]));
+        return redirect()->route('admin.iforms.field.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iforms::fields.title.fields')]));
     }
 
     /**
@@ -96,7 +96,7 @@ class FieldController extends AdminBaseController
     {
         $this->field->destroy($field);
 
-        return redirect()->route('admin.iform.field.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iform::fields.title.fields')]));
+        return redirect()->route('admin.iforms.field.index')
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iforms::fields.title.fields')]));
     }
 }

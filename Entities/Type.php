@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Entities;
+namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,35 +26,35 @@ class Type extends Model
     $this->types = [
       [
         'id' => self::TEXT,
-        'name' => trans('iform::common.types.text'),
+        'name' => trans('iforms::common.types.text'),
       ],
       [
         'id' => self::TEXTAREA,
-        'name' => trans('iform::common.types.textarea'),
+        'name' => trans('iforms::common.types.textarea'),
       ],
       [
         'id' => self::NUMBER,
-        'name' => trans('iform::common.types.number'),
+        'name' => trans('iforms::common.types.number'),
       ],
       [
         'id' => self::EMAIL,
-        'name' => trans('iform::common.types.email'),
+        'name' => trans('iforms::common.types.email'),
       ],
       [
         'id' => self::SELECT,
-        'name' => trans('iform::common.types.select'),
+        'name' => trans('iforms::common.types.select'),
       ],
       [
         'id' => self::SELECTMULTIPLE,
-        'name' => trans('iform::common.types.selectmultiple'),
+        'name' => trans('iforms::common.types.selectmultiple'),
       ],
       [
         'id' => self::CHECKBOX,
-        'name' => trans('iform::common.types.checkbox'),
+        'name' => trans('iforms::common.types.checkbox'),
       ],
       [
         'id' => self::RADIO,
-        'name' => trans('iform::common.types.radio'),
+        'name' => trans('iforms::common.types.radio'),
       ],
     ];
   }

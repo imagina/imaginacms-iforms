@@ -2,17 +2,17 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iform::fields.title.edit field') }}
+        {{ trans('iforms::fields.title.edit field') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li><a href="{{ route('admin.iform.field.index') }}">{{ trans('iform::fields.title.fields') }}</a></li>
-        <li class="active">{{ trans('iform::fields.title.edit field') }}</li>
+        <li><a href="{{ route('admin.iforms.field.index') }}">{{ trans('iforms::fields.title.fields') }}</a></li>
+        <li class="active">{{ trans('iforms::fields.title.edit field') }}</li>
     </ol>
 @stop
 
 @section('content')
-    {!! Form::open(['route' => ['admin.iform.field.update', $field->id], 'method' => 'put']) !!}
+    {!! Form::open(['route' => ['admin.iforms.field.update', $field->id], 'method' => 'put']) !!}
     <div class="row">
         <div class="col-md-12">
             <div class="nav-tabs-custom">
@@ -22,13 +22,13 @@
                     @foreach (LaravelLocalization::getSupportedLocales() as $locale => $language)
                         <?php $i++; ?>
                         <div class="tab-pane {{ locale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                            @include('iform::admin.fields.partials.edit-fields', ['lang' => $locale])
+                            @include('iforms::admin.fields.partials.edit-fields', ['lang' => $locale])
                         </div>
                     @endforeach
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.update') }}</button>
-                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.iform.field.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
+                        <a class="btn btn-danger pull-right btn-flat" href="{{ route('admin.iforms.field.index')}}"><i class="fa fa-times"></i> {{ trans('core::core.button.cancel') }}</a>
                     </div>
                 </div>
             </div> {{-- end nav-tabs-custom --}}
@@ -52,7 +52,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'b', route: "<?= route('admin.iform.field.index') ?>" }
+                    { key: 'b', route: "<?= route('admin.iforms.field.index') ?>" }
                 ]
             });
         });

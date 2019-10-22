@@ -2,11 +2,11 @@
 
 @section('content-header')
     <h1>
-        {{ trans('iform::forms.title.forms') }}
+        {{ trans('iforms::forms.title.forms') }}
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ route('dashboard.index') }}"><i class="fa fa-dashboard"></i> {{ trans('core::core.breadcrumb.home') }}</a></li>
-        <li class="active">{{ trans('iform::forms.title.forms') }}</li>
+        <li class="active">{{ trans('iforms::forms.title.forms') }}</li>
     </ol>
 @stop
 
@@ -15,8 +15,8 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.iform.form.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('iform::forms.button.create form') }}
+                    <a href="{{ route('admin.iforms.form.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
+                        <i class="fa fa-pencil"></i> {{ trans('iforms::forms.button.create form') }}
                     </a>
                 </div>
             </div>
@@ -38,14 +38,14 @@
                             <?php foreach ($forms as $form): ?>
                             <tr>
                                 <td>
-                                    <a href="{{ route('admin.iform.form.edit', [$form->id]) }}">
+                                    <a href="{{ route('admin.iforms.form.edit', [$form->id]) }}">
                                         {{ $form->created_at }}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.iform.form.edit', [$form->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iform.form.destroy', [$form->id]) }}"><i class="fa fa-trash"></i></button>
+                                        <a href="{{ route('admin.iforms.form.edit', [$form->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.iforms.form.destroy', [$form->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,7 +75,7 @@
 @section('shortcuts')
     <dl class="dl-horizontal">
         <dt><code>c</code></dt>
-        <dd>{{ trans('iform::forms.title.create form') }}</dd>
+        <dd>{{ trans('iforms::forms.title.create form') }}</dd>
     </dl>
 @stop
 
@@ -84,7 +84,7 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'c', route: "<?= route('admin.iform.form.create') ?>" }
+                    { key: 'c', route: "<?= route('admin.iforms.form.create') ?>" }
                 ]
             });
         });

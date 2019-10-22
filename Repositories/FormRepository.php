@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Repositories;
+namespace Modules\Iforms\Repositories;
 
 use Modules\Core\Repositories\BaseRepository;
 

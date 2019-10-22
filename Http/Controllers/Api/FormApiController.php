@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Iform\Http\Controllers\Api;
+namespace Modules\Iforms\Http\Controllers\Api;
 
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iform\Http\Requests\CreateFormRequest as CreateRequest;
-use Modules\Iform\Http\Requests\UpdateFormRequest as UpdateRequest;
+use Modules\Iforms\Http\Requests\CreateFormRequest as CreateRequest;
+use Modules\Iforms\Http\Requests\UpdateFormRequest as UpdateRequest;
 
 // Base Api
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 // Transformers
-use Modules\Iform\Transformers\FormTransformer as Transformer;
+use Modules\Iforms\Transformers\FormTransformer as Transformer;
 
 // Repositories
-use Modules\Iform\Repositories\FormRepository;
+use Modules\Iforms\Repositories\FormRepository;
 
 class FormApiController extends BaseApiController
 {

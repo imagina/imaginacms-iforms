@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Iform\Http\Controllers\Admin;
+namespace Modules\Iforms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iform\Entities\Form;
-use Modules\Iform\Http\Requests\CreateFormRequest;
-use Modules\Iform\Http\Requests\UpdateFormRequest;
-use Modules\Iform\Repositories\FormRepository;
+use Modules\Iforms\Entities\Form;
+use Modules\Iforms\Http\Requests\CreateFormRequest;
+use Modules\Iforms\Http\Requests\UpdateFormRequest;
+use Modules\Iforms\Repositories\FormRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 class FormController extends AdminBaseController
@@ -33,7 +33,7 @@ class FormController extends AdminBaseController
     {
         //$forms = $this->form->all();
 
-        return view('iform::admin.forms.index', compact(''));
+        return view('iforms::admin.forms.index', compact(''));
     }
 
     /**
@@ -43,7 +43,7 @@ class FormController extends AdminBaseController
      */
     public function create()
     {
-        return view('iform::admin.forms.create');
+        return view('iforms::admin.forms.create');
     }
 
     /**
@@ -56,8 +56,8 @@ class FormController extends AdminBaseController
     {
         $this->form->create($request->all());
 
-        return redirect()->route('admin.iform.form.index')
-            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iform::forms.title.forms')]));
+        return redirect()->route('admin.iforms.form.index')
+            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iforms::forms.title.forms')]));
     }
 
     /**
@@ -68,7 +68,7 @@ class FormController extends AdminBaseController
      */
     public function edit(Form $form)
     {
-        return view('iform::admin.forms.edit', compact('form'));
+        return view('iforms::admin.forms.edit', compact('form'));
     }
 
     /**
@@ -82,8 +82,8 @@ class FormController extends AdminBaseController
     {
         $this->form->update($form, $request->all());
 
-        return redirect()->route('admin.iform.form.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iform::forms.title.forms')]));
+        return redirect()->route('admin.iforms.form.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iforms::forms.title.forms')]));
     }
 
     /**
@@ -96,7 +96,7 @@ class FormController extends AdminBaseController
     {
         $this->form->destroy($form);
 
-        return redirect()->route('admin.iform.form.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iform::forms.title.forms')]));
+        return redirect()->route('admin.iforms.form.index')
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iforms::forms.title.forms')]));
     }
 }

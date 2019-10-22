@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Iform\Http\Controllers\Admin;
+namespace Modules\Iforms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iform\Entities\Lead;
-use Modules\Iform\Http\Requests\CreateLeadRequest;
-use Modules\Iform\Http\Requests\UpdateLeadRequest;
-use Modules\Iform\Repositories\LeadRepository;
+use Modules\Iforms\Entities\Lead;
+use Modules\Iforms\Http\Requests\CreateLeadRequest;
+use Modules\Iforms\Http\Requests\UpdateLeadRequest;
+use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 
 class LeadController extends AdminBaseController
@@ -33,7 +33,7 @@ class LeadController extends AdminBaseController
     {
         //$leads = $this->lead->all();
 
-        return view('iform::admin.leads.index', compact(''));
+        return view('iforms::admin.leads.index', compact(''));
     }
 
     /**
@@ -43,7 +43,7 @@ class LeadController extends AdminBaseController
      */
     public function create()
     {
-        return view('iform::admin.leads.create');
+        return view('iforms::admin.leads.create');
     }
 
     /**
@@ -56,8 +56,8 @@ class LeadController extends AdminBaseController
     {
         $this->lead->create($request->all());
 
-        return redirect()->route('admin.iform.lead.index')
-            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iform::leads.title.leads')]));
+        return redirect()->route('admin.iforms.lead.index')
+            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('iforms::leads.title.leads')]));
     }
 
     /**
@@ -68,7 +68,7 @@ class LeadController extends AdminBaseController
      */
     public function edit(Lead $lead)
     {
-        return view('iform::admin.leads.edit', compact('lead'));
+        return view('iforms::admin.leads.edit', compact('lead'));
     }
 
     /**
@@ -82,8 +82,8 @@ class LeadController extends AdminBaseController
     {
         $this->lead->update($lead, $request->all());
 
-        return redirect()->route('admin.iform.lead.index')
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iform::leads.title.leads')]));
+        return redirect()->route('admin.iforms.lead.index')
+            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iforms::leads.title.leads')]));
     }
 
     /**
@@ -96,7 +96,7 @@ class LeadController extends AdminBaseController
     {
         $this->lead->destroy($lead);
 
-        return redirect()->route('admin.iform.lead.index')
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iform::leads.title.leads')]));
+        return redirect()->route('admin.iforms.lead.index')
+            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iforms::leads.title.leads')]));
     }
 }

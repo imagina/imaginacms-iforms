@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Iform\Entities;
+namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,5 +12,5 @@ class FormTranslation extends Model
       'title'
     ];
 
-    protected $table = 'iform__form_translations';
+    protected $table = 'iforms__form_translations';
 }
