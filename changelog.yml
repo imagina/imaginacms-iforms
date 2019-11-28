@@ -1,5 +1,8 @@
 url: https://github.com/imagina/asgardcms-iforms
   versions:
+    "4.0.3":
+      added:
+        - settings file
     "4.0.2":
       changed:
         - view email added variables setings
@@ -37,7 +40,7 @@ url: https://github.com/imagina/asgardcms-iforms
       added:
         - ApiController
     "3.0.4":
-        added:
+      added:
         - view text send Email
     "3.0.3":
       removed:
