@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'iforms'=>'Forms',
     'form_user' => 'Restrict to User',
     'title' => 'Títle',
     'to'=>'To',

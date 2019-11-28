@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
+use Modules\Iforms\Presenters\FormPresenter;
 use Modules\Iforms\Events\Handlers\RegisterIformsSidebar;
 
 class IformsServiceProvider extends ServiceProvider
@@ -32,17 +33,17 @@ class IformsServiceProvider extends ServiceProvider
             $event->load('forms', array_dot(trans('iforms::forms')));
             $event->load('fields', array_dot(trans('iforms::fields')));
             $event->load('leads', array_dot(trans('iforms::leads')));
-            // append translations
-
-
-
         });
+
+
     }
 
     public function boot()
     {
         $this->publishConfig('iforms', 'permissions');
-
+        $this->publishConfig('iforms', 'config');
+        $this->publishConfig('iforms', 'settings');
+        $this->registerIforms();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 
@@ -53,7 +54,7 @@ class IformsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array();
+        return array('Ifomrs');
     }
 
     private function registerBindings()
@@ -96,7 +97,16 @@ class IformsServiceProvider extends ServiceProvider
         );
 // add bindings
 
+        $this->app->bind('Modules\Iforms\Presenters\FormPresenter');
 
-
+    }
+    /**
+     * Register the active sliders
+     */
+    private function registerIforms()
+    {
+        if (!$this->app['asgard.isInstalled']) {
+            return;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\Iforms\Repositories\Eloquent;
 
+use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
@@ -110,8 +111,11 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
   }
   public function create($data)
   {
-    $category = $this->model->create($data);
-    return $category;
+
+    $lead= $this->model->create($data);
+    event(new  LeadWasCreated($lead,$data));
+
+    return $lead;
   }
   public function updateBy($criteria, $data, $params = false)
   {

@@ -37,7 +37,7 @@
         }
 
         footer {
-            background-color: #252525;
+            background-color:{{Setting::get('site::color-secondary')}};
             color: white;
         }
 
@@ -47,7 +47,7 @@
         }
 
         .stripe {
-            background-color: #252525;
+            background-color: {{Setting::get('site::color-secondary')}};
             padding: 10px 20px;
         }
 
@@ -58,7 +58,7 @@
 
         .btn-requirement a {
             text-decoration: none;
-            background-color: #cc0909;
+            background-color:{{Setting::get('site::color-primary')}};
             padding: 10px;
             margin: 10px 0;
             color: white;
@@ -79,7 +79,7 @@
         }
 
         .contacto {
-            background-color: #cc0909;
+            background-color:{{Setting::get('site::color-primary')}};
             color: #e2e2e2;
             padding: 15px;
         }
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="header-contend text-center py-3">
-                <img src="{{Theme::url('img/logo.png')}}" alt="">
+                <img src="{{Setting::get('site::logo-1')}}" alt="" style="max-width: 150px">
             </div>
 
         </header>
@@ -176,11 +176,12 @@
 
         <footer class="p-3 text-center">
             <div class="text-center">
-                <img src="{{Theme::url('img/logo.png')}}" alt="">
+                <img src="{{Setting::get('site::logo-2')}}" alt="" style="max-width: 150px">
 
             </div>
 
             <div class="contacto">
+
             </div>
 
             <span class="copyright">

@@ -18,6 +18,7 @@ return [
     'form' => [
     ],
     'messages' => [
+        'message sent successfully'=>'Mensaje enviado correctamente',
     ],
     'validation' => [
     ],

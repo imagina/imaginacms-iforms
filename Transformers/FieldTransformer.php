@@ -10,8 +10,8 @@ class FieldTransformer extends Resource
   {
     $data = [
       'id' => $this->when($this->id, $this->id),
-      'type' => $this->type,
-      'typeName' => $this->when($this->type, $this->present()->type['name']),
+      'type' => $this->when($this->type, $this->present()->type['value']),
+      'typeObject' => $this->when($this->type, $this->present()->type),
       'name' => $this->when($this->name, $this->name),
       'label' => $this->when($this->label, $this->label),
       'placeholder' => $this->when($this->placeholder, $this->placeholder),

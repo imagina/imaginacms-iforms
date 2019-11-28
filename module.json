@@ -3,16 +3,17 @@
     "alias": "iforms",
     "description": "",
     "keywords": [],
-    "version": "4.0.0",
+    "version": "4.0.2",
 	"active": 1,
     "order": 1,
     "providers": [
+        "Modules\\Iforms\\Providers\\EventServiceProvider",
         "Modules\\Iforms\\Providers\\IformsServiceProvider",
         "Modules\\Iforms\\Providers\\RouteServiceProvider"
     ],
-    "aliases": {},
-    "files": [
-        
-    ],
+    "aliases": {
+        "Forms": "Modules\\Iforms\\Facades\\FormFacade"
+    },
+    "files": [],
     "requires": []
 }

@@ -37,7 +37,7 @@ class RegisterIformsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
     public function extendWith(Menu $menu)
     {
         $menu->group(trans('core::sidebar.content'), function (Group $group) {
-            $group->item(trans('iforms::iforms.title.iforms'), function (Item $item) {
+            $group->item(trans('iforms::common.iforms'), function (Item $item) {
                 $item->icon('fa fa-copy');
                 $item->weight(10);
                 $item->authorize(

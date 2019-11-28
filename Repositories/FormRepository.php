@@ -6,13 +6,26 @@ use Modules\Core\Repositories\BaseRepository;
 
 interface FormRepository extends BaseRepository
 {
-  public function getItemsBy($params);
+    /**
+     * List or resources
+     * @param $params
+     * @return mixed
+     */
+    public function getItemsBy($params);
 
-  public function getItem($criteria, $params);
+    /**
+     * find a resource by id or slug
+     * @param $criteria
+     * @param $params
+     * @return mixed
+     */
+    public function getItem($criteria, $params);
 
-  public function create($data);
+    /**
+     * Find by System Name
+     * @param $systemName
+     * @return mixed
+     */
+    public function findBySystemName($systemName);
 
-  public function updateBy($criteria, $data, $params);
-
-  public function deleteBy($criteria, $params);
 }

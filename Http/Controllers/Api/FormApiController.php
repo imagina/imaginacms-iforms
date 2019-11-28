@@ -5,14 +5,14 @@ namespace Modules\Iforms\Http\Controllers\Api;
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Iforms\Http\Requests\CreateFormRequest as CreateRequest;
+use Modules\Iforms\Http\Requests\CreateFormRequest;
 use Modules\Iforms\Http\Requests\UpdateFormRequest as UpdateRequest;
 
 // Base Api
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 // Transformers
-use Modules\Iforms\Transformers\FormTransformer as Transformer;
+use Modules\Iforms\Transformers\FormTransformer;
 
 // Repositories
 use Modules\Iforms\Repositories\FormRepository;
@@ -39,7 +39,7 @@ class FormApiController extends BaseApiController
       //Request to Repository
       $data = $this->resource->getItemsBy($params);
       //Response
-      $response = ["data" => Transformer::collection($data)];
+      $response = ["data" => FormTransformer::collection($data)];
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
@@ -64,9 +64,9 @@ class FormApiController extends BaseApiController
       //Request to Repository
       $data = $this->resource->getItem($criteria, $params);
       //Break if no found item
-      if (!$data) throw new Exception('Item not found', 204);
+      if (!$data) throw new \Exception('Item not found', 204);
       //Response
-      $response = ["data" => new Transformer($data)];
+      $response = ["data" => new FormTransformer($data)];
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
@@ -89,11 +89,11 @@ class FormApiController extends BaseApiController
     try {
       $data = $request->input('attributes') ?? [];//Get data
       //Validate Request
-      $this->validateRequestApi(new CreateRequest($data));
+      $this->validateRequestApi(new CreateFormRequest($data));
       //Create item
       $newData = $this->resource->create($data);
       //Response
-      $response = ["data" => new Transformer($newData)];
+      $response = ["data" => new FormTransformer($newData)];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
@@ -120,7 +120,8 @@ class FormApiController extends BaseApiController
       //Validate Request
       $this->validateRequestApi(new UpdateRequest($data));
       //Update data
-      $newData = $this->resource->updateBy($criteria, $data, $params);
+      $entity = $this->resource->getItem($criteria, $params);
+      $newData = $this->resource->update($entity, $data);
       //Response
       $response = ['data' => $newData];
       \DB::commit(); //Commit to Data Base
@@ -143,7 +144,8 @@ class FormApiController extends BaseApiController
       //Get params
       $params = $this->getParamsRequest($request);
       //Delete data
-      $this->resource->deleteBy($criteria, $params);
+      $entity = $this->resource->getItem($criteria, $params);
+      $this->resource->destroy($entity);
       //Response
       $response = ['data' => ''];
       \DB::commit(); //Commit to Data Base

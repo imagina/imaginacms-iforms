@@ -8,7 +8,7 @@ $router->group(['prefix' => 'fields'], function (Router $router) {
   $router->post('/', [
     'as' => 'api.iforms.fields.create',
     'uses' => 'FieldApiController@create',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
   ]);
 
   //Route index
@@ -29,7 +29,7 @@ $router->group(['prefix' => 'fields'], function (Router $router) {
   $router->put('/{criteria}', [
     'as' => 'api.iforms.fields.update',
     'uses' => 'FieldApiController@update',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
   ]);
 
   //Route delete

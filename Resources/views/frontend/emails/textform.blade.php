@@ -1,6 +1,12 @@
+@php
+    $form=$lead['form'];
+    $data=$lead['lead'];
+
+@endphp
+
 {{ $form->title }}
 
-@foreach($form->fields as $field)
-    {{ $field['label'] }}: {{ $data[$field['name']] }}
+@foreach($data->values as $index => $field)
+    {{ $index }}:{{ $field }}
 
 @endforeach

@@ -14,11 +14,12 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
     $this->repository = $form;
   }
 
-  /**
-   * List or resources
-   *
-   * @return collection
-   */
+    /**
+     * List or resources
+     *
+     * @param $params
+     * @return collection
+     */
   public function getItemsBy($params)
   {
     return $this->remember(function () use ($params) {
@@ -26,11 +27,13 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
     });
   }
 
-  /**
-   * find a resource by id or slug
-   *
-   * @return object
-   */
+    /**
+     * find a resource by id or slug
+     *
+     * @param $criteria
+     * @param $params
+     * @return object
+     */
   public function getItem($criteria, $params)
   {
     return $this->remember(function () use ($criteria, $params) {
@@ -38,39 +41,16 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
     });
   }
 
-  /**
-   * create a resource
-   *
-   * @return mixed
-   */
-  public function create($data)
-  {
-    $this->clearCache();
 
-    return $this->repository->create($data);
-  }
-
-  /**
-   * update a resource
-   *
-   * @return mixed
-   */
-  public function updateBy($criteria, $data, $params)
-  {
-    $this->clearCache();
-
-    return $this->repository->updateBy($criteria, $data, $params);
-  }
-
-  /**
-   * destroy a resource
-   *
-   * @return mixed
-   */
-  public function deleteBy($criteria, $params)
-  {
-    $this->clearCache();
-
-    return $this->repository->deleteBy($criteria, $params);
-  }
+    /**
+     * Find by System Name
+     * @param $systemName
+     * @return mixed
+     */
+    public function findBySystemName($systemName)
+    {
+        return $this->remember(function () use ($systemName) {
+            return $this->repository->findBySystemName($systemName);
+        });
+    }
 }

@@ -18,6 +18,7 @@ return [
     'form' => [
     ],
     'messages' => [
+        'from'=>' de ',
     ],
     'validation' => [
     ],

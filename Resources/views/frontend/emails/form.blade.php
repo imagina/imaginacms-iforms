@@ -1,17 +1,19 @@
-<<<<<<< Updated upstream
-@extends('email.plantilla')
-=======
 @extends(View::exists('email.plantilla')?'email.plantilla':'iforms::frontend.emails.mainlayout')
->>>>>>> Stashed changes
+@php
+$form=$lead['form'];
+$data=$lead['lead'];
+
+  @endphp
+
 
 @section('content')
-    <div id="contend-mail" class="p-3">
-        <h1>{{ $form->title }}</h1>
-        <br>
-        <div style="margin-bottom: 5px">
-            @foreach($form->fields as $field)
-                <p class="px-3"><strong>{{ $field['label'] }}:</strong> {{ $data[$field['name']] }} </p>
-            @endforeach
-        </div>
+  <div id="contend-mail" class="p-3">
+    <h1>{{ $form->title }}</h1>
+    <br>
+    <div style="margin-bottom: 5px">
+      @foreach($data->values as $index => $field)
+        <p class="px-3"><strong>{{ $index }}:</strong> {{ $field }} </p>
+      @endforeach
     </div>
+  </div>
 @stop

@@ -8,7 +8,7 @@ $router->group(['prefix' => 'types'], function (Router $router) {
   $router->get('/', [
     'as' => 'api.iforms.types.index',
     'uses' => 'TypeApiController@index',
-    //'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
   ]);
 
 });

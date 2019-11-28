@@ -51,12 +51,11 @@ class PublicController extends BasePublicController
 
             $form = $this->form->find($data['form_id']);
             if (empty($form->id)) {
-                throw new Exception(trans('iforms::common.forms_not_found'));
+                throw new \Exception(trans('iforms::common.forms_not_found'));
             }
             $attr = array();
             $attr['form_id'] = $form->id;
             $attr['options'] = array();
-
 
             foreach ($this->fields as $field) {
 
@@ -117,7 +116,7 @@ class PublicController extends BasePublicController
             $response['status'] = 'success';
             //$response['message'] = '';
 
-        } catch (\Throwable $t) {
+        } catch (\Exception $t) {
             //var_dump($t);
             $response['status'] = 'error';
             $response['message'] = $t->getMessage();
