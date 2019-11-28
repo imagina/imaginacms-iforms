@@ -8,6 +8,7 @@ use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Iforms\Presenters\FormPresenter;
 use Modules\Iforms\Events\Handlers\RegisterIformsSidebar;
+use Illuminate\Support\Facades\Config;
 
 class IformsServiceProvider extends ServiceProvider
 {
@@ -43,7 +44,6 @@ class IformsServiceProvider extends ServiceProvider
         $this->publishConfig('iforms', 'permissions');
         $this->publishConfig('iforms', 'config');
         $this->publishConfig('iforms', 'settings');
-        $this->registerIforms();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 
@@ -99,14 +99,5 @@ class IformsServiceProvider extends ServiceProvider
 
         $this->app->bind('Modules\Iforms\Presenters\FormPresenter');
 
-    }
-    /**
-     * Register the active sliders
-     */
-    private function registerIforms()
-    {
-        if (!$this->app['asgard.isInstalled']) {
-            return;
-        }
     }
 }

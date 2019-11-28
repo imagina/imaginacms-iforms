@@ -1,9 +1,9 @@
 {
     "name": "Iforms",
     "alias": "iforms",
-    "description": "",
-    "keywords": [],
-    "version": "4.0.3",
+    "description": "Iforms module for AsgardCMS",
+    "keywords": ["forms","emails","Send Emails"],
+    "version": "4.0.4",
 	"active": 1,
     "order": 1,
     "providers": [

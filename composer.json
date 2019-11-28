@@ -1,14 +1,26 @@
 {
     "name": "imagina/iforms-module",
-    "description": "",
     "type": "asgard-module",
+    "description": "Iforms module for AsgardCMS",
+    "keywords": ["forms","emails","Send Emails"],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Desarrollo Imagina",
+            "email": "soporte@imaginacolombia.com"
+        }
+    ],
+    "support": {
+        "email": "soporte@imaginacolombia.com",
+        "issues": "https://github.com/imagina/asgardcms-iforms/issues",
+        "source": "https://github.com/imagina/asgardcms-iforms"
+    },
     "require": {
         "php": ">=7.0.0",
         "composer/installers": "~1.0",
         "idavoll/core-module": "~3.0",
         "maatwebsite/excel": "^3.1",
-        "anhskohbo/no-captcha": ">=2.3"
+        "anhskohbo/no-captcha": "^2.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
@@ -20,14 +32,14 @@
             "Modules\\": "Modules/"
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "authors": [
-        {
-            "name": "Desarrollo Imagina",
-            "email": "soporte@imaginacolombia.com"
+    "autoload": {
+        "psr-4": {
+            "Modules\\Iforms\\": ""
         }
-    ],
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
     "extra": {
         "laravel": {
             "providers": [
@@ -37,10 +49,6 @@
 
             }
         }
-    },
-    "autoload": {
-        "psr-4": {
-            "Modules\\Iforms\\": ""
-        }
     }
+
 }

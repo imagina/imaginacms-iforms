@@ -1,5 +1,11 @@
 url: https://github.com/imagina/asgardcms-iforms
   versions:
+    "4.0.4":
+      changed:
+        - Composer.json data
+        - module information
+      deleted:
+        - Method registerIforms in IformServiceProviders
     "4.0.3":
       added:
         - settings file
