@@ -17,7 +17,7 @@ class CreateIformsLeadsTable extends Migration
             $table->increments('id');
             $table->integer('form_id')->unsigned();
             $table->foreign('form_id')->references('id')->on('iforms__forms')->onDelete('cascade');
-            $table->text('values')->default('')->nullable();
+            $table->text('values')->nullable();
             $table->timestamps();
         });
     }

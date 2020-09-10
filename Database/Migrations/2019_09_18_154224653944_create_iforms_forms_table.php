@@ -17,7 +17,7 @@ class CreateIformsFormsTable extends Migration
       $table->increments('id');
       $table->integer('user_id')->unsigned()->nullable();;
       $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('cascade');
-      $table->text('options')->default('')->nullable();
+      $table->text('options')->nullable();
       $table->timestamps();
     });
   }
