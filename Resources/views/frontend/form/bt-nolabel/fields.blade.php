@@ -1,64 +1,87 @@
 <?php
-$fields = array();
-if(isset($form) && is_array($form->fields)) $fields = $form->fields;
+$fields = $form->fields;
 ?>
 {{ csrf_field() }}
-@if(Setting::get('iforms::trans')=="1")
-    <div class="form-group">
-        @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio"&& $field['type']!="terms")
-            <div class="col-sm-12">
-                <input type="{!!$field['type']!!}" class="form-control" name="{!!$field['name']!!}" id="input{!!$field['name']!!}" required placeholder="{{trans('icustom::iforms.field.'.$field['name'])}}">
-            </div>
-        @elseif($field['type'] == "textarea")
-            <div class="col-sm-12">
-                <textarea class="form-control" name="{!!$field['name']!!}" placeholder="{{ trans('icustom::iforms.field.'.$field['name']) }}" rows="4"></textarea>
-            </div>
-        @elseif($field['type'] == "select")
-        @elseif($field['type'] == "checkbox"||$field['type'] == "radio")
-            <div class="{!!$field['type']!!}">
-                <label>
-                    <input  name="{!!$field['name']!!}" type="{!!$field['type']!!}" value="{!!$field['name']!!}">
-                    {!!$field['label']!!}
-                </label>
-            </div>
-        @elseif($field['type'] == "terms")
-            <div class="checkbox col-sm-10">
-                <label>
-                    <input name="{!!$field['name']!!}" type="checkbox" required>{!!sprintf(trans('iforms::form.form.terms'),url($field['description']))!!}
-                </label>
-            </div>
+@foreach($fields as $field)
 
-        @endif
+    <div class="form-group">
+        @switch($field->present()->type['value'])
+            @case('text')
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+            </div>
+            @break
+
+            @case('textarea')
+            <div class="col-sm-12">
+                    <textarea class="form-control" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
+                              rows="4"></textarea>
+            </div>
+            @break
+            @case('number')
+            <div class="col-sm-12">
+                <input type="number" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+            </div>
+            @break
+            @case('email')
+            <div class="col-sm-12">
+                <input type="email" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+            </div>
+            @break
+            @case('select')
+            @case('selectmultiple')
+            <div class="col-sm-12">
+                @php
+                    $options = json_decode($field->selectable)
+                @endphp
+                <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control" name="{{$field->name}}"
+                        id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}"
+                >
+                    @foreach($options as $option)
+                        <option value="{{ $option->name }}">{{ $option->name  }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @break
+            @case('radio')
+            <div class="col-sm-12">
+                @php
+                    $options = json_decode($field->selectable)
+                @endphp
+                @foreach($options as $option)
+                    <label>
+                        <input type="radio" name="{{$field->name}}" value="{{ $option->name }}"/>&nbsp; {{ $option->name  }} &nbsp;&nbsp;
+                    </label>
+                @endforeach
+            </div>
+            @break
+            @case('phone')
+            <div class="col-sm-12">
+                <input type="phone" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}">
+            </div>
+            @break
+            @case('date')
+            <div class="col-sm-12">
+                <input type="date" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+            </div>
+            @break
+
+            @default
+            <div class="checkbox col-sm-12">
+                <label>
+                    <input name="{!!$field['name']!!}" type="checkbox"
+                            {{$field->required?'required':''}}>{!!sprintf(trans('iforms::form.form.terms'),url($field->description))!!}
+                </label>
+            </div>
+        @endswitch
+
     </div>
-@else
-    @foreach($fields as $index => $field)
-        <div class="form-group">
-            @if($field['type'] != "textarea" && $field['type'] != "select" && $field['type'] != "checkbox" && $field['type'] != "radio"&& $field['type']!="terms")
-                <div class="col-sm-12">
-                    <input type="{!!$field['type']!!}" class="form-control" name="{!!$field['name']!!}" id="input{!!$field['name']!!}" required placeholder="{{$field['label']}}">
-                </div>
-            @elseif($field['type'] == "textarea")
-                <div class="col-sm-12">
-                    <textarea class="form-control" name="{!!$field['name']!!}" placeholder="{{ $field['label'] }}" rows="4"></textarea>
-                </div>
-            @elseif($field['type'] == "select")
-            @elseif($field['type'] == "checkbox"||$field['type'] == "radio")
-                <div class="{!!$field['type']!!}">
-                    <label>
-                        <input  name="{!!$field['name']!!}" type="{!!$field['type']!!}" value="{!!$field['name']!!}">
-                        {!!$field['label']!!}
-                    </label>
-                </div>
-            @elseif($field['type'] == "terms")
-                <div class="checkbox col-sm-10">
-                    <label>
-                        <input name="{!!$field['name']!!}" type="checkbox" required>{!!sprintf(trans('iforms::form.form.terms'),url($field['description']))!!}
-                    </label>
-                </div>
-            @endif
-        </div>
-    @endforeach
-@endif
+@endforeach
 
 
 

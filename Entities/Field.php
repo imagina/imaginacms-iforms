@@ -38,5 +38,15 @@ class Field extends Model
     return $this->belongsTo(Form::class);
   }
 
+  public function getSelectableAttribute($value)
+  {
+    return json_decode($value);
+  }
+
+  public function setSelectableAttribute($value)
+  {
+    $this->attributes['selectable'] = json_encode($value);
+  }
+
 
 }
