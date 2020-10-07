@@ -19,7 +19,7 @@
 
         @endif
 
-        <button type="submit" class="btn btn-primary">{{trans('iforms::form.form.submit')}}</button>
+        <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
     </form>
 
 </div>
