@@ -54,7 +54,7 @@ class Type extends Model
       [
         'id' => self::SELECTMULTIPLE,
         'name' => trans('iforms::common.types.selectmultiple'),
-        'value' => 'multiSelect'
+        'value' => 'selectmultiple'
       ],
       [
         'id' => self::CHECKBOX,
