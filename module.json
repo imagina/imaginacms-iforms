@@ -14,6 +14,8 @@
     "aliases": {
         "Forms": "Modules\\Iforms\\Facades\\FormFacade"
     },
-    "files": [],
+    "files": [
+        "helpers.php"
+    ],
     "requires": []
 }

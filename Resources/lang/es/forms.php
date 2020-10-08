@@ -16,6 +16,7 @@ return [
     'table' => [
     ],
     'form' => [
+      'submit' => 'Enviar'
     ],
     'messages' => [
         'from'=>' de ',

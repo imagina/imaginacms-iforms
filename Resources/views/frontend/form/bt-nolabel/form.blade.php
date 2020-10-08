@@ -17,7 +17,7 @@
         @endif
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">{{trans('iforms::form.form.submit')}}</button>
+                <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
             </div>
         </div>
     </form>
