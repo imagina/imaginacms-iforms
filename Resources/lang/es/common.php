@@ -63,5 +63,11 @@ return [
   'created_at' => 'Creation date',
   'parent' => 'Parent',
 
-
+  'setting' => [
+    'email' => 'Email',
+    'emails' => 'Emails',
+    'api' => 'Api',
+    'recaptcha' => 'Recaptcha',
+    'trans' => 'Traducible',
+  ]
 ];
