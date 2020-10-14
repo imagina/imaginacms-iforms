@@ -38,7 +38,7 @@ $fields = $form->fields;
                     $options = json_decode($field->selectable)
                 @endphp
                 <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control" name="{{$field->name}}"
-                        id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}"
+                        id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                 >
                     @foreach($options as $option)
                         <option value="{{ $option->name }}">{{ $option->name  }}</option>

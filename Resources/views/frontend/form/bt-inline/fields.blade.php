@@ -8,77 +8,94 @@ $fields = $form->fields;
 $fields = $form->fields;
 ?>
 {{ csrf_field() }}
+<div class="row">
 @foreach($fields as $index => $field)
-
-    <div class="form-group">
+        <div class="col-12 col-sm-4">
+            <div class="form-group row">
         @switch($field->present()->type['value'])
             @case('text')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                <div class="col-9">
                 <input type="text" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                </div>
             @break
 
             @case('textarea')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
-                <textarea class="form-control" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                <div class="col-9">
+                    <textarea class="form-control" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
                               rows="4"></textarea>
+                </div>
             @break
             @case('number')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
-                <input type="number" class="form-control" name="{{$field->name}}"
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                <div class="col-9">
+                    <input type="number" class="form-control" name="{{$field->name}}"
                        id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                </div>
             @break
             @case('email')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
-                <input type="email" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                <div class="col-9">
+                    <input type="email" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                </div>
             @break
             @case('select')
             @case('selectmultiple')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
-                @php
-                    $options = json_decode($field->selectable)
-                @endphp
-                <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control" name="{{$field->name}}"
-                        id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}"
-                >
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                  <div class="col-9">
+                    @php
+                        $options = json_decode($field->selectable)
+                    @endphp
+                    <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control my-1 mr-sm-2" name="{{$field->name}}"
+                        id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
+                    >
                     @foreach($options as $option)
                         <option value="{{ $option->name }}">{{ $option->name  }}</option>
                     @endforeach
-                </select>
+                    </select>
+                </div>
             @break
             @case('radio')
-            <label for="input{{$field->name}}">{{$field->label}}</label>
-                @php
-                    $options = json_decode($field->selectable)
-                @endphp
-                @foreach($options as $option)
-                    <label>
-                        <input id="input{{$field->name}}" type="radio" name="{{$field->name}}" value="{{ $option->name }}"/>&nbsp; {{ $option->name  }} &nbsp;&nbsp;
-                    </label>
-                @endforeach
+                <label class="col-2 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                  <div class="col-10">
+                    @php
+                        $options = json_decode($field->selectable)
+                    @endphp
+                    @foreach($options as $k=>$option)
+                        <input class="form-check-input" id="input{{$field->name}}{{ $k }}" type="radio" name="{{$field->name}}" value="{{ $option->name }}"/>
+                        <label for="input{{$field->name}}{{ $k }}" class="form-check-label">{{ $option->name  }}</label>
+                    @endforeach
+                  </div>
             @break
             @case('phone')
-            <label for="input{{$field->name}}">{{$field->label}} </label>
-                <input type="phone" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}">
+                  <label class="col-4 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                  <div class="form-8">
+                    <input class="form-control" type="phone" name="{{$field->name}}"
+                           id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}" />
+                  </div>
             @break
             @case('date')
-            <label for="{{$field->name}}" class="col-sm-2 control-label">{{$field->label}} </label>
-                <input type="date" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}</label>
+                <div class="col-9">
+                    <input type="date" class="form-control" name="{{$field->name}}"
+                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                </div>                        &nbsp;&nbsp;
             @break
-
             @default
-            <div class="checkbox">
-                <label>
-                    <input name="{!!$field['name']!!}" type="checkbox"
-                            {{$field->required?'required':''}}>{!!sprintf(trans('iforms::form.form.terms'),url($field->description))!!}
-                </label>
-            </div>
+                <label class="col-3 col-form-label">{{$field->label}}</label>
+                <div class="col-9">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="input{{$field->name}}">
+                        <label class="form-check-label" for="input{{$field->name}}">
+                            {{ $field->placeholder }}
+                        </label>
+                    </div>
+                </div>
         @endswitch
-
-    </div>
+            </div>
+        </div>
 @endforeach
+</div>
