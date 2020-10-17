@@ -6,7 +6,7 @@ return [
     'value' => null,
     'type' => 'input',
     'props' => [
-      'label' => 'iforms::common.setting.email'
+      'label' => '(trans)iforms::common.setting.email'
     ],
   ],
   'form-emails' => [
@@ -14,7 +14,7 @@ return [
     'value' => null,
     'type' => 'input',
     'props' => [
-      'label' => 'iforms::common.setting.emails'
+      'label' => '(trans)iforms::common.setting.emails'
     ],
   ],
   'api' => [
@@ -22,7 +22,7 @@ return [
     'value' => null,
     'type' => 'input',
     'props' => [
-      'label' => 'iforms::common.setting.api'
+      'label' => '(trans)iforms::common.setting.api'
     ],
   ],
   'captcha' => [
@@ -30,7 +30,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iforms::common.setting.recaptcha'
+      'label' => '(trans)iforms::common.setting.recaptcha'
     ],
   ],
   'trans' => [
@@ -38,7 +38,7 @@ return [
     'value' => null,
     'type' => 'checkbox',
     'props' => [
-      'label' => 'iforms::common.setting.trans'
+      'label' => '(trans)iforms::common.setting.trans'
     ],
   ],
 ];
