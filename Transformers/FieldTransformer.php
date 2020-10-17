@@ -18,6 +18,8 @@ class FieldTransformer extends Resource
       'description' => $this->when($this->description, $this->description),
       'required' => $this->required ? true : false,
       'order' => $this->order,
+      'prefix' => $this->when($this->prefix, $this->prefix),
+      'suffix' => $this->when($this->suffix, $this->suffix),
       'formId' => $this->when($this->form_id, $this->form_id),
       'selectable' => $this->when($this->selectable, $this->selectable),
       'form' => new FormTransformer($this->whenLoaded('form')),

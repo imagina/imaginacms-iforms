@@ -16,51 +16,131 @@ $fields = $form->fields;
             @case('text')
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
-                <input type="text" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                </div>
+                            @endif
+                    @endif
+                        <input type="text" class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}"
+                            id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             @break
 
             @case('textarea')
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
-                    <textarea class="form-control" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                </div>
+                            @endif
+                    @endif
+                        <textarea class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
                               rows="4"></textarea>
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->suffix))
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                            </div>
+                        @endif
+                        </div>
+                    @endif
                 </div>
             @break
             @case('number')
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
-                    <input type="number" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                </div>
+                            @endif
+                    @endif
+                        <input type="number" class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}"
+                            id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->suffix))
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                            </div>
+                        @endif
+                        </div>
+                    @endif
                 </div>
             @break
             @case('email')
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
-                    <input type="email" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                </div>
+                            @endif
+                    @endif
+                        <input type="email" class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}"
+                            id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             @break
             @case('select')
             @case('selectmultiple')
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                   <div class="col-9">
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                </div>
+                           @endif
+                    @endif
                     @php
                         $options = json_decode($field->selectable)
                     @endphp
-                    <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control my-1 mr-sm-2" name="{{$field->name}}"
+                    <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}"
                         id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                     >
                     @foreach($options as $option)
                         <option value="{{ $option->name }}">{{ $option->name  }}</option>
                     @endforeach
                     </select>
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->suffix))
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                            </div>
+                        @endif
+                        </div>
+                    @endif
                 </div>
             @break
             @case('radio')
-                <label class="col-2 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
-                  <div class="col-10">
+                <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                  <div class="col-9">
                     @php
                         $options = json_decode($field->selectable)
                     @endphp
@@ -71,17 +151,50 @@ $fields = $form->fields;
                   </div>
             @break
             @case('phone')
-                  <label class="col-4 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
-                  <div class="form-8">
-                    <input class="form-control" type="phone" name="{{$field->name}}"
+                  <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
+                  <div class="col-9">
+                      @if(!empty($field->prefix) || !empty($field->suffix))
+                          <div class="input-group flex-nowrap">
+                              @if(!empty($field->prefix))
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text bg-transparent border-right-0"><i class="text-primary {{ $field->prefix }}"></i></span>
+                                  </div>
+                              @endif
+                      @endif
+                        <input class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" type="phone" name="{{$field->name}}"
                            id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}" />
+                      @if(!empty($field->prefix) || !empty($field->suffix))
+                          @if(!empty($field->suffix))
+                              <div class="input-group-append">
+                                  <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                              </div>
+                          @endif
+                          </div>
+                      @endif
                   </div>
             @break
             @case('date')
                 <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
-                    <input type="date" class="form-control" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        <div class="input-group flex-nowrap">
+                            @if(!empty($field->prefix))
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text border-right-0"><i class="text-primary {{ $field->prefix }}"></i>
+                                    </span>
+                                </div>
+                            @endif
+                    @endif
+                        <input type="date" class="form-control {{ !empty($field->prefix) ? 'border-left-0' : '' }} {{ !empty($field->suffix) ? 'border-right-0' : '' }}" name="{{$field->name}}"
+                           id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
+                    @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->suffix))
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-left-0"><i class="text-primary {{ $field->suffix }}"></i></span>
+                            </div>
+                        @endif
+                        </div>
+                    @endif
                 </div>                        &nbsp;&nbsp;
             @break
             @default
