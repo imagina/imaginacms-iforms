@@ -20,8 +20,8 @@
       </br>
     </div>
 
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
+    <div class="form-group row">
+      <div class="col-sm-12 text-right">
         <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
       </div>
     </div>
