@@ -7,8 +7,8 @@ $fields = $form->fields;
   <div class="form-group row">
     @switch($field->present()->type['value'])
       @case('text')
-      <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-      <div class="col-sm-10">
+      <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+      <div class="col-sm-12">
         @if(!empty($field->prefix) || !empty($field->suffix))
           <div class="input-group flex-nowrap">
             @if(!empty($field->prefix))
@@ -31,8 +31,8 @@ $fields = $form->fields;
       @break
 
       @case('textarea')
-      <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-      <div class="col-sm-10">
+      <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+      <div class="col-sm-12">
         @if(!empty($field->prefix) || !empty($field->suffix))
           <div class="input-group flex-nowrap">
             @if(!empty($field->prefix))
@@ -53,8 +53,8 @@ $fields = $form->fields;
       </div>
       @break
       @case('number')
-      <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-      <div class="col-sm-10">
+      <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+      <div class="col-sm-12">
         @if(!empty($field->prefix) || !empty($field->suffix))
           <div class="input-group flex-nowrap">
             @if(!empty($field->prefix))
@@ -76,8 +76,8 @@ $fields = $form->fields;
       </div>
       @break
       @case('email')
-      <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-      <div class="col-sm-10">
+      <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+      <div class="col-sm-12">
         @if(!empty($field->prefix) || !empty($field->suffix))
           <div class="input-group flex-nowrap">
             @if(!empty($field->prefix))
@@ -100,8 +100,8 @@ $fields = $form->fields;
       @break
       @case('select')
         @case('selectmultiple')
-        <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-        <div class="col-sm-10">
+        <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+        <div class="col-sm-12">
           @if(!empty($field->prefix) || !empty($field->suffix))
             <div class="input-group flex-nowrap">
               @if(!empty($field->prefix))
@@ -131,8 +131,8 @@ $fields = $form->fields;
         </div>
       @break
       @case('radio')
-      <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-      <div class="col-sm-10">
+      <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+      <div class="col-sm-12">
         @php
           $options = json_decode($field->selectable)
         @endphp
@@ -144,8 +144,8 @@ $fields = $form->fields;
       </div>
       @break
       @case('phone')
-        <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-        <div class="col-sm-10">
+        <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+        <div class="col-sm-12">
           @if(!empty($field->prefix) || !empty($field->suffix))
             <div class="input-group flex-nowrap">
               @if(!empty($field->prefix))
@@ -167,8 +167,8 @@ $fields = $form->fields;
         </div>
       @break
       @case('date')
-        <label for="input{{$field->name}}" class="col-sm-2 col-form-label">{{$field->label}}</label>
-        <div class="col-sm-10">
+        <label for="input{{$field->name}}" class="col-sm-12 col-form-label">{{$field->label}}</label>
+        <div class="col-sm-12">
           @if(!empty($field->prefix) || !empty($field->suffix))
             <div class="input-group flex-nowrap">
               @if(!empty($field->prefix))
@@ -191,8 +191,8 @@ $fields = $form->fields;
       @break
 
       @default
-        <label class="col-sm-2 col-form-label">{{$field->label}}</label>
-        <div class="col-sm-10">
+        <label class="col-sm-12 col-form-label">{{$field->label}}</label>
+        <div class="col-sm-12">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="input{{$field->name}}">
             <label class="form-check-label" for="input{{$field->name}}">

@@ -31,9 +31,9 @@ class SendEmail
         $formEmails = !empty($this->setting->get('iforms::form-emails'))?$this->setting->get('iforms::form-emails'):env('MAIL_FROM_ADDRESS');
         $emails = explode(',', $formEmails);
 
-        /*if (isset($form->destination_email) && !empty($form->destination_email)) {
-            array_push($emails, $form->destination_email);
-        }*/
+        if (isset($form->destination_email) && !empty($form->destination_email)) {
+            array_merge($emails, $form->destination_email ?? []);
+        }
 
         $this->mail->to($emails)->send(new Sendmail(['lead'=>$leads,'form'=>$form], $subject, $view),function ($m) use($reply) {
             $m->replyTo($reply->to, $reply->toName);
