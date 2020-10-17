@@ -4,7 +4,7 @@
 
 <div class="content-form{{$id}}">
     <div class="formerror"></div>
-    <form id="{{$id}}" class="form-inline" action="{{url('/iforms/lead')}}">
+    <form id="{{$id}}" class="full-width" action="{{url('/iforms/lead')}}">
 
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
@@ -16,10 +16,10 @@
                 </br>
                 </br>
             </div>
-
         @endif
-
-        <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+        <div class="w-100 text-right">
+            <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+        </div>
     </form>
 
 </div>

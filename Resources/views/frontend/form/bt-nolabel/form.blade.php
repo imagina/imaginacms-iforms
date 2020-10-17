@@ -10,15 +10,13 @@
         @include('iforms::frontend.form.bt-nolabel.fields')
 
         @if(Setting::get('iforms::captcha')=="1")
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-sm-12">
                 {!!app('captcha')->display($attributes = ['data-sitekey'=>Setting::get('iforms::api')])!!}
                 </br>
             </div>
         @endif
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
-            </div>
+        <div class="w-100 text-right">
+            <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
         </div>
     </form>
 

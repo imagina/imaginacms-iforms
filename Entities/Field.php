@@ -25,6 +25,8 @@ class Field extends Model
     'form_id',
     'selectable',
     'order',
+    'prefix',
+    'suffix',
   ];
 
   protected $presenter = FieldPresenter::class;
