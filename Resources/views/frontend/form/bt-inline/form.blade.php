@@ -4,7 +4,7 @@
 
 <div class="content-form{{$id}}">
     <div class="formerror"></div>
-    <form id="{{$id}}" class="full-width" action="{{url('/iforms/lead')}}">
+    <form id="{{$id}}" class="full-width" action="{{route('iforms.lead')}}">
 
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
