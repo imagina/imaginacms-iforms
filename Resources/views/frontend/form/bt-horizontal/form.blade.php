@@ -10,7 +10,7 @@
 </div>
 <div class="content-form{{$options['rand']}}">
   <div class="formerror"></div>
-  <form id="{{$id}}" class="form-horizontal" method="post" action="{{route('iforms.lead')}}">
+  <form id="{{$id}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
     @include('iforms::frontend.form.bt-horizontal.fields')
