@@ -64,6 +64,4 @@
 
 
   </script>
-
-  @parent
 @endsection
