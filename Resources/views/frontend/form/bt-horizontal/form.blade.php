@@ -16,7 +16,9 @@
     @include('iforms::frontend.form.bt-horizontal.fields')
 
     <div class="col-sm-offset-2 col-sm-10">
-      {!!app('captcha')->display($attributes = ['data-sitekey'=>Setting::get('iforms::api')])!!}
+      @if(Setting::get('iforms::api'))
+        {!!app('captcha')->display($attributes = ['data-sitekey'=>Setting::get('iforms::api')])!!}
+      @endif
       </br>
     </div>
 
