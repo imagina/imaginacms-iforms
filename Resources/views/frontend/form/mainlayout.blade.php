@@ -1,4 +1,4 @@
-@section('scripts')
+@section('scripts-owl')
   @parent
   <script src="https://www.google.com/recaptcha/api.js"></script>
   <style>
@@ -59,7 +59,7 @@
 
 
           for (var i = 0; i < formArray.length; i++) {
-              var $obj = $("[name="+formArray[i]['name']+"] option:selected");
+              var $obj = $("[name='"+formArray[i]['name']+"'] option:selected");
               var $val = []
               if($obj.length>0) {
                 $obj.each(function() {
