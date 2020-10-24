@@ -10,7 +10,7 @@ return [
     ],
   ],
   'form-emails' => [
-    'name' => 'iforms::from-emails',
+    'name' => 'iforms::form-emails',
     'value' => null,
     'type' => 'input',
     'props' => [
