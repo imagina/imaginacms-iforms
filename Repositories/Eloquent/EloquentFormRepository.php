@@ -106,7 +106,7 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
     {
         $form = $this->model->create($data);
         if ($form) {
-            $form->fields()->update(array_get($data, 'fields', []));
+            $form->fields()->update(Arr::get($data, 'fields', []));
         }
         return $form;
     }

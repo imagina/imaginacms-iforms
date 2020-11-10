@@ -3,10 +3,10 @@
 
 namespace Modules\Iforms\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Iprofile\Transformers\UserTransformer;
 
-class FormTransformer extends Resource
+class FormTransformer extends JsonResource
 {
 
     public function toArray($request)

@@ -2,9 +2,9 @@
 
 
 namespace Modules\Iforms\Transformers;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class LeadTransformer extends Resource
+class LeadTransformer extends JsonResource
 {
   public function toArray($request)
   {
