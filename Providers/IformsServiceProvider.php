@@ -31,9 +31,9 @@ class IformsServiceProvider extends ServiceProvider
         $this->app['events']->listen(BuildingSidebar::class, RegisterIformsSidebar::class);
 
         $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('forms', array_dot(trans('iforms::forms')));
-            $event->load('fields', array_dot(trans('iforms::fields')));
-            $event->load('leads', array_dot(trans('iforms::leads')));
+            $event->load('forms', Arr::dot(trans('iforms::forms')));
+            $event->load('fields', Arr::dot(trans('iforms::fields')));
+            $event->load('leads', Arr::dot(trans('iforms::leads')));
         });
 
 

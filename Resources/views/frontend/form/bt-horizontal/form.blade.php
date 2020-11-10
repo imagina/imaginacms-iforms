@@ -1,5 +1,5 @@
 @php
-  $id=str_slug($form->system_name).$options['rand'];
+  $id=Str::slug($form->system_name).$options['rand'];
 @endphp
 <div id="loading-form">
   <div class="lds-spinner">
