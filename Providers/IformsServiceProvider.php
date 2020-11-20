@@ -2,6 +2,7 @@
 
 namespace Modules\Iforms\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
