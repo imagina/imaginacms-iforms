@@ -32,7 +32,7 @@ class SendEmail
         $emails = explode(',', $formEmails);
 
         if (isset($form->destination_email) && !empty($form->destination_email)) {
-            array_merge($emails, $form->destination_email ?? []);
+          $emails = array_merge($emails, $form->destination_email ?? []);
         }
 
         $this->mail->to($emails)->send(new Sendmail(['lead'=>$leads,'form'=>$form], $subject, $view),function ($m) use($reply) {
