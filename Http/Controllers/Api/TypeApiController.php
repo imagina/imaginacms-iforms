@@ -44,7 +44,7 @@ class TypeApiController extends BaseApiController
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
     } catch (\Exception $e) {
-      \Log::error($e);
+      \Log::error($e->getMessage());
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }

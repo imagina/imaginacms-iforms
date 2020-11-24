@@ -129,7 +129,7 @@ class LeadApiController extends BaseApiController
             $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
-            \Log::error($e);
+            \Log::error($e->getMessage());
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
