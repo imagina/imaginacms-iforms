@@ -14,6 +14,20 @@
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
     @include('iforms::frontend.form.bt-horizontal.fields')
+<!--Validate field terms and conditions-->
+    @if(isset($form->options["urlTermsAndConditions"]))
+      <!--Content Terms and Conditions -->
+      <div id="contentTermsAndConditions" class="col-12 position-relative">
+        <div id="CheckFormTermsAndConditions" class="pl-4">
+          <input type="checkbox" class="form-check-input" required="" id="TermsAndConditions">
+          <label class="form-check-label h6" for="TermsAndConditions">Acepto los
+            <a href="{{$form->options["urlTermsAndConditions"]}}" class="h6">
+              Términos y Condiciones.
+            </a>
+          </label>
+        </div>
+      </div>
+    @endif
 
     <div class="col-sm-offset-2 col-sm-10">
       @if(Setting::get('iforms::api'))
