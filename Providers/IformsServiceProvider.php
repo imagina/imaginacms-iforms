@@ -49,11 +49,6 @@ class IformsServiceProvider extends ServiceProvider
         $this->publishConfig('iforms', 'settings-fields');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-        $app = $this->app;
-
-        $app['validator']->extend('formCaptcha', function ($attribute, $value) use ($app) {
-            return $app['formCaptcha']->verifyResponse($value, $app['request']->getClientIp());
-        });
         $this->registerComponents();
     }
 
