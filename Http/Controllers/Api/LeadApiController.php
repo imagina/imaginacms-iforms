@@ -5,6 +5,7 @@ namespace Modules\Iforms\Http\Controllers\Api;
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Iforms\Http\Requests\CreateLeadRequest;
 use Modules\Iforms\Http\Requests\UpdateLeadRequest as UpdateRequest;
 use Modules\Iforms\Repositories\FormRepository;
 use Modules\Iforms\Repositories\LeadRepository;
@@ -101,6 +102,7 @@ class LeadApiController extends BaseApiController
         try {
 
             $data = $request->input('attributes') ?? [];//Get data
+            $this->validateRequestApi(new CreateLeadRequest($data));
             $form = $this->form->find($data['form_id']);
             if (empty($form->id)) {
                 throw new \Exception(trans('iforms::common.forms_not_found'));

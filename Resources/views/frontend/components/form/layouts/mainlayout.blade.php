@@ -25,13 +25,10 @@
   <script>
 
       $(document).ready(function () {
-          var formid = '#{{$id}}';
+          var formid = '#{{$formId}}';
           $(formid).submit(function (event) {
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
-              //console.warn(info);
-              info.captcha = {'version': '2', 'token': info['g-recaptcha-response']};
-              delete info['g-recaptcha-response'];
               $.ajax({
                   type: 'POST',
                   url: $(this).attr('action'),
@@ -42,23 +39,32 @@
                   },
                   success: function (data) {
                       $('#loading-form').css('display', 'none');
-                      $(".content-form{{$options['rand']}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
+                      $(".content-form{{$formRand}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
 
                   },
                   error: function (data) {
                       $('#loading-form').css('display', 'none');
-                      $(".content-form{{$options['rand']}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + data.responseJSON.errors + '</span> </p>');
+                      var errors = JSON.parse(data.responseJSON.errors);
+                      for(var x in errors){
+                        $(".content-form{{$formRand}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + errors[x] + '</span> </p>');
+                      }
+
                   }
               })
           })
       });
+  </script>
+@endsection
+@once
+    @section('scripts')
+        @parent
+        <script>
+          function objectifyForm(formArray) {//serialize data function
 
-      function objectifyForm(formArray) {//serialize data function
-
-          var returnArray = {};
+            var returnArray = {};
 
 
-          for (var i = 0; i < formArray.length; i++) {
+            for (var i = 0; i < formArray.length; i++) {
               var $obj = $("[name='"+formArray[i]['name']+"'] option:selected");
               var $val = []
               if($obj.length>0) {
@@ -69,10 +75,9 @@
               }else{
                 returnArray[formArray[i]['name']] = formArray[i]['value'];
               }
+            }
+            return returnArray;
           }
-          return returnArray;
-      }
-
-
-  </script>
-@endsection
+        </script>
+    @stop
+@endonce

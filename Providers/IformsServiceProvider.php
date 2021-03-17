@@ -2,7 +2,9 @@
 
 namespace Modules\Iforms\Providers;
 
+use Anhskohbo\NoCaptcha\NoCaptcha;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
@@ -37,7 +39,6 @@ class IformsServiceProvider extends ServiceProvider
             $event->load('leads', Arr::dot(trans('iforms::leads')));
         });
 
-
     }
 
     public function boot()
@@ -47,6 +48,13 @@ class IformsServiceProvider extends ServiceProvider
         $this->publishConfig('iforms', 'settings');
         $this->publishConfig('iforms', 'settings-fields');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        $app = $this->app;
+
+        $app['validator']->extend('formCaptcha', function ($attribute, $value) use ($app) {
+            return $app['formCaptcha']->verifyResponse($value, $app['request']->getClientIp());
+        });
+        $this->registerComponents();
     }
 
     /**
@@ -56,7 +64,7 @@ class IformsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('Ifomrs');
+        return array('Iforms');
     }
 
     private function registerBindings()
@@ -101,5 +109,13 @@ class IformsServiceProvider extends ServiceProvider
 
         $this->app->bind('Modules\Iforms\Presenters\FormPresenter');
 
+    }
+
+    /**
+     * Register Blade components
+     */
+
+    private function registerComponents(){
+        Blade::componentNamespace("Modules\Iforms\View\Components", 'iforms');
     }
 }

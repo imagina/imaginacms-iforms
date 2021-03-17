@@ -1,6 +1,3 @@
-@php
-  $id=Str::slug($form->system_name).$options['rand'];
-@endphp
 <div id="loading-form">
   <div class="lds-spinner">
     <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
@@ -8,20 +5,20 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$options['rand']}}">
+<div class="content-form{{$formRand}}">
   <div class="formerror"></div>
-  <form id="{{$id}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
+  <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
-    @include('iforms::frontend.form.bt-horizontal.fields')
-<!--Validate field terms and conditions-->
-    @if(isset($form->options["urlTermsAndConditions"]))
+    @include('iforms::frontend.components.form.layouts.form-layout-1.fields')
+    <!--Validate field terms and conditions-->
+    @if(isset($form->options->urlTermsAndConditions))
       <!--Content Terms and Conditions -->
       <div id="contentTermsAndConditions" class="col-12 position-relative">
         <div id="CheckFormTermsAndConditions" class="pl-4">
           <input type="checkbox" class="form-check-input" required="" id="TermsAndConditions">
           <label class="form-check-label h6" for="TermsAndConditions">Acepto los
-            <a href="{{$form->options["urlTermsAndConditions"]}}" class="h6">
+            <a href="{{$form->options->urlTermsAndConditions}}" class="h6">
               Términos y Condiciones.
             </a>
           </label>
@@ -30,10 +27,7 @@
     @endif
 
     <div class="col-sm-offset-2 col-sm-10">
-      @if(Setting::get('iforms::api'))
-        {!!app('captcha')->display($attributes = ['data-sitekey'=>Setting::get('iforms::api')])!!}
-      @endif
-      </br>
+      <x-isite::captcha :formId="$formId" />
     </div>
 
     <div class="form-group row">
@@ -43,4 +37,4 @@
     </div>
   </form>
 </div>
-@include('iforms::frontend.form.mainlayout')
+@include('iforms::frontend.components.form.layouts.mainlayout')
