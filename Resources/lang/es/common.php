@@ -11,6 +11,7 @@ return [
   'form' => [
   ],
   'messages' => [
+    'fieldRequired' => 'El Campo :field es obligatorio',
     'title is required' => 'The title is required',
     'title min 2' => 'Title must contain at least two characters',
     'description is required' => 'The Description is required',
