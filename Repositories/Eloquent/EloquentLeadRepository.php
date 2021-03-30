@@ -62,9 +62,14 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       }
 
     }
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
+
+    //Return as query
+    if (isset($params->returnAsQuery) && $params->returnAsQuery) return $query;
+
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);

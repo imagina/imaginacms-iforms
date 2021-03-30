@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
 //Events
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -14,43 +14,63 @@ use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeWriting;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
 //Extra
+use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Notification\Services\Inotification;
 use Modules\Iforms\Entities\Form;
-use Modules\Iforms\Exports\LeadsPerFormExport;
 
-class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
+class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, ShouldQueue, WithEvents
 {
-  use Exportable;
-
   private $params;
   private $exportParams;
+  private $leadRepository;
   private $inotification;
 
   public function __construct($params, $exportParams)
   {
-    $this->params = $params;
     $this->exportParams = $exportParams;
+    $this->params = $params;
+    $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');
     $this->inotification = app('Modules\Notification\Services\Inotification');
   }
 
   /**
    * @return \Illuminate\Support\Collection
    */
-  public function sheets(): array
+  public function query()
   {
-    //Get forms
-    $forms = (isset($this->params->filter->formId) && $this->params->filter->formId) ?
-      Form::where('id', $this->params->filter->formId)->with(['fields', 'translations'])->get() :
-      Form::with(['fields', 'translations'])->get();
+    //Get query
+    $this->params->returnAsQuery = true;
+    return $this->leadRepository->getItemsBy($this->params);
+  }
 
-    //Add Sheets
-    $sheets = [];
-    foreach ($forms as $form) $sheets[] = new LeadsPerFormExport($form, $this->params);
+  /*
+  /**
+   * Table headings
+   *
+   * @return string[]
+   */
+  public function headings(): array
+  {
+    //Get form data
+    $form = Form::where('id', $this->params->filter->formId)->with(['fields'])->first();
 
-    //Response
-    return $sheets;
+    //Set fields
+    return array_merge(
+      $form->fields->pluck('label')->toArray(),
+      ['Fecha de Creación', 'Fecha Ultima Actualización']
+    );
+  }
+
+  /**
+   * @var Invoice $invoice
+   */
+  public function map($lead): array
+  {
+    $values = (array)$lead->values;
+    return array_merge(array_values($values), [$lead->created_at, $lead->updated_at]);
   }
 
   /**
