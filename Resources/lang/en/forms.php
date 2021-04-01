@@ -17,7 +17,9 @@ return [
     'table' => [
     ],
     'form' => [
-      'submit' => 'Submit'
+      'submit' => 'Submit',
+      'aceept' => "I accept the ",
+      'termsAndsConditions' => 'Terms and Conditions'
     ],
     'messages' => [
         'from'=>' from ',
