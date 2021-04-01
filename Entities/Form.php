@@ -49,4 +49,9 @@ class Form extends Model
         return json_decode($value);
     }
 
+    public function getOptionsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
 }

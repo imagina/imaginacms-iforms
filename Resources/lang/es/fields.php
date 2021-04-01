@@ -16,6 +16,12 @@ return [
     'table' => [
     ],
     'form' => [
+        'email' => [
+            'name' => 'email',
+            'label' => 'Tu E-mail...',
+            'placeholder' => 'Tu E-mail...',
+            'description' => 'Tu E-mail...',
+        ]
     ],
     'messages' => [
     ],

@@ -18,6 +18,8 @@ return [
     'description min 2' => 'The description must contain at least two characters',
     'summary is required' => 'The summary is required',
     'summary min 2' => 'The summary must contain at least two characters',
+    'captcha_required' => 'El Captcha es requerido',
+    'captcha_invalid' => 'El Captcha es inválido o no está correctamente configurado',
   ],
   'validation' => [
   ],

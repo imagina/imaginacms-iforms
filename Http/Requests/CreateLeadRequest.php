@@ -9,7 +9,7 @@ class CreateLeadRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            //'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => 'required|icaptcha'
         ];
     }
 
@@ -26,8 +26,8 @@ class CreateLeadRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            //'g-recaptcha-response.required' => trans('iforms::common.captcha_required'),
-            //'g-recaptcha-response.captcha'=> trans('iforms::common.captcha_required'),
+            'g-recaptcha-response.required' => trans('iforms::common.messages.captcha_required'),
+            'g-recaptcha-response.icaptcha'=> trans('iforms::common.messages.captcha_required'),
         ];
     }
 

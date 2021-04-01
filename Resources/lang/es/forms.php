@@ -12,6 +12,7 @@ return [
     ],
     'button' => [
         'create form' => 'Create a form',
+        'subscribe' => 'Subscribe'
     ],
     'table' => [
     ],
@@ -20,6 +21,7 @@ return [
     ],
     'messages' => [
         'from'=>' de ',
+        'policy' => 'Al suscribirte aceptas nuestras políticas de <a class="text-secondary" href=":url">tratamiento y protección de datos</a>'
     ],
     'validation' => [
     ],
