@@ -18,6 +18,7 @@ class FieldTransformer extends JsonResource
       'description' => $this->when($this->description, $this->description),
       'required' => $this->required ? true : false,
       'order' => $this->order,
+      'width' => $this->width ?? 12,
       'prefix' => $this->when($this->prefix, $this->prefix),
       'suffix' => $this->when($this->suffix, $this->suffix),
       'formId' => $this->when($this->form_id, $this->form_id),

@@ -1,16 +1,10 @@
 <?php
 $fields = $form->fields;
 ?>
-
-{{ csrf_field() }}
-
-<?php
-$fields = $form->fields;
-?>
 {{ csrf_field() }}
 <div class="row">
 @foreach($fields as $index => $field)
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-{{ $field->width ?? '12' }}">
             <div class="form-group row">
         @switch($field->present()->type['value'])
             @case('text')
@@ -72,8 +66,8 @@ $fields = $form->fields;
                                 @endif
                             @endif
                     @endif
-                        <textarea class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" placeholder="{{ $field->placeholder ?? '' }}"
-                              rows="4"></textarea>
+                        <textarea  class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" placeholder="{{ $field->placeholder ?? '' }}"
+                                   name="{{$field->name}}" id="input{{$field->name}}" rows="4"></textarea>
                     @if(!empty($field->prefix) || !empty($field->suffix))
                         @if(!empty($field->suffix))
                             @if(!empty($field->suffix->type))
