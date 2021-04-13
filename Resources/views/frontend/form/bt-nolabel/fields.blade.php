@@ -4,9 +4,9 @@ $fields = $form->fields;
 {{ csrf_field() }}
 <div class="form-group row">
     @foreach($fields as $field)
-        <div class="col-sm-6 py-2">
-        @switch($field->present()->type['value'])
-            @case('text')
+        <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1">
+            @switch($field->present()->type['value'])
+                @case('text')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -22,13 +22,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                <input type="text" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <input type="text" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -36,15 +36,14 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
+                @break
 
-            @case('textarea')
-            <div class="col-sm6">
+                @case('textarea')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -60,13 +59,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                    <textarea class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
-                              rows="4"></textarea>
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <textarea class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
+                                  rows="4" id="input{{$field->name}}"></textarea>
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -74,13 +73,13 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @case('number')
+                @break
+                @case('number')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -96,13 +95,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                    <input type="number" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <input type="number" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -110,13 +109,13 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @case('email')
+                @break
+                @case('email')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -132,13 +131,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                    <input type="email" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <input type="email" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -146,14 +145,14 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @case('select')
-            @case('selectmultiple')
+                @break
+                @case('select')
+                @case('selectmultiple')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -169,21 +168,21 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                @php
-                    $options = json_decode($field->selectable)
-                @endphp
-                <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                        id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
-                >
-                    @foreach($options as $option)
-                        <option value="{{ $option->name }}">{{ $option->name  }}</option>
-                    @endforeach
-                </select>
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        @php
+                            $options = json_decode($field->selectable)
+                        @endphp
+                        <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                                id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
+                        >
+                            @foreach($options as $option)
+                                <option value="{{ $option->name }}">{{ $option->name  }}</option>
+                            @endforeach
+                        </select>
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -191,13 +190,13 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @case('radio')
+                @break
+                @case('radio')
                 @php
                     $options = json_decode($field->selectable)
                 @endphp
@@ -206,8 +205,8 @@ $fields = $form->fields;
                         <input type="radio" name="{{$field->name}}" value="{{ $option->name }}"/>&nbsp; {{ $option->name  }} &nbsp;&nbsp;
                     </label>
                 @endforeach
-            @break
-            @case('phone')
+                @break
+                @case('phone')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -223,13 +222,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                    <input type="phone" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}">
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <input type="phone" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                               id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}">
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -237,13 +236,13 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @case('date')
+                @break
+                @case('date')
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -259,13 +258,13 @@ $fields = $form->fields;
                                 </div>
                             @endif
                         @endif
-                @endif
-                    <input type="date" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                       id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
-                @if(!empty($field->prefix) || !empty($field->suffix))
-                    @if(!empty($field->suffix))
-                        @if(!empty($field->suffix->type))
-                            <div class="input-group-append">
+                        @endif
+                        <input type="date" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                        @if(!empty($field->prefix) || !empty($field->suffix))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->type))
+                                    <div class="input-group-append">
                                 <span class="input-group-text bg-transparent border-left-0 text-primary">
                                     @if($field->suffix->type=='icon')
                                         <i class="text-primary {{ $field->suffix->value }}"></i>
@@ -273,23 +272,20 @@ $fields = $form->fields;
                                         {{ $field->suffix->value }}
                                     @endif
                                 </span>
-                            </div>
-                        @endif
-                    @endif
+                                    </div>
+                                @endif
+                            @endif
                     </div>
                 @endif
-            @break
-            @default
-            <div class="checkbox">
-                <label>
-                    <input name="{!!$field['name']!!}" type="checkbox"
-                            {{$field->required?'required':''}}>{!!sprintf(trans('iforms::form.form.terms'),url($field->description))!!}
-                </label>
-            </div>
-        @endswitch
+                @break
+                @default
+                <div class="checkbox">
+                    <label>
+                        <input name="{!!$field['name']!!}" type="checkbox"
+                                {{$field->required?'required':''}}>{!!sprintf(trans('iforms::form.form.terms'),url($field->description))!!}
+                    </label>
+                </div>
+            @endswitch
         </div>
     @endforeach
 </div>
-
-
-

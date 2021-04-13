@@ -4,7 +4,7 @@ $fields = $form->fields;
 {{ csrf_field() }}
 <div class="form-group row">
     @foreach($fields as $field)
-        <div class="col-sm-6 py-2">
+        <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1">
         @switch($field->present()->type['value'])
             @case('text')
                 @if(!empty($field->prefix) || !empty($field->suffix))
@@ -44,7 +44,6 @@ $fields = $form->fields;
             @break
 
             @case('textarea')
-            <div class="col-sm6">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     <div class="input-group flex-nowrap">
                         @if(!empty($field->prefix))
@@ -62,7 +61,7 @@ $fields = $form->fields;
                         @endif
                 @endif
                     <textarea class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
-                              rows="4"></textarea>
+                              rows="4" id="input{{$field->name}}"></textarea>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->suffix))
                         @if(!empty($field->suffix->type))
@@ -290,6 +289,3 @@ $fields = $form->fields;
         </div>
     @endforeach
 </div>
-
-
-
