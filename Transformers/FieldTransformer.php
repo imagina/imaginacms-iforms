@@ -46,7 +46,6 @@ class FieldTransformer extends JsonResource
         'props' => [
             'type' => $formType['value'] === 'phone' ? 'tel' : $formType['value'],
             'label' => $this->label,
-            'placeholder' => $this->placeholder,
         ]
     ];
 
