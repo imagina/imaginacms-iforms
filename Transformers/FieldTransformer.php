@@ -18,6 +18,7 @@ class FieldTransformer extends JsonResource
       'description' => $this->when($this->description, $this->description),
       'required' => $this->required ? true : false,
       'order' => $this->order,
+      'width' => $this->width ?? 12,
       'prefix' => $this->when($this->prefix, $this->prefix),
       'suffix' => $this->when($this->suffix, $this->suffix),
       'formId' => $this->when($this->form_id, $this->form_id),
@@ -37,6 +38,27 @@ class FieldTransformer extends JsonResource
       }
     }
 
+    $formType = $this->present()->type;
+
+    $data['dynamicField'] = [
+        'type' => in_array($formType['value'],['text', 'textarea', 'number', 'email', 'phone']) ? 'input' : $formType['value'],
+        'name' => $this->name,
+        'props' => [
+            'type' => $formType['value'] === 'phone' ? 'tel' : $formType['value'],
+            'label' => $this->label,
+        ]
+    ];
+
+    $formType['value'] === 'selectmultiple' ? $data['dynamicField']['props']['multiple'] = true : null;
+
+    if(in_array($formType['value'], ['selectmultiple' ,'select', 'radio'])) {
+        $options = json_decode($this->selectable);
+        $data['dynamicField']['props']['options'] = [];
+        foreach($options as $option){
+            $data['dynamicField']['props']['options'][] = ["label" => $option->name, "value" => $option->name];
+        }
+
+    }
     return $data;
   }
 }

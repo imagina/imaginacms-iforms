@@ -27,6 +27,7 @@ class Field extends Model
     'order',
     'prefix',
     'suffix',
+    'width',
   ];
 
   protected $presenter = FieldPresenter::class;

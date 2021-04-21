@@ -14,8 +14,8 @@
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
     @include('iforms::frontend.form.bt-horizontal.fields')
-<!--Validate field terms and conditions-->
-  @if((isset($form->options->urlTermsAndConditions)) && ($form->options->urlTermsAndConditions))
+    <!--Validate field terms and conditions-->
+    @if((isset($form->options->urlTermsAndConditions)) && ($form->options->urlTermsAndConditions))
       <!--Content Terms and Conditions -->
       <div id="contentTermsAndConditions" class="col-12 position-relative">
         <div id="CheckFormTermsAndConditions" class="pl-4">
