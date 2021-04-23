@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\Icommerce\Events\Handlers;
+namespace Modules\Iforms\Events\Handlers;
 
 
 use Illuminate\Support\Arr;
