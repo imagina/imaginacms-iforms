@@ -29,9 +29,6 @@
           $(formid).submit(function (event) {
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
-              //console.warn(info);
-              info.captcha = {'version': '2', 'token': info['g-recaptcha-response']};
-              delete info['g-recaptcha-response'];
               $.ajax({
                   type: 'POST',
                   url: $(this).attr('action'),

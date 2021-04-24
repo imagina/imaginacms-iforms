@@ -17,7 +17,7 @@ class Form extends Component
     public $formRepository;
     public $view;
 
-    public function __construct($id, $layout = 'form-layout-1')
+    public function __construct($id, $layout = 'form-layout-1', $params = [])
     {
         $this->id = $id;
         $this->layout = $layout ?? 'form-layout-1';
@@ -29,8 +29,24 @@ class Form extends Component
     }
 
     public function getForm(){
-       $this->form = $this->formRepository->findBySystemName($this->id);
+
+       $params = $this->makeParamsFunction();
+
+       $this->form = $this->formRepository->getItem($this->id, json_decode(json_encode($params)));
     }
+
+    private function makeParamsFunction(){
+
+        return [
+            "include" => $this->params["include"] ?? ["*"],
+            "fields" => [],
+            "take" => $this->params["take"] ?? false,
+            "page" => $this->params["page"] ?? false,
+            "filter" => $this->params["filter"] ?? [],
+            "order" => $this->params["order"] ?? null
+        ];
+    }
+
 
     public function render()
     {
