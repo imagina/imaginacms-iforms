@@ -72,3 +72,14 @@ NOCAPTCHA_SITEKEY=site-key
 | form-layout-1 | horizontal |
 | form-layout-2 | inline |
 | form-layout-3 | no label |
+
+
+### Iforms newsletter subscription form component
+
+```html
+<x-iforms::newsletter :title="$title" :description="$description" />
+```
+
+`$title` the form title
+
+`$description` the form description

@@ -1,5 +1,5 @@
 <div class="form-content-{{ $form->system_name }} mb-4">
-    <h4 class="mb-0">{{ $form->title }}</h4>
+    <h4 class="mb-0">{{ $title }}</h4>
     <p class="mb-3">{{ $description }}</p>
     <form id="form{{ $form->system_name }}" method="post" action="{{ route('api.iforms.leads.create') }}">
         <input type="hidden" name="form_id" value="{{ $form->id }}" required="">

@@ -16,12 +16,11 @@ class Newsletter extends Component
     public $submitLabel;
     public $view;
 
-    public function __construct($id, $layout = 'newsletter-layout-1', $title, $description = '', $submitLabel = '')
+    public function __construct($layout = 'newsletter-layout-1', $title = '', $description = '', $submitLabel = '')
     {
-        $this->id = $id;
         $this->layout = $layout ?? 'newsletter-layout-1';
         $this->view = "iforms::frontend.components.newsletter.layouts.{$this->layout}.index";
-        $this->title = $title;
+        $this->title = $title ?? '';
         $this->description = $description;
         $this->submitLabel = $submitLabel ?? trans('iforms::forms.button.subscribe');
         $this->getOrAddForm();
@@ -35,14 +34,10 @@ class Newsletter extends Component
             ],
             'fields' => [],
         ];
-        $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->getItem($this->id,json_decode(json_encode($params)));
-        if(empty($this->form)){
-            $params['filter']['field'] = 'id';
-            $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->getItem($this->id,json_decode(json_encode($params)));
-        }
+        $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->getItem('newsletter',json_decode(json_encode($params)));
         if(empty($this->form)){
             $formData = [
-                'system_name' => is_numeric($this->id) ? istr_slug($this->title) : $this->id ,
+                'system_name' => 'newsletter',
                 'title' => $this->title,
                 'active' => 1,
             ];
