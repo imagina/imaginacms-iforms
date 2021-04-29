@@ -17,7 +17,7 @@ return [
     ],
     'form' => [
         'email' => [
-            'name' => 'email',
+            'name' => 'correo',
             'label' => 'Tu E-mail...',
             'placeholder' => 'Tu E-mail...',
             'description' => 'Tu E-mail...',
