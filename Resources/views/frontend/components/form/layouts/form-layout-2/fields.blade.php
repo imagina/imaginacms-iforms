@@ -11,9 +11,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                         <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-transparent border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -25,12 +26,14 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                             @endif
+                        @endif
                     @endif
-                        <input type="text" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                        <input type="text" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                             id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                             @if(!empty($field->suffix))
-                                @if(!empty($field->suffix->type))
+                                @if(!empty($field->suffix->value))
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-transparent border-left-0 text-primary">
                                             @if($field->suffix->type=='icon')
@@ -43,6 +46,7 @@ $fields = $form->fields;
                                 @endif
                             @endif
                         </div>
+                        @endif
                     @endif
                 </div>
             @break
@@ -51,9 +55,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                         <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-transparent border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -65,24 +70,27 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                             @endif
+                        @endif
                     @endif
-                        <textarea  class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" placeholder="{{ $field->placeholder ?? '' }}"
+                        <textarea  class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" placeholder="{{ $field->placeholder ?? '' }}"
                                    name="{{$field->name}}" id="input{{$field->name}}" rows="4"></textarea>
                     @if(!empty($field->prefix) || !empty($field->suffix))
-                        @if(!empty($field->suffix))
-                            @if(!empty($field->suffix->type))
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent border-left-0 text-primary">
-                                        @if($field->suffix->type=='icon')
-                                            <i class="text-primary {{ $field->suffix->value }}"></i>
-                                        @else
-                                            {{ $field->suffix->value }}
-                                        @endif
-                                    </span>
-                                </div>
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->value))
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                            @if($field->suffix->type=='icon')
+                                                <i class="text-primary {{ $field->suffix->value }}"></i>
+                                            @else
+                                                {{ $field->suffix->value }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             @endif
+                            </div>
                         @endif
-                        </div>
                     @endif
                 </div>
             @break
@@ -90,9 +98,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                         <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-transparent border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -104,24 +113,27 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                             @endif
+                        @endif
                     @endif
-                        <input type="number" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                        <input type="number" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                             id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
                     @if(!empty($field->prefix) || !empty($field->suffix))
-                        @if(!empty($field->suffix))
-                            @if(!empty($field->suffix->type))
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent border-left-0 text-primary">
-                                        @if($field->suffix->type=='icon')
-                                            <i class="text-primary {{ $field->suffix->value }}"></i>
-                                        @else
-                                            {{ $field->suffix->value }}
-                                        @endif
-                                    </span>
-                                </div>
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->value))
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                            @if($field->suffix->type=='icon')
+                                                <i class="text-primary {{ $field->suffix->value }}"></i>
+                                            @else
+                                                {{ $field->suffix->value }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             @endif
+                            </div>
                         @endif
-                        </div>
                     @endif
                 </div>
             @break
@@ -129,9 +141,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                         <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-transparent border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -143,12 +156,14 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                             @endif
+                        @endif
                     @endif
-                        <input type="email" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                        <input type="email" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                             id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                             @if(!empty($field->suffix))
-                                @if(!empty($field->suffix->type))
+                                @if(!empty($field->suffix->value))
                                     <div class="input-group-append">
                                         <span class="input-group-text bg-transparent border-left-0 text-primary">
                                             @if($field->suffix->type=='icon')
@@ -161,6 +176,7 @@ $fields = $form->fields;
                                 @endif
                             @endif
                         </div>
+                        @endif
                     @endif
                 </div>
             @break
@@ -169,9 +185,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                   <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
-                        <div class="input-group flex-nowrap">
+                      @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                      <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-transparent border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -183,11 +200,12 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                            @endif
+                      @endif
                     @endif
                     @php
                         $options = json_decode($field->selectable)
                     @endphp
-                    <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                    <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                         id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                     >
                     @foreach($options as $option)
@@ -195,20 +213,22 @@ $fields = $form->fields;
                     @endforeach
                     </select>
                     @if(!empty($field->prefix) || !empty($field->suffix))
-                        @if(!empty($field->suffix))
-                            @if(!empty($field->suffix->type))
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent border-left-0 text-primary">
-                                        @if($field->suffix->type=='icon')
-                                            <i class="text-primary {{ $field->suffix->value }}"></i>
-                                        @else
-                                            {{ $field->suffix->value }}
-                                        @endif
-                                    </span>
-                                </div>
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->value))
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                            @if($field->suffix->type=='icon')
+                                                <i class="text-primary {{ $field->suffix->value }}"></i>
+                                            @else
+                                                {{ $field->suffix->value }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             @endif
+                            </div>
                         @endif
-                        </div>
                     @endif
                 </div>
             @break
@@ -228,9 +248,10 @@ $fields = $form->fields;
                   <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                   <div class="col-9">
                       @if(!empty($field->prefix) || !empty($field->suffix))
+                          @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                           <div class="input-group flex-nowrap">
                               @if(!empty($field->prefix))
-                                  @if(!empty($field->prefix->type))
+                                  @if(!empty($field->prefix->value))
                                       <div class="input-group-prepend">
                                           <span class="input-group-text bg-transparent border-right-0 text-primary">
                                               @if($field->prefix->type=='icon')
@@ -242,24 +263,27 @@ $fields = $form->fields;
                                       </div>
                                   @endif
                               @endif
+                          @endif
                       @endif
-                        <input class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" type="phone" name="{{$field->name}}"
+                        <input class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" type="phone" name="{{$field->name}}"
                            id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}" />
                       @if(!empty($field->prefix) || !empty($field->suffix))
-                          @if(!empty($field->suffix))
-                              @if(!empty($field->suffix->type))
-                                  <div class="input-group-append">
-                                      <span class="input-group-text bg-transparent border-left-0 text-primary">
-                                          @if($field->suffix->type=='icon')
-                                              <i class="text-primary {{ $field->suffix->value }}"></i>
-                                          @else
-                                              {{ $field->suffix->value }}
-                                          @endif
-                                      </span>
-                                  </div>
+                          @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                              @if(!empty($field->suffix))
+                                  @if(!empty($field->suffix->value))
+                                      <div class="input-group-append">
+                                          <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                              @if($field->suffix->type=='icon')
+                                                  <i class="text-primary {{ $field->suffix->value }}"></i>
+                                              @else
+                                                  {{ $field->suffix->value }}
+                                              @endif
+                                          </span>
+                                      </div>
+                                  @endif
                               @endif
-                          @endif
                           </div>
+                          @endif
                       @endif
                   </div>
             @break
@@ -267,9 +291,10 @@ $fields = $form->fields;
                 <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}</label>
                 <div class="col-9">
                     @if(!empty($field->prefix) || !empty($field->suffix))
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                         <div class="input-group flex-nowrap">
                             @if(!empty($field->prefix))
-                                @if(!empty($field->prefix->type))
+                                @if(!empty($field->prefix->value))
                                     <div class="input-group-prepend">
                                         <span class="input-group-text border-right-0 text-primary">
                                             @if($field->prefix->type=='icon')
@@ -281,26 +306,29 @@ $fields = $form->fields;
                                     </div>
                                 @endif
                             @endif
+                        @endif
                     @endif
-                        <input type="date" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->type) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->type) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                        <input type="date" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                            id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}" />
                     @if(!empty($field->prefix) || !empty($field->suffix))
-                        @if(!empty($field->suffix))
-                            @if(!empty($field->suffix->type))
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent border-left-0 text-primary">
-                                        @if($field->suffix->type=='icon')
-                                            <i class="text-primary {{ $field->suffix->value }}"></i>
-                                        @else
-                                            {{ $field->suffix->value }}
-                                        @endif
-                                    </span>
-                                </div>
+                        @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                            @if(!empty($field->suffix))
+                                @if(!empty($field->suffix->value))
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                            @if($field->suffix->type=='icon')
+                                                <i class="text-primary {{ $field->suffix->value }}"></i>
+                                            @else
+                                                {{ $field->suffix->value }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                @endif
                             @endif
-                        @endif
                         </div>
+                        @endif
                     @endif
-                </div>                        &nbsp;&nbsp;
+                </div>
             @break
             @default
                 <label class="col-3 col-form-label">{{$field->label}}</label>
