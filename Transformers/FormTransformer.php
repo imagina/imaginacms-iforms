@@ -8,7 +8,7 @@ use Modules\Iprofile\Transformers\UserTransformer;
 
 class FormTransformer extends JsonResource
 {
-  
+
   public function toArray($request)
   {
     $data = [
@@ -25,7 +25,7 @@ class FormTransformer extends JsonResource
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
     ];
-    
+
     $filter = json_decode($request->filter);
     // Return data with available translations
     if (isset($filter->allTranslations) && $filter->allTranslations) {
@@ -35,7 +35,7 @@ class FormTransformer extends JsonResource
         $data[$lang]['title'] = $this->hasTranslation($lang) ? $this->translate("$lang")['title'] : '';
       }
     }
-    
+
     return $data;
   }
 }
