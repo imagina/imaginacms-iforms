@@ -28,6 +28,7 @@ class Field extends Model
     'prefix',
     'suffix',
     'width',
+    'block_num',
   ];
 
   protected $presenter = FieldPresenter::class;
