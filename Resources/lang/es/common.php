@@ -39,6 +39,10 @@ return [
     'phone' => 'Teléfono',
     'date' => 'Fecha',
   ],
+  'formTypes' => [
+      'normal' => 'Formulario normal',
+      'steps' => 'Formulario con pasos'
+  ],
 
   'status_text' => 'Estatus',
 
