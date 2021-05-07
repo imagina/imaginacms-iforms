@@ -21,6 +21,7 @@ class Form extends Model
         'destination_email',
         'user_id',
         'options',
+        'form_type',
     ];
 
     protected $casts = [

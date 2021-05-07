@@ -19,6 +19,7 @@ class FormTransformer extends JsonResource
       'destinationEmail' => $this->when($this->destination_email, $this->destination_email),
       'userId' => $this->when($this->user_id, $this->user_id),
       'options' => $this->when($this->options, $this->options),
+      'formType' => $this->form_type ?? 0,
       'fields' => FieldTransformer::collection($this->whenLoaded('fields')),
       'leads' => LeadTransformer::collection($this->whenLoaded('leads')),
       'user' => new UserTransformer($this->whenLoaded('user')),
