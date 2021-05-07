@@ -38,6 +38,10 @@ return [
     'phone' => 'Phone',
     'date' => 'Date',
   ],
+  'formTypes' => [
+      'normal' => 'Normal Form',
+      'steps' => 'Form with steps'
+  ],
 
   'status_text' => 'Estatus',
 

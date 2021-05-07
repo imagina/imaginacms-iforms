@@ -14,17 +14,17 @@ use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Iforms\Transformers\TypeTransformer;
 
 // Entity
-use Modules\Iforms\Entities\Type;
+use Modules\Iforms\Entities\FormType;
 
-class TypeApiController extends BaseApiController
+class FormTypeApiController extends BaseApiController
 {
 
-  private $types;
+  private $formTypes;
 
-  public function __construct(Type $formTypes)
+  public function __construct(FormType $formTypes)
   {
     parent::__construct();
-    $this->types = $formTypes;
+    $this->formTypes = $formTypes;
   }
 
   /**
@@ -38,7 +38,7 @@ class TypeApiController extends BaseApiController
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
       //Request to Repository
-      $dataEntity = $this->types->lists();
+      $dataEntity = $this->formTypes->lists();
       //Response
       $response = ["data" => $dataEntity];
       //If request pagination add meta-page

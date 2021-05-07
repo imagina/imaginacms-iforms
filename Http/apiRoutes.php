@@ -12,5 +12,7 @@ $router->group(['prefix' => 'iform/v4'], function (Router $router) {
 
   require ('ApiRoutes/typeRoutes.php');
 
+  require ('ApiRoutes/formTypeRoutes.php');
+
 });
 
