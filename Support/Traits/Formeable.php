@@ -19,4 +19,9 @@ Trait Formeable
             ->withPivot('formeable_type')
             ->withTimestamps();
     }
+
+    public function getFormAttribute()
+    {
+        return $this->forms->first();
+    }
 }

@@ -100,7 +100,20 @@ class IformsServiceProvider extends ServiceProvider
                 return new \Modules\Iforms\Repositories\Cache\CacheLeadDecorator($repository);
             }
         );
+        $this->app->bind(
+            'Modules\Iforms\Repositories\BlockRepository',
+            function () {
+                $repository = new \Modules\Iforms\Repositories\Eloquent\EloquentBlockRepository(new \Modules\Iforms\Entities\Block());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Iforms\Repositories\Cache\CacheBlockDecorator($repository);
+            }
+        );
 // add bindings
+
 
         $this->app->bind('Modules\Iforms\Presenters\FormPresenter');
 

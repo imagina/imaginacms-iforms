@@ -28,7 +28,7 @@ class Field extends Model
     'prefix',
     'suffix',
     'width',
-    'block_num',
+    'block_id',
   ];
 
   protected $presenter = FieldPresenter::class;
@@ -42,6 +42,11 @@ class Field extends Model
   public function form()
   {
     return $this->belongsTo(Form::class);
+  }
+
+  public function block()
+  {
+    return $this->belongsTo(Block::class);
   }
 
   public function getSelectableAttribute($value)
