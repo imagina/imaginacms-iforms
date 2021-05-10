@@ -18,8 +18,8 @@ return [
     'form' => [
     ],
     'messages' => [
-        'default_block_title' => 'Basic Data',
-        'default_block_description' => 'Basic Data',
+        'default_block_title' => 'Información Básica',
+        'default_block_description' => 'Información Básica',
     ],
     'validation' => [
     ],
