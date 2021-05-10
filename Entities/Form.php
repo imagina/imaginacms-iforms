@@ -31,12 +31,17 @@ class Form extends Model
 
     public function fields()
     {
-        return $this->hasMany(Field::class)->with('translations')->orderBy('block_num','asc')->orderBy('order','asc');
+        return $this->hasMany(Field::class)->with('translations')->orderBy('order','asc');
     }
 
     public function leads()
     {
         return $this->hasMany(Lead::class);
+    }
+
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
     }
 
     public function user()
