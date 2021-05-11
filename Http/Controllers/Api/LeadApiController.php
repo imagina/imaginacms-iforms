@@ -120,7 +120,7 @@ class LeadApiController extends BaseApiController
                 if ($field->name == 'name') {
                     $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
                 }
-                $attr['values'][$field->name] = $data[$field->name];
+                $attr['values'][$field->name] = $data[$field->name] ?? null;
             }
 
             $attr['reply']=json_decode(json_encode($attr['reply']));
