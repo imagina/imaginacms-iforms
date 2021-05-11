@@ -15,6 +15,7 @@ class BlockTransformer extends JsonResource
       'title' => $this->when($this->title, $this->title),
       'description' => $this->when($this->description, $this->description),
       'options' => $this->when($this->options, $this->options),
+      'sortOrder' => $this->when($this->sort_order, $this->sort_order),
       'fields' => FieldTransformer::collection($this->whenLoaded('fields')),
       'form' => new FormTransformer($this->whenLoaded('form')),
       'createdAt' => $this->when($this->created_at, $this->created_at),
