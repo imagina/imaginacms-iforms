@@ -21,6 +21,7 @@ class FormTransformer extends JsonResource
       'options' => $this->when($this->options, $this->options),
       'formType' => $this->form_type ?? 0,
       'fields' => FieldTransformer::collection($this->whenLoaded('fields')),
+      'blocks' => BlockTransformer::collection($this->whenLoaded('blocks')),
       'leads' => LeadTransformer::collection($this->whenLoaded('leads')),
       'user' => new UserTransformer($this->whenLoaded('user')),
       'createdAt' => $this->when($this->created_at, $this->created_at),
