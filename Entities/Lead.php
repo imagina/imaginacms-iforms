@@ -3,6 +3,7 @@
 namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\User\Entities\Sentinel\User;
 
 class Lead extends Model
 {
@@ -10,6 +11,7 @@ class Lead extends Model
 
     protected $fillable = [
         'form_id',
+        'assigned_to',
         'values'
     ];
 
@@ -20,5 +22,9 @@ class Lead extends Model
     public function form()
     {
         return $this->belongsTo(Form::class);
+    }
+    public function assignedTo()
+    {
+        return $this->belongsTo(User::class,'assigned_to');
     }
 }

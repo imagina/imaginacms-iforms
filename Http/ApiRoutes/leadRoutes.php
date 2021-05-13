@@ -24,14 +24,14 @@ $router->group(['prefix' => 'leads'], function (Router $router) {
     'uses' => 'LeadApiController@show',
     'middleware' => ['auth:api']
   ]);
-/*
+
   //Route update
   $router->put('/{criteria}', [
     'as' => 'api.iforms.leads.update',
     'uses' => 'LeadApiController@update',
     'middleware' => ['auth:api']
   ]);
-*/
+
   //Route delete
   $router->delete('/{criteria}', [
     'as' => 'api.iforms.leads.delete',
