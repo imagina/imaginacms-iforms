@@ -33,6 +33,13 @@ $router->group(['prefix' => 'forms'], function (Router $router) {
   ]);
   
   //Route update
+  $router->put('/blocks', [
+    'as' => 'api.iforms.forms.blocks.batch.update',
+    'uses' => 'BlockApiController@batchUpdate',
+    'middleware' => ['auth:api']
+  ]);
+  
+  //Route update
   $router->put('/{criteria}', [
     'as' => 'api.iforms.forms.update',
     'uses' => 'FormApiController@update',
@@ -46,5 +53,4 @@ $router->group(['prefix' => 'forms'], function (Router $router) {
     'middleware' => ['auth:api']
   ]);
   
-
 });

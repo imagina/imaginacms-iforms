@@ -154,13 +154,39 @@ class LeadApiController extends BaseApiController
             $params = $this->getParamsRequest($request);
 
             $data = $request->input('attributes');
-            //Validate Request
+
+  
+          $form = $this->form->find($data['form_id']);
+          if (empty($form->id)) {
+            throw new \Exception(trans('iforms::common.forms_not_found'));
+          }
+          $attr = array();
+          $attr['form'] = $form;
+          $attr['form_id'] = $form->id;
+          $attr['values'] = array();
+          $attr['reply'] = ['to'=>env('MAIL_FROM_ADDRESS'),'toName'=>'Client'];
+          $fields = $form->fields;
+          foreach ($fields as $field) {
+            if ($field->name == 'email') {
+              $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
+            }
+            if ($field->name == 'name') {
+              $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
+            }
+            $attr['values'][$field->name] = $data[$field->name] ?? null;
+          }
+  
+          $attr['reply']=json_decode(json_encode($attr['reply']));
+          
+          //Validate Request
             $this->validateRequestApi(new UpdateRequest($data));
            $entity = $this->lead->getItem($criteria, $params);
+           
             //Update data
-            $newData = $this->lead->update($entity, $data);
+            $newData = $this->lead->update($entity, $attr);
             //Response
-            $response = ['data' => $newData];
+          //Response
+          $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \DB::rollback();//Rollback to Data Base

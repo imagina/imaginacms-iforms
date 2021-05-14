@@ -29,7 +29,7 @@ $router->group(['prefix' => 'leads'], function (Router $router) {
   $router->put('/{criteria}', [
     'as' => 'api.iforms.leads.update',
     'uses' => 'LeadApiController@update',
-    'middleware' => ['auth:api']
+    'middleware' => ['logged.in']
   ]);
 
   //Route delete
