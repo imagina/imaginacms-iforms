@@ -14,7 +14,7 @@ class LeadTransformer extends JsonResource
     $data = [
       'id' => $this->when($this->id, $this->id),
       'formId' => $this->when($this->form_id, $this->form_id),
-      'assignedToId' => $this->when($this->assigned_to, $this->assigned_to),
+      'assignedToId' => $this->when($this->assigned_to_id, $this->assigned_to_id),
       'values' => $this->when($this->values, $this->values),
       'valuesImploded' => "ID: $this->id, ". Str::limit(implode( ", ", $this->values ),150),
       'form' => new FormTransformer($this->whenLoaded('form')),
