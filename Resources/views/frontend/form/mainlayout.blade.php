@@ -30,7 +30,7 @@
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
               $.ajax({
-                  type: 'POST',
+                  type: '{{isset($method) ? $method : 'POST'}}',
                   url: $(this).attr('action'),
                   dataType: 'json',
                   data: {attributes: info},

@@ -41,7 +41,7 @@ class Form extends Model
 
     public function blocks()
     {
-        return $this->hasMany(Block::class);
+        return $this->hasMany(Block::class)->orderBy('sort_order','asc');
     }
 
     public function user()

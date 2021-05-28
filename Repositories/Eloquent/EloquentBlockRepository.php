@@ -211,4 +211,18 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
         }
 
     }
+  
+  public function batchUpdate($data)
+  {
+    $blocks = [];
+    foreach ($data as $block){
+      
+      $model = $this->model->find($block['id']);
+
+      if(isset($model->id))
+        $model->update((array)$block);
+      
+    }
+    return $blocks;
+  }
 }

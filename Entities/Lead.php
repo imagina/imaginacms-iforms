@@ -11,7 +11,7 @@ class Lead extends Model
 
     protected $fillable = [
         'form_id',
-        'assigned_to',
+        'assigned_to_id',
         'values'
     ];
 
@@ -25,6 +25,6 @@ class Lead extends Model
     }
     public function assignedTo()
     {
-        return $this->belongsTo(User::class,'assigned_to');
+        return $this->belongsTo(User::class,'assigned_to_id');
     }
 }

@@ -154,4 +154,26 @@ class BlockApiController extends BaseApiController
     }
     return response()->json($response, $status ?? 200);
   }
+  
+  public function batchUpdate (Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+      $params = $this->getParamsRequest($request);
+      
+      $data = $request->input('attributes');
+      
+      //Update data
+      $newData = $this->block->batchUpdate($data);
+      //Response
+      $response = ['data' => 'updated items'];
+      \DB::commit(); //Commit to Data Base
+    } catch (\Exception $e) {
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+    }
+    return response()->json($response, $status ?? 200);
+    
+  }
 }
