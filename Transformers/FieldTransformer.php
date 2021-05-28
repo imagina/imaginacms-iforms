@@ -54,7 +54,7 @@ class FieldTransformer extends JsonResource
     $formType['value'] === 'selectmultiple' ? $data['dynamicField']['props']['multiple'] = true : null;
 
     if(in_array($formType['value'], ['selectmultiple' ,'select', 'radio'])) {
-        $options = json_decode($this->selectable);
+        $options = json_decode($this->selectable) ?? [];
         $data['dynamicField']['props']['options'] = [];
         foreach($options as $option){
             $data['dynamicField']['props']['options'][] = ["label" => $option->name, "value" => $option->name];
