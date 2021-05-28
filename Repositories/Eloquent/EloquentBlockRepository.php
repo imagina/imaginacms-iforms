@@ -110,14 +110,7 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
 
             if (isset($filter->field))//Filter by specific field
                 $field = $filter->field;
-
-            if(isset($filter->onlyTrashed) && $filter->onlyTrashed){
-                $query->onlyTrashed();
-            }
-
-            if(isset($filter->withTrashed) && $filter->withTrashed){
-                $query->withTrashed();
-            }
+            
 
             // find translatable attributes
             $translatedAttributes = $this->model->translatedAttributes;
@@ -182,35 +175,23 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
         event(new UpdateMedia($model, $data));
     }
 
-    /**
-     * Standard Api Method
-     * @param $criteria
-     * @param bool $params
-     */
-    public function deleteBy($criteria, $params = false)
-    {
-        /*== initialize query ==*/
-        $query = $this->model->query();
-        $restore = false;
+public function deleteBy($criteria, $params = false)
+  {
+    /*== initialize query ==*/
+    $query = $this->model->query();
 
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
 
-            if (isset($filter->field))//Where field
-                $field = $filter->field;
-            if(isset($filter->restore))
-                $restore = $filter->restore;
-        }
-
-        /*== REQUEST ==*/
-        $model = $query->where($field ?? 'id', $criteria)->withTrashed()->first();
-        if($model) {
-            $restore === true ? $model->restore() : $model->delete();
-            $restore === true ?: event(new DeleteMedia($model->id, get_class($model)));
-        }
-
+      if (isset($filter->field))//Where field
+        $field = $filter->field;
     }
+
+    /*== REQUEST ==*/
+    $model = $query->where($field ?? 'id', $criteria)->first();
+    $model ? $model->delete() : false;
+  }
   
   public function batchUpdate($data)
   {
