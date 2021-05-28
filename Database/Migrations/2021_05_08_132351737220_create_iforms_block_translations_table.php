@@ -15,8 +15,8 @@ class CreateIformsBlockTranslationsTable extends Migration
         Schema::create('iforms__block_translations', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->string('title');
+            $table->text('description');
             $table->integer('block_id')->unsigned();
             $table->string('locale')->index();
             $table->unique(['block_id', 'locale']);
