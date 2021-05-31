@@ -29,6 +29,7 @@ class Field extends Model
     'suffix',
     'width',
     'block_id',
+    'options',
   ];
 
   protected $presenter = FieldPresenter::class;
@@ -37,6 +38,7 @@ class Field extends Model
     'selectable' => 'array',
     'prefix' => 'array',
     'suffix' => 'array',
+    'options' => 'array',
   ];
 
   public function form()
@@ -79,5 +81,14 @@ class Field extends Model
     $this->attributes['suffix'] = json_encode($value);
   }
 
+  public function getOptionsAttribute($value)
+  {
+    return json_decode($value);
+  }
+
+  public function setOptionsAttribute($value)
+  {
+    $this->attributes['options'] = json_encode($value);
+  }
 
 }

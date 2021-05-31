@@ -111,14 +111,6 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
             if (isset($filter->field))//Filter by specific field
                 $field = $filter->field;
 
-            if(isset($filter->onlyTrashed) && $filter->onlyTrashed){
-                $query->onlyTrashed();
-            }
-
-            if(isset($filter->withTrashed) && $filter->withTrashed){
-                $query->withTrashed();
-            }
-
             // find translatable attributes
             $translatedAttributes = $this->model->translatedAttributes;
 
@@ -211,17 +203,17 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
         }
 
     }
-  
+
   public function batchUpdate($data)
   {
     $blocks = [];
     foreach ($data as $block){
-      
+
       $model = $this->model->find($block['id']);
 
       if(isset($model->id))
         $model->update((array)$block);
-      
+
     }
     return $blocks;
   }
