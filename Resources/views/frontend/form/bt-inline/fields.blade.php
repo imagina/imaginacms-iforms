@@ -203,13 +203,13 @@ $fields = $form->fields;
                                     @endif
                                     @endif
                                     @php
-                                        $options = json_decode($field->selectable)
+                                        $options = $field->options->fieldOptions ?? json_decode($field->selectable)
                                     @endphp
                                     <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
                                             id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                                     >
                                         @foreach($options as $option)
-                                            <option value="{{ $option->name }}">{{ $option->name  }}</option>
+                                            <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
                                         @endforeach
                                     </select>
                                     @if(!empty($field->prefix) || !empty($field->suffix))
@@ -236,11 +236,11 @@ $fields = $form->fields;
                     <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
                     <div class="col-9">
                         @php
-                            $options = json_decode($field->selectable)
+                            $options = $field->options->fieldOptions ?? json_decode($field->selectable)
                         @endphp
                         @foreach($options as $k=>$option)
-                            <input class="form-check-input" id="input{{$field->name}}{{ $k }}" type="radio" name="{{$field->name}}" value="{{ $option->name }}"/>
-                            <label for="input{{$field->name}}{{ $k }}" class="form-check-label">{{ $option->name  }}</label>
+                            <input class="form-check-input" id="input{{$field->name}}{{ $k }}" type="radio" name="{{$field->name}}" value="{{ $option->name ?? $option }}"/>
+                            <label for="input{{$field->name}}{{ $k }}" class="form-check-label">{{ $option->name ?? $option }}</label>
                         @endforeach
                     </div>
                     @break

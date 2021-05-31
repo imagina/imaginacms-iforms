@@ -8,9 +8,13 @@ class CreateLeadRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [
-            'g-recaptcha-response' => 'required|icaptcha'
-        ];
+        $captcha = setting('isite::activateCaptcha');
+        if($captcha && $captcha == '1'){
+            return [
+                 'g-recaptcha-response' => 'required|icaptcha'
+            ];
+       }
+        return [];
     }
 
     public function translationRules()

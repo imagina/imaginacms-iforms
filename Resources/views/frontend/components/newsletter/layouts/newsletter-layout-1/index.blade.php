@@ -13,7 +13,7 @@
                 </button>
             </div>
         </div>
-        <x-isite::captcha :formId="$form->system_name" />
+        <x-isite::captcha formId="{{'form'.$form->system_name }}" />
     </form>
     <div class="formerror"></div>
 </div>
