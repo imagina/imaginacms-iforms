@@ -110,8 +110,6 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
 
             if (isset($filter->field))//Filter by specific field
                 $field = $filter->field;
-            
-
             // find translatable attributes
             $translatedAttributes = $this->model->translatedAttributes;
 
@@ -192,17 +190,16 @@ public function deleteBy($criteria, $params = false)
     $model = $query->where($field ?? 'id', $criteria)->first();
     $model ? $model->delete() : false;
   }
-  
   public function batchUpdate($data)
   {
     $blocks = [];
     foreach ($data as $block){
-      
+
       $model = $this->model->find($block['id']);
 
       if(isset($model->id))
         $model->update((array)$block);
-      
+
     }
     return $blocks;
   }
