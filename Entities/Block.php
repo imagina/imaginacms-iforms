@@ -29,7 +29,7 @@ class Block extends Model
     }
 
     public function fields(){
-        return $this->hasMany(Field::class);
+      return $this->hasMany(Field::class)->with('translations')->orderBy('order','asc');
     }
 
     public function getOptionsAttribute($value)
