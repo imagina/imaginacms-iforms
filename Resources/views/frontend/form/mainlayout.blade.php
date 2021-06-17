@@ -1,6 +1,5 @@
 @section('scripts-owl')
   @parent
-  <script src="https://www.google.com/recaptcha/api.js"></script>
   <style>
     #loading-form {
       display: none;
