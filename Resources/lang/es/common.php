@@ -38,6 +38,7 @@ return [
     'location' => 'Localizaciòn',
     'phone' => 'Teléfono',
     'date' => 'Fecha',
+    'file' => 'Archivo',
   ],
   'formTypes' => [
       'normal' => 'Formulario normal',

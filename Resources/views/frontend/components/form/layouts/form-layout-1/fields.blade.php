@@ -328,6 +328,50 @@ $fields = $form->fields;
         </div>
       @break
 
+      @case('file')
+        <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+        <div class="col-12 py-1 px-1">
+            @if(!empty($field->prefix) || !empty($field->suffix))
+                @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                    <div class="input-group flex-nowrap">
+                        @if(!empty($field->prefix))
+                            @if(!empty($field->prefix->value))
+                                <div class="input-group-prepend">
+                            <span class="input-group-text bg-transparent border-right-0 text-primary">
+                                @if($field->prefix->type=='icon')
+                                    <i class="text-primary {{ $field->prefix->value }}"></i>
+                                @else
+                                    {{ $field->prefix->value }}
+                                @endif
+                            </span>
+                                        </div>
+                                    @endif
+                                @endif
+                            @endif
+                        @endif
+            <input type="file" class="form-control border-0 {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                   id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+            @if(!empty($field->prefix) || !empty($field->suffix))
+                    @if(!empty($field->prefix->value) || !empty($field->suffix->value))
+                        @if(!empty($field->suffix))
+                            @if(!empty($field->suffix->value))
+                                <div class="input-group-append">
+                                  <span class="input-group-text bg-transparent border-left-0 text-primary">
+                                      @if($field->suffix->type=='icon')
+                                          <i class="text-primary {{ $field->suffix->value }}"></i>
+                                      @else
+                                          {{ $field->suffix->value }}
+                                      @endif
+                                  </span>
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+                @endif
+            @endif
+        </div>
+      @break
+
       @default
         <label class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
         <div class="col-12 py-1 px-1">

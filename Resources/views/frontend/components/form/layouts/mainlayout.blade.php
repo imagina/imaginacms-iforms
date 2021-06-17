@@ -28,12 +28,15 @@
           var formid = '#{{$formId}}';
           $(formid).submit(function (event) {
               event.preventDefault();
-              var info = objectifyForm($(this).serializeArray());
+              //var info = objectifyForm($(this).serializeArray());
+              var info = new FormData(this);
               $.ajax({
                   type: 'POST',
                   url: $(this).attr('action'),
                   dataType: 'json',
                   data: {attributes: info},
+                  processData: false,
+                  contentType: false,
                   beforeSend: function (data) {
                       $('#loading-form').css('display', 'block');
                   },
