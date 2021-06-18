@@ -155,25 +155,25 @@ class LeadApiController extends BaseApiController
 
             $data = $request->input('attributes');
 
-  
-        
-       
+
+
+
           $attr = array();
-          
-          
-          
+
+
+
           if(isset($data["assigned_to_id"]))
             $attr['assigned_to_id'] = $data["assigned_to_id"];
-  
+
           if(isset($data['form_id'])){
             $form = $this->form->find($data['form_id']);
-            
+
             if(isset($form->id)){
               $attr['form'] = $form;
               $attr['form_id'] = $form->id;
               $attr['values'] = array();
               $attr['reply'] = ['to'=>env('MAIL_FROM_ADDRESS'),'toName'=>'Client'];
-  
+
               $fields = $form->fields;
               foreach ($fields as $field) {
                 if ($field->name == 'email') {
@@ -184,17 +184,17 @@ class LeadApiController extends BaseApiController
                 }
                 $attr['values'][$field->name] = $data[$field->name] ?? null;
               }
-  
+
               $attr['reply']=json_decode(json_encode($attr['reply']));
             }
-            
+
           }
-         
-          
+
+
           //Validate Request
             //$this->validateRequestApi(new UpdateRequest($data));
            $entity = $this->lead->getItem($criteria, $params);
-           
+
             //Update data
             $newData = $this->lead->update($entity, $attr);
             //Response

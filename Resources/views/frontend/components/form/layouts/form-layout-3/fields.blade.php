@@ -25,7 +25,11 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                <input type="text" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                <input type="text" class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? $fieldsParams[$field->name]['class'] ?? '' :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       name="{{$field->name}}"
+                       value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value']) ?? '' : '' }}"
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
                        id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -66,7 +70,12 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                    <textarea class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}"
+                    <textarea class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                              value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                              @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                              @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
+                              name="{{$field->name}}"
+                              placeholder="{{ $field->placeholder ?? '' }}"
                               rows="4" id="input{{$field->name}}"></textarea>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -106,7 +115,11 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                    <input type="number" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                    <input type="number" class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       name="{{$field->name}}"
+                       value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
                        id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -146,7 +159,10 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                    <input type="email" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                    <input type="email" class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       name="{{$field->name}}"
+                       value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
                        id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -190,8 +206,12 @@ $fields = $form->fields;
                 @php
                     $options = $field->options->fieldOptions ?? json_decode($field->selectable)
                 @endphp
-                <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                        id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
+                <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                    value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                    @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                    @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
+                    name="{{$field->name}}"
+                    id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                 >
                     @foreach($options as $option)
                         <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
@@ -245,7 +265,11 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                    <input type="phone" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                    <input type="phone" class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
+                       name="{{$field->name}}"
                        id="input{{$field->name}}" {{$field->required?'required':''}}   placeholder="{{ $field->placeholder ?? '' }}">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -285,7 +309,11 @@ $fields = $form->fields;
                         @endif
                     @endif
                 @endif
-                    <input type="date" class="form-control bg-transparent {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
+                    <input type="date" class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       name="{{$field->name}}"
+                       value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled @endif
+                       @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly @endif
                        id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
                 @if(!empty($field->prefix) || !empty($field->suffix))
                     @if(!empty($field->prefix->value) || !empty($field->suffix->value))

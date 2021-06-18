@@ -1,6 +1,5 @@
 @section('scripts-owl')
   @parent
-  <script src="https://www.google.com/recaptcha/api.js"></script>
   <style>
     #loading-form {
       display: none;
@@ -29,6 +28,7 @@
           $(formid).submit(function (event) {
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
+              console.warn(info);
               $.ajax({
                   type: 'POST',
                   url: $(this).attr('action'),
@@ -56,7 +56,7 @@
   </script>
 @endsection
 @once
-    @section('scripts')
+    @section('scripts-owl')
         @parent
         <script>
           function objectifyForm(formArray) {//serialize data function
