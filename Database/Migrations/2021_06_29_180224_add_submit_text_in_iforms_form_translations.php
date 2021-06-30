@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOptionsInIformsFieldsTable extends Migration
+class AddSubmitTextInIformsFormTranslations extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddOptionsInIformsFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::table('iforms__fields', function (Blueprint $table) {
-            $table->text('options')->nullable();
+        Schema::table('', function (Blueprint $table) {
+
         });
     }
 
@@ -25,8 +25,8 @@ class AddOptionsInIformsFieldsTable extends Migration
      */
     public function down()
     {
-        Schema::table('iforms__fields', function (Blueprint $table) {
-            $table->dropColumn(['options']);
+        Schema::table('', function (Blueprint $table) {
+
         });
     }
 }

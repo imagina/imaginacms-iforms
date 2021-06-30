@@ -12,7 +12,9 @@ class Form extends Model
     protected $table = 'iforms__forms';
 
     public $translatedAttributes = [
-        'title'
+        'title',
+        'submit_text',
+        'success_text',
     ];
 
     protected $fillable = [
