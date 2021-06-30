@@ -13,8 +13,9 @@ class AddSubmitTextInIformsFormTranslations extends Migration
      */
     public function up()
     {
-        Schema::table('', function (Blueprint $table) {
-
+        Schema::table('iforms__form_translations', function (Blueprint $table) {
+            $table->string('success_text')->nullable()->after('title');
+            $table->string('submit_text')->nullable()->after('title');
         });
     }
 
@@ -25,8 +26,8 @@ class AddSubmitTextInIformsFormTranslations extends Migration
      */
     public function down()
     {
-        Schema::table('', function (Blueprint $table) {
-
+        Schema::table('iforms__form_translations', function (Blueprint $table) {
+            $table->dropColumn(['submit_text','success_text']);
         });
     }
 }
