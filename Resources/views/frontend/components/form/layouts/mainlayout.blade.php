@@ -28,9 +28,9 @@
           $(formid).submit(function (event) {
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
-              var submitEvent = '{{ $submitEvent ?? '' }}';
-              if(submitEvent != ''){
-                window.livewire.emit(submitEvent, info);
+              var livewireSubmitEvent = '{{ $livewireSubmitEvent ?? '' }}';
+              if(livewireSubmitEvent != ''){
+                window.livewire.emit(livewireSubmitEvent, info);
               }else {
                 $.ajax({
                   type: 'POST',
