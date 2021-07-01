@@ -32,7 +32,7 @@
 
     <div class="form-group row">
       <div class="col-sm-12 text-right">
-        <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+        <button type="submit" class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
       </div>
     </div>
   </form>

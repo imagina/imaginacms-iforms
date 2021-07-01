@@ -8,7 +8,7 @@
 
         <x-isite::captcha :formId="$formId" />
         <div class="w-100 text-right">
-            <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+            <button type="submit" class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
         </div>
     </form>
 

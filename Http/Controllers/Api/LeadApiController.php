@@ -128,7 +128,7 @@ class LeadApiController extends BaseApiController
 
             $newData = $this->lead->create($attr);
             //Response
-            $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
+            $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
