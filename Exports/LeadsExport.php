@@ -77,6 +77,7 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
           "title" => "New report",
           "message" => "Your report is ready!",
           "link" => url(''),
+          "isAction" => true,
           "frontEvent" => [
             "name" => "isite.export.ready",
             "data" => $this->exportParams
