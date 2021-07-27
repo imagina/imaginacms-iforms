@@ -42,14 +42,14 @@
                   },
                   success: function (data) {
                     $('#loading-form').css('display', 'none');
-                    $(".content-form{{$formRand}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
+                    $(".content-form{{$formId}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
 
                   },
                   error: function (data) {
                     $('#loading-form').css('display', 'none');
                     var errors = JSON.parse(data.responseJSON.errors);
                     for (var x in errors) {
-                      $(".content-form{{$formRand}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + errors[x] + '</span> </p>');
+                      $(".content-form{{$formId}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + errors[x] + '</span> </p>');
                     }
 
                   }

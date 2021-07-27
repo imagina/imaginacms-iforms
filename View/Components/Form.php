@@ -14,12 +14,11 @@ class Form extends Component
     public $fieldsParams;
     public $form;
     public $formId;
-    public $formRand;
     public $formRepository;
     public $livewireSubmitEvent;
     public $view;
 
-    public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [], $fieldsParams = [])
+    public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [], $fieldsParams = [], $formId = null)
     {
         $this->id = $id;
         $this->layout = $layout ?? 'form-layout-1';
@@ -28,8 +27,7 @@ class Form extends Component
         $this->formRepository = app('Modules\\Iforms\\Repositories\\FormRepository');
         $this->getForm();
         $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
-        $this->formRand = rand(0,4000);
-        $this->formId = Str::slug($this->form->system_name,'_').$this->formRand;
+        $this->formId = Str::slug($this->form->system_name,'_').($formId ?? '');
     }
 
     public function getForm(){

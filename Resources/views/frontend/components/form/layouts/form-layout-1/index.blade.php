@@ -5,7 +5,7 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$formRand}}">
+<div class="content-form{{$formId}}">
   <div class="formerror"></div>
   <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
