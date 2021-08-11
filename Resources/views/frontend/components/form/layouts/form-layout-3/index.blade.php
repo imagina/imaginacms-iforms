@@ -1,4 +1,4 @@
-<div class="content-form{{$formRand}}">
+<div class="content-form{{$formId}}">
     <div class="formerror"></div>
     <form id="{{$formId}}" class="form-horizontal" action="{{route('api.iforms.leads.create')}}">
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">
@@ -8,7 +8,7 @@
             <x-isite::captcha :formId="$formId" />
         </div>
         <div class="w-100 text-right">
-            <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+            <button type="submit" class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
         </div>
     </form>
 </div>

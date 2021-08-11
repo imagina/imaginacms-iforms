@@ -11,21 +11,23 @@ class Form extends Component
 
     public $id;
     public $layout;
+    public $fieldsParams;
     public $form;
     public $formId;
-    public $formRand;
     public $formRepository;
+    public $livewireSubmitEvent;
     public $view;
 
-    public function __construct($id, $layout = 'form-layout-1', $params = [])
+    public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [], $fieldsParams = [], $formId = null)
     {
         $this->id = $id;
         $this->layout = $layout ?? 'form-layout-1';
+        $this->fieldsParams = $fieldsParams ?? [];
         $this->view = "iforms::frontend.components.form.layouts.{$this->layout}.index";
         $this->formRepository = app('Modules\\Iforms\\Repositories\\FormRepository');
         $this->getForm();
-        $this->formRand = rand(0,5000);
-        $this->formId = "form".$this->id.$this->formRand;
+        $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
+        $this->formId = Str::slug($this->form->system_name,'_').($formId ?? '');
     }
 
     public function getForm(){

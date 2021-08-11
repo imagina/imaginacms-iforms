@@ -4,9 +4,12 @@ namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\User\Entities\Sentinel\User;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Lead extends Model
 {
+    use MediaRelation;
+
     protected $table = 'iforms__leads';
 
     protected $fillable = [

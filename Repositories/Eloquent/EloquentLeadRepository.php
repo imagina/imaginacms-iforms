@@ -5,6 +5,7 @@ namespace Modules\Iforms\Repositories\Eloquent;
 use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Ihelpers\Events\CreateMedia;
 
 class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepository
 {
@@ -116,9 +117,9 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
   }
   public function create($data)
   {
-
     $lead= $this->model->create($data);
     event(new  LeadWasCreated($lead,$data));
+    event(new CreateMedia($lead, $data));
 
     return $lead;
   }

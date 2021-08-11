@@ -5,7 +5,7 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$formRand}}">
+<div class="content-form{{$formId}}">
   <div class="formerror"></div>
   <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
@@ -32,7 +32,7 @@
 
     <div class="form-group row">
       <div class="col-sm-12 text-right">
-        <button type="submit" class="btn btn-primary">{{trans('iforms::forms.form.submit')}}</button>
+        <button type="submit" class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
       </div>
     </div>
   </form>

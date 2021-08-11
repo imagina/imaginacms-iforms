@@ -15,6 +15,8 @@ class FormTransformer extends JsonResource
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
       'systemName' => $this->when($this->system_name, $this->system_name),
+      'submitText' => $this->when($this->submit_text, $this->submit_text),
+      'successText' => $this->when($this->success_text, $this->success_text),
       'active' => $this->when($this->active, $this->active),
       'destinationEmail' => $this->when($this->destination_email, $this->destination_email),
       'userId' => $this->when($this->user_id, $this->user_id),
@@ -35,6 +37,8 @@ class FormTransformer extends JsonResource
       $languages = \LaravelLocalization::getSupportedLocales();
       foreach ($languages as $lang => $value) {
         $data[$lang]['title'] = $this->hasTranslation($lang) ? $this->translate("$lang")['title'] : '';
+        $data[$lang]['submitText'] = $this->hasTranslation($lang) ? $this->translate("$lang")['submit_text'] : '';
+        $data[$lang]['successText'] = $this->hasTranslation($lang) ? $this->translate("$lang")['success_text'] : '';
       }
     }
 

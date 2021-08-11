@@ -1,6 +1,5 @@
 @section('scripts-owl')
   @parent
-  <script src="https://www.google.com/recaptcha/api.js"></script>
   <style>
     #loading-form {
       display: none;
@@ -29,34 +28,39 @@
           $(formid).submit(function (event) {
               event.preventDefault();
               var info = objectifyForm($(this).serializeArray());
-              $.ajax({
+              var livewireSubmitEvent = '{{ $livewireSubmitEvent ?? '' }}';
+              if(livewireSubmitEvent != ''){
+                window.livewire.emit(livewireSubmitEvent, info);
+              }else {
+                $.ajax({
                   type: 'POST',
                   url: $(this).attr('action'),
                   dataType: 'json',
                   data: {attributes: info},
                   beforeSend: function (data) {
-                      $('#loading-form').css('display', 'block');
+                    $('#loading-form').css('display', 'block');
                   },
                   success: function (data) {
-                      $('#loading-form').css('display', 'none');
-                      $(".content-form{{$formRand}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
+                    $('#loading-form').css('display', 'none');
+                    $(".content-form{{$formId}}").html('<p class="alert bg-primary" role="alert"><span>' + data.data + '</span> </p>');
 
                   },
                   error: function (data) {
-                      $('#loading-form').css('display', 'none');
-                      var errors = JSON.parse(data.responseJSON.errors);
-                      for(var x in errors){
-                        $(".content-form{{$formRand}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + errors[x] + '</span> </p>');
-                      }
+                    $('#loading-form').css('display', 'none');
+                    var errors = JSON.parse(data.responseJSON.errors);
+                    for (var x in errors) {
+                      $(".content-form{{$formId}} .formerror").append('<p class="alert alert-danger" role="alert"><span>' + errors[x] + '</span> </p>');
+                    }
 
                   }
-              })
-          })
+                });
+              }
+          });
       });
   </script>
 @endsection
 @once
-    @section('scripts')
+    @section('scripts-owl')
         @parent
         <script>
           function objectifyForm(formArray) {//serialize data function

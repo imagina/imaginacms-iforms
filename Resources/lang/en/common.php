@@ -37,6 +37,7 @@ return [
     'location' => 'Location',
     'phone' => 'Phone',
     'date' => 'Date',
+    'file' => 'File',
   ],
   'formTypes' => [
       'normal' => 'Normal Form',
