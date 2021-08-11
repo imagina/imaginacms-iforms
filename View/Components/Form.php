@@ -24,8 +24,8 @@ class Form extends Component
         $this->view = "iforms::frontend.components.form.layouts.{$this->layout}.index";
         $this->formRepository = app('Modules\\Iforms\\Repositories\\FormRepository');
         $this->getForm();
-        $this->formRand = rand(0,100);
-        $this->formId = Str::slug($this->form->system_name).$this->formRand;
+        $this->formRand = rand(0,5000);
+        $this->formId = "form".$this->id.$this->formRand;
     }
 
     public function getForm(){

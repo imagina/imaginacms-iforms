@@ -27,17 +27,21 @@ return [
   ],
   'captcha' => [
     'name' => 'iforms::captcha',
-    'value' => null,
+    'value' => '0',
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iforms::common.setting.recaptcha'
     ],
   ],
   'trans' => [
     'name' => 'iforms::trans',
-    'value' => null,
+    'value' => '0',
     'type' => 'checkbox',
     'props' => [
+      'trueValue'=>"1",
+      'falseValue'=>"0",
       'label' => 'iforms::common.setting.trans'
     ],
   ],

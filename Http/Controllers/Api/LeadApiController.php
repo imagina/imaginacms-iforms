@@ -97,7 +97,6 @@ class LeadApiController extends BaseApiController
      */
     public function create(Request $request)
     {
-
         \DB::beginTransaction();
         try {
 

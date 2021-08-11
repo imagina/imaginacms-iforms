@@ -7,7 +7,7 @@ $fields = $form->fields;
     <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1">
     @switch($field->present()->type['value'])
       @case('text')
-      <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+      <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
       <div class="col-12 py-1 px-1">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -28,7 +28,7 @@ $fields = $form->fields;
           @endif
         @endif
           <input type="text" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+               id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
             @if(!empty($field->suffix))
@@ -51,7 +51,7 @@ $fields = $form->fields;
       @break
 
       @case('textarea')
-      <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+      <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
       <div class="col-12 py-1 px-1">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -71,7 +71,7 @@ $fields = $form->fields;
             @endif
           @endif
         @endif
-          <textarea class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" id="input{{$field->name}}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}" rows="4"></textarea>
+          <textarea class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" id="input{{Str::slug($field->name).$formId}}" name="{{$field->name}}" placeholder="{{ $field->placeholder ?? '' }}" rows="4"></textarea>
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
               @if(!empty($field->suffix))
@@ -93,7 +93,7 @@ $fields = $form->fields;
       </div>
       @break
       @case('number')
-      <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+      <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
       <div class="col-12 py-1 px-1">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -112,7 +112,7 @@ $fields = $form->fields;
           @endif
         @endif
           <input type="number" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+               id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
             @if(!empty($field->suffix))
@@ -134,7 +134,7 @@ $fields = $form->fields;
       </div>
       @break
       @case('email')
-      <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+      <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
       <div class="col-12 py-1 px-1">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -155,7 +155,7 @@ $fields = $form->fields;
           @endif
         @endif
           <input type="email" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-               id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+               id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
         @if(!empty($field->prefix) || !empty($field->suffix))
           @if(!empty($field->prefix->value) || !empty($field->suffix->value))
             @if(!empty($field->suffix))
@@ -178,7 +178,7 @@ $fields = $form->fields;
       @break
       @case('select')
         @case('selectmultiple')
-        <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+        <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
         <div class="col-12 py-1 px-1">
           @if(!empty($field->prefix) || !empty($field->suffix))
             @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -202,7 +202,7 @@ $fields = $form->fields;
             $options = $field->options->fieldOptions ?? json_decode($field->selectable)
           @endphp
             <select {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                   id="input{{$field->name}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
+                   id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
             >
               @foreach($options as $option)
                   <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
@@ -229,7 +229,7 @@ $fields = $form->fields;
         </div>
       @break
       @case('radio')
-      <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+      <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
       <div class="col-12 py-1 px-1">
         @php
           $options = $field->options->fieldOptions ?? json_decode($field->selectable)
@@ -242,7 +242,7 @@ $fields = $form->fields;
       </div>
       @break
       @case('phone')
-        <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+        <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
         <div class="col-12 py-1 px-1">
           @if(!empty($field->prefix) || !empty($field->suffix))
             @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -263,7 +263,7 @@ $fields = $form->fields;
             @endif
           @endif
             <input type="phone" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                 id="input{{$field->name}}" {{$field->required?'required':''}}  placeholder="{{ $field->placeholder ?? '' }}">
+                 id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}}  placeholder="{{ $field->placeholder ?? '' }}">
           @if(!empty($field->prefix) || !empty($field->suffix))
             @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                 @if(!empty($field->suffix))
@@ -285,7 +285,7 @@ $fields = $form->fields;
         </div>
       @break
       @case('date')
-        <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
+        <label for="input{{Str::slug($field->name)}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
         <div class="col-12 py-1 px-1">
           @if(!empty($field->prefix) || !empty($field->suffix))
             @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -306,7 +306,7 @@ $fields = $form->fields;
             @endif
           @endif
             <input type="date" class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}" name="{{$field->name}}"
-                 id="input{{$field->name}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                 id="input{{Str::slug($field->name).$formId}}" {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
           @if(!empty($field->prefix) || !empty($field->suffix))
             @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                 @if(!empty($field->suffix))
@@ -332,8 +332,8 @@ $fields = $form->fields;
         <label class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
         <div class="col-12 py-1 px-1">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="input{{$field->name}}">
-            <label class="form-check-label" for="input{{$field->name}}">
+            <input class="form-check-input" type="checkbox" id="input{{Str::slug($field->name).$formId}}">
+            <label class="form-check-label" for="input{{Str::slug($field->name)}}">
               {{ $field->placeholder }}
             </label>
           </div>

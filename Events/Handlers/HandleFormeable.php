@@ -8,11 +8,17 @@ use Illuminate\Support\Arr;
 
 class HandleFormeable
 {
-    public function handle($event = null, $data = [])
+    public function handle($event = null)
     {
-        $entity = $event->getEntity();
-        $forms = Arr::get($event->getSubmissionData(), 'forms', []);
-        count($forms) > 0 ? $entity->forms()->sync($forms) : $entity->forms()->detach();
+  
+      $data = $event->data;
+      $entity = $event->entity;
+      
+      if($data['form_id'])
+        $entity->forms()->sync([$data['form_id']]);
+      else
+        $entity->forms()->sync([]);
+      
     }
 
 }

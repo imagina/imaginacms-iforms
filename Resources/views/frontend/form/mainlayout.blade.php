@@ -51,10 +51,7 @@
       });
 
       function objectifyForm(formArray) {//serialize data function
-
           var returnArray = {};
-
-
           for (var i = 0; i < formArray.length; i++) {
               var $obj = $("[name='"+formArray[i]['name']+"'] option:selected");
               var $val = []
