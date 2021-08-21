@@ -66,6 +66,11 @@ class Field extends Model
     return json_decode($value);
   }
 
+  public function getLabelAttribute($value)
+  {
+    return $value . ($this->required ? config('asgard.iforms.config.requiredFieldLabel') : '');
+  }
+
   public function setPrefixAttribute($value)
   {
     $this->attributes['prefix'] = json_encode($value);
