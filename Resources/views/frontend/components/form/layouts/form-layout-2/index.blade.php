@@ -1,5 +1,7 @@
 <div class="content-form{{$formId}}">
     <div class="formerror"></div>
+    <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
+                        :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
     <form id="{{$formId}}" class="full-width" action="{{route('api.iforms.leads.create')}}">
 
         <input type="hidden" name="form_id" value="{{$form->id}}" required="">

@@ -1,4 +1,6 @@
 <div class="form-content-{{ $form->system_name }} mb-4">
+  <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
+                      :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
     <h4 class="mb-0">{{ $form->title ?? $title }}</h4>
     <p class="mb-3">{{ $description }}</p>
     <form id="form{{ $form->system_name }}" method="post" action="{{ route('api.iforms.leads.create') }}">
