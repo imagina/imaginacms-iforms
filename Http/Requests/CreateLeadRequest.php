@@ -31,7 +31,7 @@ class CreateLeadRequest extends BaseFormRequest
     {
         return [
             'g-recaptcha-response.required' => trans('iforms::common.messages.captcha_required'),
-            'g-recaptcha-response.icaptcha'=> trans('iforms::common.messages.captcha_required'),
+            'g-recaptcha-response.icaptcha'=> trans('iforms::common.messages.captcha_invalid'),
         ];
     }
 

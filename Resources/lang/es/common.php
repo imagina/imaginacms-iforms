@@ -77,5 +77,9 @@ return [
     'api' => 'Api',
     'recaptcha' => 'Recaptcha',
     'trans' => 'Traducible',
+    'usersToNotify' => 'Usuarios para enviar notificaciones',
+  ],
+  'settingHints' => [
+    'emails' => 'Ingresa el correo y presiona enter',
   ]
 ];
