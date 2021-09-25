@@ -5,11 +5,9 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$formId}}">
-  <div class="relative-position">
+<div class="content-form{{$formId}} position-relative">
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
-  </div>
   <div class="formerror"></div>
   <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">

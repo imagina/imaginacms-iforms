@@ -1,9 +1,7 @@
-<div class="content-form{{$formId}}">
+<div class="content-form{{$formId}} position-relative">
   <div class="formerror"></div>
-  <div class="relative-position">
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
-  </div>
   <form id="{{$formId}}" class="form-horizontal" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
