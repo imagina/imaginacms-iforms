@@ -47,6 +47,7 @@ class IformsServiceProvider extends ServiceProvider
         $this->publishConfig('iforms', 'config');
         $this->publishConfig('iforms', 'settings');
         $this->publishConfig('iforms', 'settings-fields');
+        $this->publishConfig('iforms', 'crud-fields');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         $this->registerComponents();

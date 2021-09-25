@@ -8,7 +8,7 @@ $router->group(['prefix' => 'leads'], function (Router $router) {
   $router->post('/', [
     'as' => 'api.iforms.leads.create',
     'uses' => 'LeadApiController@create',
-    'middleware' => ['captcha']
+   // 'middleware' => ['captcha']
   ]);
 
   //Route index

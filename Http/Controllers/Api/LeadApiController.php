@@ -101,8 +101,10 @@ class LeadApiController extends BaseApiController
         try {
 
             $data = $request->input('attributes') ?? [];//Get data
-            $this->validateRequestApi(new CreateLeadRequest($data));
-            $form = $this->form->find($data['form_id']);
+  
+       
+          $this->validateRequestApi(new CreateLeadRequest($data));
+          $form = $this->form->find($data['form_id']);
             if (empty($form->id)) {
                 throw new \Exception(trans('iforms::common.forms_not_found'));
             }

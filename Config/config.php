@@ -36,6 +36,17 @@ return [
       //'repositoryName' => "UserApiRepository",
       //'fields' => ['id', 'first_name', 'last_name', 'email', 'last_login', 'created_at', 'updated_at'],
       //'headings' => ['id', 'Nombre', 'Apellido', 'Email', 'Fecha Ultima Sesión', 'Fecha de Creación', 'Fecha Ultima Actualización']
-    ]
+    ],
+    "leadsItem" => [
+      'moduleName' => "Iforms",
+      'fileName' => "Leads-item",
+      'fileType' => "pdf",
+      "content" => "iforms::pdf.leadItem",
+      'repositoryName' => "LeadRepository",
+      //"layout" => "custom.layout.pdf",
+      //'fields' => ['id', 'first_name', 'last_name', 'email', 'last_login', 'created_at', 'updated_at'],
+      //'headings' => ['id', 'Nombre', 'Apellido', 'Email', 'Fecha Ultima Sesión', 'Fecha de Creación', 'Fecha Ultima Actualización']
+    ],
+    
   ]
 ];

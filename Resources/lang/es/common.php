@@ -80,5 +80,9 @@ return [
   ],
   'editLink' => [
     'tooltipForm' => 'Editar este formulario'
+  ],
+  'settingHints' => [
+    'emails' => 'Ingresa el correo y presiona enter',
+    'usersToNotify' => 'Usuarios para enviar notificaciones',
   ]
 ];
