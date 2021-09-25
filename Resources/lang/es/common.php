@@ -77,9 +77,12 @@ return [
     'api' => 'Api',
     'recaptcha' => 'Recaptcha',
     'trans' => 'Traducible',
-    'usersToNotify' => 'Usuarios para enviar notificaciones',
+  ],
+  'editLink' => [
+    'tooltipForm' => 'Editar este formulario'
   ],
   'settingHints' => [
     'emails' => 'Ingresa el correo y presiona enter',
+    'usersToNotify' => 'Usuarios para enviar notificaciones',
   ]
 ];
