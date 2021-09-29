@@ -76,5 +76,8 @@ return [
     'api' => 'Api',
     'recaptcha' => 'Recaptcha',
     'trans' => 'Translatable',
+  ],
+  'editLink' => [
+    'tooltipForm' => 'Edit this form'
   ]
 ];

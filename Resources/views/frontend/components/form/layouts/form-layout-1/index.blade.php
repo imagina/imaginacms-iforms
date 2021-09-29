@@ -5,15 +5,17 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$formId}}">
+<div class="content-form{{$formId}} position-relative">
+    <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
+                        :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <div class="formerror"></div>
   <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
-    @include('iforms::frontend.components.form.layouts.form-layout-1.fields')
-    <!--Validate field terms and conditions-->
-    @if(isset($form->options->urlTermsAndConditions))
-      <!--Content Terms and Conditions -->
+  @include('iforms::frontend.components.form.layouts.form-layout-1.fields')
+  <!--Validate field terms and conditions-->
+  @if(isset($form->options->urlTermsAndConditions))
+    <!--Content Terms and Conditions -->
       <div id="contentTermsAndConditions" class="col-12 position-relative">
         <div id="CheckFormTermsAndConditions" class="pl-4">
           <input type="checkbox" class="form-check-input" required="" id="TermsAndConditions">
@@ -27,12 +29,13 @@
     @endif
 
     <div class="col-sm-offset-2 col-sm-10">
-      <x-isite::captcha :formId="$formId" />
+      <x-isite::captcha :formId="$formId"/>
     </div>
 
     <div class="form-group row">
       <div class="col-sm-12 text-right">
-        <button type="submit" class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
+        <button type="submit"
+                class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
       </div>
     </div>
   </form>
