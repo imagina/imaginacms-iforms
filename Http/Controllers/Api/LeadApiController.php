@@ -23,215 +23,219 @@ use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 class LeadApiController extends BaseApiController
 {
-    private $lead;
-    private $form;
+  private $lead;
+  private $form;
 
-    public function __construct(LeadRepository $lead, FormRepository $form)
-    {
-        $this->lead = $lead;
-        $this->form = $form;
+  public function __construct(LeadRepository $lead, FormRepository $form)
+  {
+    $this->lead = $lead;
+    $this->form = $form;
+  }
+
+  /**
+   * GET ITEMS
+   *
+   * @return mixed
+   */
+  public function index(Request $request)
+  {
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+      //Request to Repository
+      $data = $this->lead->getItemsBy($params);
+
+      if (isset($params->filter->export) && $params->filter->export == true) {
+        $LeadsExportService = new LeadsExportService();
+        return $LeadsExportService->exportFile($data);
+      }
+
+      //Response
+      $response = ["data" => LeadTransformer::collection($data)];
+      //If request pagination add meta-page
+      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 
-    /**
-     * GET ITEMS
-     *
-     * @return mixed
-     */
-    public function index(Request $request)
-    {
-        try {
-            //Get Parameters from URL.
-            $params = $this->getParamsRequest($request);
-            //Request to Repository
-            $data = $this->lead->getItemsBy($params);
-
-            if (isset($params->filter->export) && $params->filter->export == true) {
-                $LeadsExportService = new LeadsExportService();
-                return $LeadsExportService->exportFile($data);
-            }
-
-            //Response
-            $response = ["data" => LeadTransformer::collection($data)];
-            //If request pagination add meta-page
-            $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
-        } catch (\Exception $e) {
-            $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
-        }
-        //Return response
-        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  /**
+   * GET A ITEM
+   *
+   * @param $criteria
+   * @return mixed
+   */
+  public function show($criteria, Request $request)
+  {
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+      //Request to Repository
+      $data = $this->lead->getItem($criteria, $params);
+      //Break if no found item
+      if (!$data) throw new Exception('Item not found', 204);
+      //Response
+      $response = ["data" => new LeadTransformer($data)];
+      //If request pagination add meta-page
+      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 
-    /**
-     * GET A ITEM
-     *
-     * @param $criteria
-     * @return mixed
-     */
-    public function show($criteria, Request $request)
-    {
-        try {
-            //Get Parameters from URL.
-            $params = $this->getParamsRequest($request);
-            //Request to Repository
-            $data = $this->lead->getItem($criteria, $params);
-            //Break if no found item
-            if (!$data) throw new Exception('Item not found', 204);
-            //Response
-            $response = ["data" => new LeadTransformer($data)];
-            //If request pagination add meta-page
-            $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
-        } catch (\Exception $e) {
-            $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+  /**
+   * CREATE A ITEM
+   *
+   * @param Request $request
+   * @return mixed
+   */
+  public function create(Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+
+      $data = $request->all() ?? [];//Get data
+
+
+      $this->validateRequestApi(new CreateLeadRequest($data));
+      $form = $this->form->find($data['form_id']);
+      if (empty($form->id)) {
+        throw new \Exception(trans('iforms::common.forms_not_found'));
+      }
+      $attr = array();
+      $attr['form'] = $form;
+      $attr['form_id'] = $form->id;
+      $attr['values'] = array();
+      $attr['reply'] = ['to' => env('MAIL_FROM_ADDRESS'), 'toName' => 'Client'];
+      $fields = $form->fields;
+      $fileService = app('Modules\Media\Services\FileService');
+
+      foreach ($fields as $field) {
+        if ($field->name == 'email') {
+          $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
         }
-        //Return response
-        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+        if ($field->name == 'name') {
+          $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
+        }
+        if ($field->type == 12) {
+
+          $file = $fileService->store($data[$field->name],0,'public');
+          $data[$field->name] = $file->id;
+        }
+        $attr['values'][$field->name] = $data[$field->name] ?? null;
+      }
+
+      $attr['reply'] = json_decode(json_encode($attr['reply']));
+      //Create item
+
+      $newData = $this->lead->create($attr);
+      //Response
+      $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
+      \DB::commit(); //Commit to Data Base
+    } catch (\Exception $e) {
+      \Log::error($e->getMessage());
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
-
-    /**
-     * CREATE A ITEM
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function create(Request $request)
-    {
-        \DB::beginTransaction();
-        try {
-
-            $data = $request->input('attributes') ?? [];//Get data
-  
-       
-          $this->validateRequestApi(new CreateLeadRequest($data));
-          $form = $this->form->find($data['form_id']);
-            if (empty($form->id)) {
-                throw new \Exception(trans('iforms::common.forms_not_found'));
-            }
-            $attr = array();
-            $attr['form'] = $form;
-            $attr['form_id'] = $form->id;
-            $attr['values'] = array();
-            $attr['reply'] = ['to'=>env('MAIL_FROM_ADDRESS'),'toName'=>'Client'];
-            $fields = $form->fields;
-            foreach ($fields as $field) {
-                if ($field->name == 'email') {
-                    $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
-                }
-                if ($field->name == 'name') {
-                    $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
-                }
-                $attr['values'][$field->name] = $data[$field->name] ?? null;
-            }
-
-            $attr['reply']=json_decode(json_encode($attr['reply']));
-            //Create item
-
-            $newData = $this->lead->create($attr);
-            //Response
-            $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
-            \DB::commit(); //Commit to Data Base
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            \DB::rollback();//Rollback to Data Base
-            $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
-        }
 
 //Return response
-        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
-    }
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 
-    /**
-     * Update the specified lead in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public
-    function update($criteria, Request $request)
-    {
-        \DB::beginTransaction();
-        try {
-            $params = $this->getParamsRequest($request);
+  /**
+   * Update the specified lead in storage.
+   * @param Request $request
+   * @return Response
+   */
+  public
+  function update($criteria, Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+      $params = $this->getParamsRequest($request);
 
-            $data = $request->input('attributes');
-
-
+      $data = $request->input('attributes');
 
 
-          $attr = array();
+      $attr = array();
 
 
+      if (isset($data["assigned_to_id"]))
+        $attr['assigned_to_id'] = $data["assigned_to_id"];
 
-          if(isset($data["assigned_to_id"]))
-            $attr['assigned_to_id'] = $data["assigned_to_id"];
+      if (isset($data['form_id'])) {
+        $form = $this->form->find($data['form_id']);
 
-          if(isset($data['form_id'])){
-            $form = $this->form->find($data['form_id']);
+        if (isset($form->id)) {
+          $attr['form'] = $form;
+          $attr['form_id'] = $form->id;
+          $attr['values'] = array();
+          $attr['reply'] = ['to' => env('MAIL_FROM_ADDRESS'), 'toName' => 'Client'];
 
-            if(isset($form->id)){
-              $attr['form'] = $form;
-              $attr['form_id'] = $form->id;
-              $attr['values'] = array();
-              $attr['reply'] = ['to'=>env('MAIL_FROM_ADDRESS'),'toName'=>'Client'];
-
-              $fields = $form->fields;
-              foreach ($fields as $field) {
-                if ($field->name == 'email') {
-                  $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
-                }
-                if ($field->name == 'name') {
-                  $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
-                }
-                $attr['values'][$field->name] = $data[$field->name] ?? null;
-              }
-
-              $attr['reply']=json_decode(json_encode($attr['reply']));
+          $fields = $form->fields;
+          foreach ($fields as $field) {
+            if ($field->name == 'email') {
+              $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
             }
-
+            if ($field->name == 'name') {
+              $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
+            }
+            $attr['values'][$field->name] = $data[$field->name] ?? null;
           }
 
-
-          //Validate Request
-            //$this->validateRequestApi(new UpdateRequest($data));
-           $entity = $this->lead->getItem($criteria, $params);
-
-            //Update data
-            $newData = $this->lead->update($entity, $attr);
-            //Response
-          //Response
-          $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
-            \DB::commit(); //Commit to Data Base
-        } catch (\Exception $e) {
-            \DB::rollback();//Rollback to Data Base
-            $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
+          $attr['reply'] = json_decode(json_encode($attr['reply']));
         }
-        return response()->json($response, $status ?? 200);
-    }
 
-    /**
-     * Remove the specified lead from storage.
-     * @return Response
-     */
-    public
-    function delete($criteria, Request $request)
-    {
-        \DB::beginTransaction();
-        try {
-            //Get params
-            $params = $this->getParamsRequest($request);
-            //Delete data
-            $entity = $this->lead->getItem($criteria, $params);
-            $this->lead->destroy($entity);
-            //Response
-            $response = ['data' => ''];
-            \DB::commit(); //Commit to Data Base
-        } catch (\Exception $e) {
-            \DB::rollback();//Rollback to Data Base
-            $status = $this->getStatusError($e->getCode());
-            $response = ["errors" => $e->getMessage()];
-        }
-        return response()->json($response, $status ?? 200);
+      }
+
+
+      //Validate Request
+      //$this->validateRequestApi(new UpdateRequest($data));
+      $entity = $this->lead->getItem($criteria, $params);
+
+      //Update data
+      $newData = $this->lead->update($entity, $attr);
+      //Response
+      //Response
+      $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
+      \DB::commit(); //Commit to Data Base
+    } catch (\Exception $e) {
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
+    return response()->json($response, $status ?? 200);
+  }
+
+  /**
+   * Remove the specified lead from storage.
+   * @return Response
+   */
+  public
+  function delete($criteria, Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+      //Get params
+      $params = $this->getParamsRequest($request);
+      //Delete data
+      $entity = $this->lead->getItem($criteria, $params);
+      $this->lead->destroy($entity);
+      //Response
+      $response = ['data' => ''];
+      \DB::commit(); //Commit to Data Base
+    } catch (\Exception $e) {
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+    }
+    return response()->json($response, $status ?? 200);
+  }
 }
