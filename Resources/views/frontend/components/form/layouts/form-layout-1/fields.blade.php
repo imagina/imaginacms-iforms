@@ -407,8 +407,9 @@ $fields = $form->fields;
                 @endif
                 @endif
                 @endif
+                
                 <input type="file"
-                       class="form-control border-0 {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                       class="form-control-file border-0 {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                        name="{{$field->name}}"
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">

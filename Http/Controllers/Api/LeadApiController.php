@@ -122,7 +122,7 @@ class LeadApiController extends BaseApiController
         if ($field->type == 12) {
           if(!isset($attr["medias_single"])) $attr["medias_single"] = [];
           $file = $fileService->store($data[$field->name], 0, 'public', false);
-          $attr["medias_single"] = array_merge($attr["medias_single"],[$form->system_name.$field->name => $file->id]);
+          $attr["medias_single"] = array_merge($attr["medias_single"],[$form->system_name.$field->name.$field->id => $file->id]);
           $data[$field->name] = $file->id;
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
@@ -132,10 +132,9 @@ class LeadApiController extends BaseApiController
       $lead = $this->lead->create($attr);
   
       foreach ($fields as $field) {
-    
         //If field it's type FILE
         if ($field->type == 12) {
-          $data[$field->name] =  \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name.$field->name],false);
+          $data[$field->name] =  \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name.$field->name.$field->id],false);
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
