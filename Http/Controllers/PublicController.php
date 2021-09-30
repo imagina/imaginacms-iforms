@@ -12,9 +12,9 @@ use Modules\Iforms\Http\Requests\CreateLeadRequest;
 use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Iforms\Repositories\FormRepository;
 use Modules\Setting\Contracts\Setting;
-use Request;
-
-class PublicController extends BasePublicController
+use Illuminate\Http\Request;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+class PublicController extends BaseApiController
 {
 
     private $lead;
@@ -132,20 +132,19 @@ class PublicController extends BasePublicController
     }
 
 
-    public function getAttachment(Request $request, $formId,
-                                  $leadId, $zone)
+    public function getAttachment(Request $request, $formId,$leadId, $zone)
     {
-
+    
         try {
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
-
+          
             //Request to Repository
-            $lead = $this->leadRepository->getItem($leadId, $params);
-
+            $lead = $this->leadRepository->getItem($leadId,$params);
+         
             //Request to Repository
-            $form = $this->form->getItem($formId, $params);
-
+            $form = $this->form->getItem($formId,$params);
+      
 
             if (!isset($lead->id) || !isset($form->id))
                 throw new Exception('Item not found', 404);
@@ -154,7 +153,7 @@ class PublicController extends BasePublicController
 
             $type = $attachment["mimetype"] ?? null;
 
-            $privateDisk = config('filesystems.disks.privatemedia');
+            $privateDisk = config('filesystems.disks.public');
             $mediaFilesPath = config('asgard.media.config.files-path');
 
             $path = $privateDisk["root"].$mediaFilesPath. $attachment->filename;
@@ -165,7 +164,7 @@ class PublicController extends BasePublicController
 
 
         } catch (\Exception $e) {
-            return abort(404);
+          return abort(404);
         }
 
     }

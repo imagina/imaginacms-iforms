@@ -117,24 +117,31 @@ class LeadApiController extends BaseApiController
       $fileService = app('Modules\Media\Services\FileService');
 
       foreach ($fields as $field) {
-        if ($field->name == 'email') {
-          $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
-        }
-        if ($field->name == 'name') {
-          $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
-        }
+    
+        //If field it's type FILE
         if ($field->type == 12) {
-
-          $file = $fileService->store($data[$field->name],0,'public');
+          if(!isset($attr["medias_single"])) $attr["medias_single"] = [];
+          $file = $fileService->store($data[$field->name], 0, 'public', false);
+          $attr["medias_single"] = array_merge($attr["medias_single"],[$form->system_name.$field->name => $file->id]);
           $data[$field->name] = $file->id;
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
 
-      $attr['reply'] = json_decode(json_encode($attr['reply']));
       //Create item
-
-      $newData = $this->lead->create($attr);
+      $lead = $this->lead->create($attr);
+  
+      foreach ($fields as $field) {
+    
+        //If field it's type FILE
+        if ($field->type == 12) {
+          $data[$field->name] =  \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name.$field->name],false);
+        }
+        $attr['values'][$field->name] = $data[$field->name] ?? null;
+      }
+      $lead = $this->lead->updateBy($lead->id,$attr);
+  
+  
       //Response
       $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
       \DB::commit(); //Commit to Data Base

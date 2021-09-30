@@ -21,7 +21,7 @@
           top: 50%;
       }
   </style>
-  <script>
+  <script type="text/javascript" defer>
 
     $(document).ready(function () {
       var formId = '#{{$formId}}';
@@ -32,7 +32,7 @@
           window.livewire.emit(livewireSubmitEvent, info);
         } else {
           var formdata =objectifyForm(formId)
-          console.warn()
+
           $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
@@ -64,7 +64,7 @@
 @once
 @section('scripts-owl')
   @parent
-  <script>
+  <script type="text/javascript" defer>
     function objectifyForm(formId) {//serialize data function
 
       var data = new FormData();

@@ -20,12 +20,13 @@ return [
   'form' => [
     'submit' => 'Enviar',
     'accept' => "Acepto los ",
-    'termsAndsConditions' => 'Términos y Condiciones.'
+    'termsAndsConditions' => 'Términos y Condiciones.',
+    'customLeadPDFTemplate' => 'Plantilla PDF Personalizada (sólo editable por super-admin)',
   ],
   'messages' => [
     'from' => ' de ',
     'policy' => 'Al suscribirte aceptas nuestras políticas de <a class="text-secondary" href=":url">tratamiento y protección de datos</a>',
-    "newLead" => ""
+    "customLeadPDFTemplateExist" => "Plantilla PDF Personalizada no existe, debe agregar una plantilla que exista previamente"
   ],
   'validation' => [
   ],

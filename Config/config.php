@@ -41,7 +41,7 @@ return [
       'moduleName' => "Iforms",
       'fileName' => "Leads-item",
       'fileType' => "pdf",
-      "content" => "iforms::pdf.leadItem",
+      "content" => "iforms::pdf.leadItem", // to customize use the crud-field customLeadPDFTemplate
       'repositoryName' => "LeadRepository",
       //"layout" => "custom.layout.pdf",
       //'fields' => ['id', 'first_name', 'last_name', 'email', 'last_login', 'created_at', 'updated_at'],
