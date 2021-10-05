@@ -14,6 +14,7 @@ use Modules\Iforms\Repositories\FormRepository;
 use Modules\Setting\Contracts\Setting;
 use Illuminate\Http\Request;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+
 class PublicController extends BaseApiController
 {
 
@@ -132,8 +133,9 @@ class PublicController extends BaseApiController
     }
 
 
-    public function getAttachment(Request $request, $formId, $leadId, $zone)
+    public function getAttachment(Request $request, $formId, $leadId, $fileZone)
     {
+ 
         try {
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
@@ -143,12 +145,11 @@ class PublicController extends BaseApiController
          
             //Request to Repository
             $form = $this->form->getItem($formId,$params);
-      
 
             if (!isset($lead->id) || !isset($form->id))
                 throw new Exception('Item not found', 404);
 
-            $attachment = $lead->filesByZone($zone)->first();
+            $attachment = $lead->filesByZone($fileZone)->first();
 
             $type = $attachment["mimetype"] ?? null;
 

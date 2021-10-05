@@ -125,7 +125,7 @@ class LeadApiController extends BaseApiController
         
         //If field it's type FILE
         if ($field->type == 12) {
-          $this->saveAttachment($form, $field, $data, $data[$field->name]);
+          $this->saveAttachment($form, $field, $data,$attr,$data[$field->name]);
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
@@ -195,7 +195,7 @@ class LeadApiController extends BaseApiController
             if ($field->type == 12) {
               if(is_file($data[$field->name])){
                 $updateMedia = true;
-                $this->saveAttachment($form, $field, $data, $data[$field->name]);
+                $this->saveAttachment($form, $field, $data,$attr, $data[$field->name]);
                 $this->replaceAttachmentPath($data, $form, $lead, $field);
               }
             }
@@ -244,7 +244,7 @@ class LeadApiController extends BaseApiController
     return response()->json($response, $status ?? 200);
   }
   
-  private function saveAttachment($form, $field, &$data, UploadedFile $file)
+  private function saveAttachment($form, $field, &$data, &$attr, UploadedFile $file)
   {
     $fileService = app('Modules\Media\Services\FileService');
     
@@ -280,6 +280,6 @@ class LeadApiController extends BaseApiController
   private function replaceAttachmentPath(&$data, $form, $lead, $field)
   {
     //replacing the attachment value with the relative path of the Iform PublicController
-    $data[$field->name] = \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name . $field->name . $field->id], false);
+    $data[$field->name] = \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "fileZone" => $form->system_name . $field->name . $field->id], false);
   }
 }
