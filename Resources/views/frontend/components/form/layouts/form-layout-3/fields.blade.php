@@ -381,6 +381,7 @@ $fields = $form->fields;
               @endif
               @endif
               <input type="file"
+                     {{(isset($field->options->availableExtensionsAccept)  && !empty($field->options->availableExtensionsAccept))? "accept=".$field->options->availableExtensionsAccept : ""}}
                      class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                      name="{{$field->name}}"
                      value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
