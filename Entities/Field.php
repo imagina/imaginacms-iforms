@@ -6,6 +6,7 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Iforms\Presenters\FieldPresenter;
+use Illuminate\Support\Str;
 
 class Field extends Model
 {
@@ -85,15 +86,28 @@ class Field extends Model
   {
     $this->attributes['suffix'] = json_encode($value);
   }
+  
+  public function setOptionsAttribute($value)
+  {
+    $options = $value;
+    if (isset($options["availableExtensions"]) && !empty($options["availableExtensions"])) {
+      foreach ($options["availableExtensions"] as $index => $availableExtension) {
+        $options["availableExtensions"][$index] = Str::replace('.', '', $availableExtension);
+      }
+  
+      $options["availableExtensionsAccept"] = join(",", array_map(
+        function ($valor) {
+          return "." . $valor;
+        }, $options["availableExtensions"]));
+    }
 
+    $this->attributes['options'] = json_encode($options);
+  }
+  
   public function getOptionsAttribute($value)
   {
     return json_decode($value);
-  }
-
-  public function setOptionsAttribute($value)
-  {
-    $this->attributes['options'] = json_encode($value);
+    
   }
 
 }

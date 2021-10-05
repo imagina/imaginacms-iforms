@@ -132,9 +132,8 @@ class PublicController extends BaseApiController
     }
 
 
-    public function getAttachment(Request $request, $formId,$leadId, $zone)
+    public function getAttachment(Request $request, $formId, $leadId, $zone)
     {
-    
         try {
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);

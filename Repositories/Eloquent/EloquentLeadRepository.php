@@ -6,6 +6,7 @@ use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Ihelpers\Events\CreateMedia;
+use Modules\Ihelpers\Events\DeleteMedia;
 
 class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepository
 {
@@ -156,6 +157,9 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    $model ? $model->delete() : false;
+    if(isset($model->id)) {
+      event(new DeleteMedia($model->id, get_class($model)));
+      $model->delete();
+    };
   }
 }

@@ -19,7 +19,18 @@ return [
     ],
     'messages' => [
         'message sent successfully'=>'Message sent successfully',
+      'invalidFileExtension'=>'Invalid extension file for the field: <strong>:fieldLabel</strong>',
     ],
     'validation' => [
     ],
+  
+  'crudFields' => [
+    "label" =>[
+      "availableExtensions" => "Available extensions"
+    ],
+    "hint" =>[
+      "availableExtensions" => "Type the extension and press enter - Only extensions without dot(.) are allowed, and must be previously enabled in the Media module."
+    ],
+  
+  ],
 ];

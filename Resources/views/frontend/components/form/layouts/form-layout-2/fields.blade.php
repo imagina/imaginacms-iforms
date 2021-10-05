@@ -389,7 +389,9 @@ $fields = $form->fields;
           </div>
           @break
           @case('file')
-          <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}</label>
+          <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}
+            {{(isset($field->options->availableExtensionsAccept)  && !empty($field->options->availableExtensionsAccept))? "(".$field->options->availableExtensionsAccept.")" : "" }}
+          </label>
           <div class="col-9">
             @if(!empty($field->prefix) || !empty($field->suffix))
               @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -410,6 +412,7 @@ $fields = $form->fields;
                   @endif
                   @endif
                   <input type="file"
+                         {{(isset($field->options->availableExtensionsAccept)  && !empty($field->options->availableExtensionsAccept))? "accept=".$field->options->availableExtensionsAccept : ""}}
                          class="form-control-file {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                          name="{{$field->name}}"
                          value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"

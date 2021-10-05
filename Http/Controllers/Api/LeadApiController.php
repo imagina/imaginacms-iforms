@@ -12,7 +12,11 @@ use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Iforms\Services\LeadsExportService;
 use Modules\Iforms\Transformers\LeadTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-
+use Modules\Media\Validators\AvailableExtensionsRule;
+use Modules\Ihelpers\Events\UpdateMedia;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Modules\Media\Helpers\FileHelper;
+use Illuminate\Support\Str;
 // Base Api
 
 // Transformers
@@ -25,13 +29,13 @@ class LeadApiController extends BaseApiController
 {
   private $lead;
   private $form;
-
+  
   public function __construct(LeadRepository $lead, FormRepository $form)
   {
     $this->lead = $lead;
     $this->form = $form;
   }
-
+  
   /**
    * GET ITEMS
    *
@@ -44,12 +48,12 @@ class LeadApiController extends BaseApiController
       $params = $this->getParamsRequest($request);
       //Request to Repository
       $data = $this->lead->getItemsBy($params);
-
+      
       if (isset($params->filter->export) && $params->filter->export == true) {
         $LeadsExportService = new LeadsExportService();
         return $LeadsExportService->exportFile($data);
       }
-
+      
       //Response
       $response = ["data" => LeadTransformer::collection($data)];
       //If request pagination add meta-page
@@ -61,7 +65,7 @@ class LeadApiController extends BaseApiController
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-
+  
   /**
    * GET A ITEM
    *
@@ -88,7 +92,7 @@ class LeadApiController extends BaseApiController
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-
+  
   /**
    * CREATE A ITEM
    *
@@ -99,48 +103,47 @@ class LeadApiController extends BaseApiController
   {
     \DB::beginTransaction();
     try {
-
+      
       $data = $request->all() ?? [];//Get data
-
-
-      $this->validateRequestApi(new CreateLeadRequest($data));
+      
       $form = $this->form->find($data['form_id']);
       if (empty($form->id)) {
         throw new \Exception(trans('iforms::common.forms_not_found'));
       }
+      
+      $this->validateRequestApi(new CreateLeadRequest($data));
+      
       $attr = array();
       $attr['form'] = $form;
       $attr['form_id'] = $form->id;
       $attr['values'] = array();
       $attr['reply'] = ['to' => env('MAIL_FROM_ADDRESS'), 'toName' => 'Client'];
       $fields = $form->fields;
-      $fileService = app('Modules\Media\Services\FileService');
-
+      
+      
       foreach ($fields as $field) {
-    
+        
         //If field it's type FILE
         if ($field->type == 12) {
-          if(!isset($attr["medias_single"])) $attr["medias_single"] = [];
-          $file = $fileService->store($data[$field->name], 0, 'public', false);
-          $attr["medias_single"] = array_merge($attr["medias_single"],[$form->system_name.$field->name.$field->id => $file->id]);
-          $data[$field->name] = $file->id;
+          $this->saveAttachment($form, $field, $data, $data[$field->name]);
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
-
+      
       //Create item
       $lead = $this->lead->create($attr);
-  
+      
       foreach ($fields as $field) {
         //If field it's type FILE
         if ($field->type == 12) {
-          $data[$field->name] =  \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name.$field->name.$field->id],false);
+          $this->replaceAttachmentPath($data, $form, $lead, $field);
         }
         $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
-      $lead = $this->lead->updateBy($lead->id,$attr);
-  
-  
+      
+      //update the Lead with the Values parsed
+      $lead = $this->lead->updateBy($lead->id, $attr);
+      
       //Response
       $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
       \DB::commit(); //Commit to Data Base
@@ -154,60 +157,57 @@ class LeadApiController extends BaseApiController
 //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-
+  
   /**
    * Update the specified lead in storage.
    * @param Request $request
    * @return Response
    */
-  public
-  function update($criteria, Request $request)
+  public function update($criteria, Request $request)
   {
     \DB::beginTransaction();
     try {
       $params = $this->getParamsRequest($request);
-
+      
       $data = $request->input('attributes');
-
-
+  
+      $lead = $this->lead->getItem($criteria, $params);
+  
       $attr = array();
-
-
+      $updateMedia = false;
+      
       if (isset($data["assigned_to_id"]))
         $attr['assigned_to_id'] = $data["assigned_to_id"];
-
+      
       if (isset($data['form_id'])) {
         $form = $this->form->find($data['form_id']);
-
+        
         if (isset($form->id)) {
           $attr['form'] = $form;
           $attr['form_id'] = $form->id;
           $attr['values'] = array();
           $attr['reply'] = ['to' => env('MAIL_FROM_ADDRESS'), 'toName' => 'Client'];
-
+          
           $fields = $form->fields;
           foreach ($fields as $field) {
-            if ($field->name == 'email') {
-              $attr['reply']['to'] = $data[$field->name] ?? env('MAIL_FROM_ADDRESS');
-            }
-            if ($field->name == 'name') {
-              $attr['reply']['toName'] = $data[$field->name] ?? 'Client';
+            
+            //If field it's type FILE
+            if ($field->type == 12) {
+              if(is_file($data[$field->name])){
+                $updateMedia = true;
+                $this->saveAttachment($form, $field, $data, $data[$field->name]);
+                $this->replaceAttachmentPath($data, $form, $lead, $field);
+              }
             }
             $attr['values'][$field->name] = $data[$field->name] ?? null;
           }
-
-          $attr['reply'] = json_decode(json_encode($attr['reply']));
         }
-
       }
 
-
-      //Validate Request
-      //$this->validateRequestApi(new UpdateRequest($data));
-      $entity = $this->lead->getItem($criteria, $params);
-
       //Update data
-      $newData = $this->lead->update($entity, $attr);
+      $newData = $this->lead->update($lead, $attr);
+      
+      if($updateMedia) event(new UpdateMedia($lead, $data));
       //Response
       //Response
       $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
@@ -219,13 +219,12 @@ class LeadApiController extends BaseApiController
     }
     return response()->json($response, $status ?? 200);
   }
-
+  
   /**
    * Remove the specified lead from storage.
    * @return Response
    */
-  public
-  function delete($criteria, Request $request)
+  public function delete($criteria, Request $request)
   {
     \DB::beginTransaction();
     try {
@@ -243,5 +242,44 @@ class LeadApiController extends BaseApiController
       $response = ["errors" => $e->getMessage()];
     }
     return response()->json($response, $status ?? 200);
+  }
+  
+  private function saveAttachment($form, $field, &$data, UploadedFile $file)
+  {
+    $fileService = app('Modules\Media\Services\FileService');
+    
+    //validating the availableExtensions in the field if exist and not empty
+    if (isset($field->options->availableExtensions) && !empty(isset($field->options->availableExtensions))) {
+      
+      //extending the AvailableExtensionsRule in the Media Module, customizing the extensions and message
+      $availableExtensionsRule = new AvailableExtensionsRule($field->options->availableExtensions, trans("iforms::leads.messages.invalidFileExtension", ["fieldLabel" => $field->label]));
+      
+      //getting the file extension
+      $extension  = FileHelper::getExtension($file->getClientOriginalName());
+
+      if (!$availableExtensionsRule->passes($field->label, \Str::replace(".","",$extension)))
+      {
+       
+        throw new \Exception(json_encode(["errors" => [$availableExtensionsRule->message()]]), 400);
+      }
+    }
+    
+    //initializing medias_single attribute
+    if (!isset($attr["medias_single"])) $attr["medias_single"] = [];
+    
+    //saving file in with Media FileService
+    $file = $fileService->store($data[$field->name], 0, 'public', false);
+    
+    //merging all medias single in the form
+    $attr["medias_single"] = array_merge($attr["medias_single"], [$form->system_name . $field->name . $field->id => $file->id]);
+    
+    //replacing Object binary file with the file Id
+    $data[$field->name] = $file->id;
+  }
+  
+  private function replaceAttachmentPath(&$data, $form, $lead, $field)
+  {
+    //replacing the attachment value with the relative path of the Iform PublicController
+    $data[$field->name] = \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "zone" => $form->system_name . $field->name . $field->id], false);
   }
 }
