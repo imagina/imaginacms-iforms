@@ -14,21 +14,56 @@ return [
     ],
   ],
   "fields" => [
-    
-    'availableExtensions' => [
-      'name' => 'availableExtensions',
+  
+    // RULES
+
+    'min' => [
+      'name' => 'min',
+      'value' => [],
+      'type' => 'input',
+      'fakeFieldName' => "rules",
+      'columns' => 'col-12 col-md-6',
+      'props' => [
+        'hint' => 'iforms::fields.crudFields.hint.min',
+        'label' => 'iforms::fields.crudFields.label.min'
+      ],
+    ],
+    'max' => [
+      'name' => 'max',
+      'value' => [],
+      'type' => 'input',
+      'fakeFieldName' => "rules",
+      'columns' => 'col-12 col-md-6',
+      'props' => [
+        'hint' => 'iforms::fields.crudFields.hint.max',
+        'label' => 'iforms::fields.crudFields.label.max'
+      ],
+    ],
+    'maxlength' => [
+      'name' => 'maxlength',
+      'value' => [],
+      'type' => 'input',
+      'fakeFieldName' => "rules",
+      'columns' => 'col-12 col-md-6',
+      'props' => [
+        'hint' => 'iforms::fields.crudFields.hint.maxlength',
+        'label' => 'iforms::fields.crudFields.label.maxlength'
+      ],
+    ],
+    'mimes' => [
+      'name' => 'mimes',
       'value' => [],
       'type' => 'select',
-      'isFakeField' => true,
+      'fakeFieldName' => "rules",
       'columns' => 'col-12 col-md-6',
       'props' => [
         'useInput' => true,
         'useChips' => true,
         'multiple' => true,
-        'hint' => 'iforms::leads.crudFields.hint.availableExtensions',
+        'hint' => 'iforms::fields.crudFields.hint.mimes',
         'hideDropdownIcon' => true,
         'newValueMode' => 'add-unique',
-        'label' => 'iforms::leads.crudFields.label.availableExtensions'
+        'label' => 'iforms::fields.crudFields.label.mimes'
       ],
     ],
   ]

@@ -37,6 +37,7 @@ $fields = $form->fields;
                        @endif
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -89,6 +90,7 @@ $fields = $form->fields;
                   @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly="true"
                   @endif
                   placeholder="{{ $field->placeholder ?? '' }}" rows="4"></textarea>
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -138,6 +140,7 @@ $fields = $form->fields;
                        @endif
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -189,6 +192,7 @@ $fields = $form->fields;
                        @endif
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -249,6 +253,7 @@ $fields = $form->fields;
                     <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
                   @endforeach
                 </select>
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -281,6 +286,7 @@ $fields = $form->fields;
                      value="{{ $option->name ?? $option }}"/>&nbsp; {{ $option->name ?? $option }} &nbsp;&nbsp;
             </label>
           @endforeach
+          <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
         </div>
         @break
         @case('phone')
@@ -314,6 +320,7 @@ $fields = $form->fields;
                        @endif
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}}  placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -365,6 +372,7 @@ $fields = $form->fields;
                        @endif
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))
@@ -388,7 +396,7 @@ $fields = $form->fields;
 
         @case('file')
         <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}
-          {{(isset($field->options->availableExtensionsAccept)  && !empty($field->options->availableExtensionsAccept))? "(".$field->options->availableExtensionsAccept.")" : "" }}
+          {{!empty($field->rule_accept) ? "(".$field->rule_accept.")" : "" }}
         </label>
         <div class="col-12 py-1 px-1">
           @if(!empty($field->prefix) || !empty($field->suffix))
@@ -411,11 +419,12 @@ $fields = $form->fields;
                 @endif
                 
                 <input type="file"
-                       {{(isset($field->options->availableExtensionsAccept)  && !empty($field->options->availableExtensionsAccept))? "accept=".$field->options->availableExtensionsAccept : ""}}
+                       {{ !empty($field->rule_accept)? "accept=".$field->rule_accept : ""}}
                        class="form-control-file border-0 {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                        name="{{$field->name}}"
                        id="input{{$field->name}}"
                        {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
+                  <small id="{{$field->name}}Help" class="form-text text-muted">{{$field->description}}</small>
                 @if(!empty($field->prefix) || !empty($field->suffix))
                   @if(!empty($field->prefix->value) || !empty($field->suffix->value))
                     @if(!empty($field->suffix))

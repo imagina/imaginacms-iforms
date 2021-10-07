@@ -24,13 +24,5 @@ return [
     'validation' => [
     ],
   
-  'crudFields' => [
-    "label" =>[
-      "availableExtensions" => "Available extensions"
-    ],
-    "hint" =>[
-      "availableExtensions" => "Type the extension and press enter - Only extensions without dot(.) are allowed, and must be previously enabled in the Media module."
-    ],
-  
-  ],
+
 ];

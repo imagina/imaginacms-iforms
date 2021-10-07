@@ -16,7 +16,7 @@ class FieldTransformer extends JsonResource
       'label' => $this->when($this->label, $this->label),
       'placeholder' => $this->when($this->placeholder, $this->placeholder),
       'description' => $this->when($this->description, $this->description),
-      'required' => $this->required ? true : false,
+      'required' => $this->required ? 1 : 0,
       'order' => $this->order,
       'width' => $this->width ?? 12,
       'prefix' => $this->when($this->prefix, $this->prefix),
@@ -25,6 +25,7 @@ class FieldTransformer extends JsonResource
       'formId' => $this->when($this->form_id, $this->form_id),
       'selectable' => $this->when($this->selectable, $this->selectable),
       'options' => $this->options,
+      'rules' => $this->rules,
       'form' => new FormTransformer($this->whenLoaded('form')),
       'block' => new BlockTransformer($this->whenLoaded('block')),
     ];

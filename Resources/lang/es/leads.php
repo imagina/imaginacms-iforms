@@ -23,16 +23,7 @@ return [
     ],
     'validation' => [
     ],
-  
-  'crudFields' => [
-    "label" =>[
-      "availableExtensions" => "Extensiones permitidas"
-    ],
-    "hint" =>[
-      "availableExtensions" => "escriba la extensión y presione enter - Sólo se permiten extensiones sin punto(.), y deben estar previamente habilitadas en el módulo Media"
-    ],
-    
-  ],
+ 
  
  
 ];

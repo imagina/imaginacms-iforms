@@ -249,17 +249,16 @@ class LeadApiController extends BaseApiController
     $fileService = app('Modules\Media\Services\FileService');
     
     //validating the availableExtensions in the field if exist and not empty
-    if (isset($field->options->availableExtensions) && !empty(isset($field->options->availableExtensions))) {
+    if (isset($field->rules->mimes) && !empty(isset($field->rules->mimes))) {
       
       //extending the AvailableExtensionsRule in the Media Module, customizing the extensions and message
-      $availableExtensionsRule = new AvailableExtensionsRule($field->options->availableExtensions, trans("iforms::leads.messages.invalidFileExtension", ["fieldLabel" => $field->label]));
+      $availableExtensionsRule = new AvailableExtensionsRule($field->rules->mimes, trans("iforms::leads.messages.invalidFileExtension", ["fieldLabel" => $field->label]));
       
       //getting the file extension
       $extension  = FileHelper::getExtension($file->getClientOriginalName());
 
       if (!$availableExtensionsRule->passes($field->label, \Str::replace(".","",$extension)))
       {
-       
         throw new \Exception(json_encode(["errors" => [$availableExtensionsRule->message()]]), 400);
       }
     }
