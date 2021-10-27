@@ -2,6 +2,7 @@
 
 
 namespace Modules\Iforms\Transformers;
+
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FieldTransformer extends JsonResource
@@ -29,7 +30,7 @@ class FieldTransformer extends JsonResource
       'form' => new FormTransformer($this->whenLoaded('form')),
       'block' => new BlockTransformer($this->whenLoaded('block')),
     ];
-
+    
     $filter = json_decode($request->filter);
     // Return data with available translations
     if (isset($filter->allTranslations) && $filter->allTranslations) {
@@ -41,33 +42,40 @@ class FieldTransformer extends JsonResource
         $data[$lang]['description'] = $this->hasTranslation($lang) ? $this->translate("$lang")['description'] : '';
       }
     }
-
+    
     $formType = $this->present()->type;
-
+    
     $data['dynamicField'] = [
-        'type' => in_array($formType['value'],['text', 'textarea', 'number', 'email', 'phone']) ? 'input' : ($formType['value'] === 'file' ? 'media' : $formType['value'] ),
-        'name' => $this->name,
-        'required' => $this->required ? true : false,
-        'props' => [
-            'type' => $formType['value'] === 'phone' ? 'tel' :($formType['value'] === 'file' ? 'media' : $formType['value'] ),
-            'label' => $this->label,
-        ]
+      'type' => in_array($formType['value'], ['text', 'textarea', 'number', 'email', 'phone']) ? 'input' : ($formType['value'] === 'file' ? 'media' : $formType['value']),
+      'name' => $this->name,
+      'required' => $this->required ? true : false,
+      'props' => [
+        'type' => $formType['value'] === 'phone' ? 'tel' : ($formType['value'] === 'file' ? 'media' : $formType['value']),
+        'label' => $this->label,
+      ]
     ];
-
+    
     $formType['value'] === 'selectmultiple' ? $data['dynamicField']['props']['multiple'] = true : null;
-
-    if(in_array($formType['value'], ['selectmultiple' ,'select', 'radio'])) {
-        $options = json_decode($this->selectable) ?? [];
+    
+    if (in_array($formType['value'], ['selectmultiple', 'select', 'radio'])) {
+      
+      $options = json_decode($this->selectable) ?? [];
+      
+      if (isset($this->options["loadOptions"]) && !empty($this->options["loadOptions"])) {
+        $data['dynamicField']['loadOptions'] = $this->options["loadOptions"];
+      }
+     
+      if (empty($options) && isset($this->options["fieldOptions"]) && !empty($this->options["fieldOptions"])) {
+        
         $data['dynamicField']['props']['options'] = [];
         
-        if(empty($options) && isset($this->options->fieldOptions) && !empty($this->options->fieldOptions)){
-          $options = $this->options->fieldOptions;
-        }
-
-        foreach($options as $option){
-            $data['dynamicField']['props']['options'][] = ["label" => $option->name ?? $option, "value" => $option->name ?? $option];
-        }
-
+        $options = $this->options["fieldOptions"];
+      }
+      
+      foreach ($options as $option) {
+        $data['dynamicField']['props']['options'][] = ["label" => $option->name ?? $option, "value" => $option->name ?? $option];
+      }
+      
     }
     return $data;
   }

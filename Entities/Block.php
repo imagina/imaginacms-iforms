@@ -18,6 +18,7 @@ class Block extends Model
         'form_id',
         'sort_order',
         'options',
+        'name',
     ];
 
     protected $casts = [
