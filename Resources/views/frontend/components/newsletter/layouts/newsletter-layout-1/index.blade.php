@@ -32,7 +32,7 @@
           type: 'POST',
           url: $(this).attr('action'),
           dataType: 'json',
-          data: {attributes: info},
+          data:  info,
           success: function (data) {
             $(".form-content-{{ $form->system_name }}").html('<p class="alert bg-primary text-white mb-0 mt-3" role="alert"><span>' + data.data + '</span> </p>');
           },
