@@ -27,11 +27,12 @@
       var formId = '#{{$formId}}';
       $(formId).submit(function (event) {
         event.preventDefault();
+        var formdata =objectifyForm(formId)
         var livewireSubmitEvent = '{{ $livewireSubmitEvent ?? '' }}';
         if (livewireSubmitEvent != '') {
-          window.livewire.emit(livewireSubmitEvent, info);
+          window.livewire.emit(livewireSubmitEvent,   livewireObjectifyForm($(this).serializeArray()));
         } else {
-          var formdata =objectifyForm(formId)
+          
 
           $.ajax({
             type: 'POST',
@@ -84,6 +85,26 @@
       }
 
       return data;
+    }
+
+    function livewireObjectifyForm(formArray) {//serialize data function
+  
+      var returnArray = {};
+  
+  
+      for (var i = 0; i < formArray.length; i++) {
+        var $obj = $("[name='"+formArray[i]['name']+"'] option:selected");
+        var $val = []
+        if($obj.length>0) {
+          $obj.each(function() {
+            $val.push($(this).val());
+          });
+          returnArray[formArray[i]['name']] = $val.join(', ');
+        }else{
+          returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+      }
+      return returnArray;
     }
   </script>
 @stop
