@@ -18,6 +18,7 @@ class Type extends Model
   const PHONE = 10;
   const DATE = 11;
   const FILE = 12;
+  const TREESELECT = 13;
 
   /**
    * @var array
@@ -87,6 +88,11 @@ class Type extends Model
         'name' => trans('iforms::common.types.file'),
         'value' => 'file'
       ],
+      [
+        'id' => self::TREESELECT,
+        'name' => trans('iforms::common.types.treeSelect'),
+        'value' => 'treeSelect'
+      ]
     ];
   }
 
@@ -106,7 +112,7 @@ class Type extends Model
    */
   public function get($id)
   {
-    $id --;
+    $id--;
     if (isset($this->types[$id])) {
       return $this->types[$id];
     }

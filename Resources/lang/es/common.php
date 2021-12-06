@@ -39,6 +39,7 @@ return [
     'phone' => 'Teléfono',
     'date' => 'Fecha',
     'file' => 'Archivo',
+    'treeSelect' => 'Tree Select',
   ],
   'formTypes' => [
       'normal' => 'Formulario normal',
