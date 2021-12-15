@@ -4,10 +4,11 @@ namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Block extends Model
 {
-    use Translatable;
+    use Translatable,BelongsToTenant;
 
     protected $table = 'iforms__blocks';
     public $translatedAttributes = [

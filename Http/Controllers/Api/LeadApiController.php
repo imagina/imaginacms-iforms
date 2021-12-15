@@ -116,6 +116,7 @@ class LeadApiController extends BaseApiController
       $attr = array();
       $attr['form'] = $form;
       $attr['form_id'] = $form->id;
+      $attr['organization_id'] = $form->organization_id ?? null;
       $attr['values'] = array();
       $attr['reply'] = ['to' => env('MAIL_FROM_ADDRESS'), 'toName' => 'Client'];
       $fields = $form->fields;

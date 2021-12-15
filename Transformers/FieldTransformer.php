@@ -47,11 +47,12 @@ class FieldTransformer extends JsonResource
     
     $data['dynamicField'] = [
       'type' => in_array($formType['value'], ['text', 'textarea', 'number', 'email', 'phone']) ? 'input' : ($formType['value'] === 'file' ? 'media' : $formType['value']),
-      'name' => $this->name,
+      'name' => $formType['value'] === 'file' ? "mediasSingle" : $this->name,
       'required' => $this->required ? true : false,
       'props' => [
         'type' => $formType['value'] === 'phone' ? 'tel' : ($formType['value'] === 'file' ? 'media' : $formType['value']),
         'label' => $this->label,
+        'entity' => $this->options["entity"] ?? ""
       ]
     ];
     
