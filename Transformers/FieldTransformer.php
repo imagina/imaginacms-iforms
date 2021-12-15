@@ -30,7 +30,7 @@ class FieldTransformer extends JsonResource
       'form' => new FormTransformer($this->whenLoaded('form')),
       'block' => new BlockTransformer($this->whenLoaded('block')),
     ];
-    
+
     $filter = json_decode($request->filter);
     // Return data with available translations
     if (isset($filter->allTranslations) && $filter->allTranslations) {
@@ -42,9 +42,9 @@ class FieldTransformer extends JsonResource
         $data[$lang]['description'] = $this->hasTranslation($lang) ? $this->translate("$lang")['description'] : '';
       }
     }
-    
+
     $formType = $this->present()->type;
-    
+
     $data['dynamicField'] = [
       'type' => in_array($formType['value'], ['text', 'textarea', 'number', 'email', 'phone']) ? 'input' : ($formType['value'] === 'file' ? 'media' : $formType['value']),
       'name' => $formType['value'] === 'file' ? "mediasSingle" : $this->name,
@@ -55,28 +55,28 @@ class FieldTransformer extends JsonResource
         'entity' => $this->options["entity"] ?? ""
       ]
     ];
-    
+
     $formType['value'] === 'selectmultiple' ? $data['dynamicField']['props']['multiple'] = true : null;
-    
-    if (in_array($formType['value'], ['selectmultiple', 'select', 'radio'])) {
-      
+
+    if (in_array($formType['value'], ['selectmultiple', 'select', 'radio', 'treeSelect'])) {
+
       $options = json_decode($this->selectable) ?? [];
-      
+
       if (isset($this->options["loadOptions"]) && !empty($this->options["loadOptions"])) {
         $data['dynamicField']['loadOptions'] = $this->options["loadOptions"];
       }
-     
+
       if (empty($options) && isset($this->options["fieldOptions"]) && !empty($this->options["fieldOptions"])) {
-        
+
         $data['dynamicField']['props']['options'] = [];
-        
+
         $options = $this->options["fieldOptions"];
       }
-      
+
       foreach ($options as $option) {
         $data['dynamicField']['props']['options'][] = ["label" => $option->name ?? $option, "value" => $option->name ?? $option];
       }
-      
+
     }
     return $data;
   }

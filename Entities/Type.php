@@ -95,11 +95,6 @@ class Type extends Model
         'value' => 'treeSelect'
       ],
       [
-        'id' => self::TREE_SELECT,
-        'name' => trans('iforms::common.types.treeSelect'),
-        'value' => 'treeSelect'
-      ],
-      [
         'id' => self::HIDDEN,
         'name' => trans('iforms::common.types.hidden'),
         'value' => 'hidden'
@@ -123,7 +118,7 @@ class Type extends Model
    */
   public function get($id)
   {
-    $id --;
+    $id--;
     if (isset($this->types[$id])) {
       return $this->types[$id];
     }
