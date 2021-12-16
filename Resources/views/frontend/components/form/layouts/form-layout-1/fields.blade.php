@@ -4,7 +4,7 @@ $fields = $form->fields;
 {{ csrf_field() }}
 <div class="form-group row">
   @foreach($fields as $index => $field)
-    <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1">
+    <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1 {{$field->name}}">
       @switch($field->present()->type['value'])
         @case('text')
         <label for="input{{$field->name}}" class="col-12 py-1 px-1 col-form-label">{{$field->label}}</label>
