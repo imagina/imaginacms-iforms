@@ -1,9 +1,9 @@
-<div class="form-content-{{ $form->system_name }} mb-4 position-relative">
+<div class="newsletter form-content-{{ $form->system_name }} mb-4 position-relative">
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <h4 class="mb-0">{{ $form->title ?? $title }}</h4>
   @if(!empty($description))
-  <p class="mb-3">{{ $description }}</p>
+  <p class="description mb-3">{{ $description }}</p>
   @endif
   <form id="form{{ $form->system_name }}" method="post" action="{{ route('api.iforms.leads.create') }}">
     <input type="hidden" name="form_id" value="{{ $form->id }}" required="">
@@ -19,7 +19,7 @@
       </div>
     </div>
     @if(!empty($postDescription))
-      <p class="mb-3">{{ $postDescription }}</p>
+      <p class="post-description mb-3">{{ $postDescription }}</p>
     @endif
     <x-isite::captcha formId="{{'form'.$form->system_name }}"/>
   </form>
