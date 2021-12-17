@@ -2,7 +2,9 @@
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <h4 class="mb-0">{{ $form->title ?? $title }}</h4>
+  @if(!empty($description))
   <p class="mb-3">{{ $description }}</p>
+  @endif
   <form id="form{{ $form->system_name }}" method="post" action="{{ route('api.iforms.leads.create') }}">
     <input type="hidden" name="form_id" value="{{ $form->id }}" required="">
     <div class="input-group">
@@ -16,6 +18,9 @@
         </button>
       </div>
     </div>
+    @if(!empty($postDescription))
+      <p class="mb-3">{{ $postDescription }}</p>
+    @endif
     <x-isite::captcha formId="{{'form'.$form->system_name }}"/>
   </form>
   <div class="formerror"></div>
