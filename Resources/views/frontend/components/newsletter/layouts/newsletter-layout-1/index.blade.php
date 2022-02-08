@@ -1,7 +1,7 @@
 <div class="newsletter form-content-{{ $form->system_name }} mb-4 position-relative">
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
-  <h4 class="mb-0">{{ $form->title ?? $title }}</h4>
+  <h4 class="mb-0">{{ $title ?? $form->title }}</h4>
   @if(!empty($description))
   <p class="description mb-3">{{ $description }}</p>
   @endif
