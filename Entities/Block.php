@@ -8,7 +8,7 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Block extends Model
 {
-    use Translatable,BelongsToTenant;
+    use Translatable;
 
     protected $table = 'iforms__blocks';
     public $translatedAttributes = [

@@ -11,7 +11,7 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class Field extends Model
 {
-  use Translatable, PresentableTrait,BelongsToTenant;
+  use Translatable, PresentableTrait;
   
   protected $table = 'iforms__fields';
   
