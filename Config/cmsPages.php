@@ -41,7 +41,7 @@ return [
       "subHeader" => [
         "refresh" => true,
         "breadcrumb" => [
-          "qform.forms"
+          "iform_cms_admin_forms"
         ]
       ]
     ],
@@ -87,7 +87,7 @@ return [
       "subHeader" => [
         "refresh" => true,
         "breadcrumb" => [
-          "qform.forms"
+          "iform_cms_admin_forms"
         ]
       ]
     ],
