@@ -44,6 +44,7 @@ return [
   'tenantWithCentralData' => [
     'value' => [],
     'name' => 'iforms::tenantWithCentralData',
+    "onlySuperAdmin" => true,
     'groupName' => 'tenantConfiguration',
     'groupTitle' => 'iforms::common.settings.tenant.group',
     'type' => 'select',
