@@ -44,6 +44,7 @@ return [
   'tenantWithCentralData' => [
     'value' => [],
     'name' => 'iforms::tenantWithCentralData',
+    "onlySuperAdmin" => true,
     'groupName' => 'tenantConfiguration',
     'groupTitle' => 'iforms::common.settings.tenant.group',
     'type' => 'select',
@@ -56,7 +57,7 @@ return [
       'hideDropdownIcon' => true,
       'newValueMode' => 'add-unique',
       'options' => [
-        ['label' => 'iforms::common.settings.tenant.entities.roles', 'value' => 'forms'],
+        ['label' => 'iforms::common.settings.tenant.entities.forms', 'value' => 'forms'],
       ]
     ]
   ],
