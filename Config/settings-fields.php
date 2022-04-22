@@ -57,7 +57,7 @@ return [
       'hideDropdownIcon' => true,
       'newValueMode' => 'add-unique',
       'options' => [
-        ['label' => 'iforms::common.settings.tenant.entities.roles', 'value' => 'forms'],
+        ['label' => 'iforms::common.settings.tenant.entities.forms', 'value' => 'forms'],
       ]
     ]
   ],
