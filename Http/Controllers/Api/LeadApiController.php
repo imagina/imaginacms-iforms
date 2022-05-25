@@ -258,8 +258,7 @@ class LeadApiController extends BaseApiController
       //getting the file extension
       $extension  = FileHelper::getExtension($file->getClientOriginalName());
 
-      if (!$availableExtensionsRule->passes($field->label, \Str::replace(".","",$extension)))
-      {
+      if (!$availableExtensionsRule->passes($field->label, \Str::replace(".","",$extension))){
         throw new \Exception(json_encode(["errors" => [$availableExtensionsRule->message()]]), 400);
       }
     }
