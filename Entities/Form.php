@@ -25,6 +25,7 @@ class Form extends Model
     'user_id',
     'options',
     'form_type',
+    'organization_id'
   ];
   
   protected $casts = [
