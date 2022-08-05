@@ -16,8 +16,9 @@ class Newsletter extends Component
     public $postDescription;
     public $submitLabel;
     public $view;
+    public $central;
 
-    public function __construct($layout = 'newsletter-layout-1', $title = '', $description = '', $submitLabel = '', $postDescription = "")
+    public function __construct($layout = 'newsletter-layout-1', $title = '', $description = '', $submitLabel = '', $postDescription = "", $central = false)
     {
         $this->layout = $layout ?? 'newsletter-layout-1';
         $this->view = "iforms::frontend.components.newsletter.layouts.{$this->layout}.index";
@@ -25,6 +26,7 @@ class Newsletter extends Component
         $this->description = $description;
         $this->postDescription = $postDescription;
         $this->submitLabel = $submitLabel ?? trans('iforms::forms.button.subscribe');
+        $this->central = $central;
         $this->getOrAddForm();
     }
 
@@ -36,7 +38,12 @@ class Newsletter extends Component
             ],
             'fields' => [],
         ];
+
+        if($this->central)
+            $params["filter"]["notOrganization"] = true;
+    
         $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->getItem('newsletter',json_decode(json_encode($params)));
+
         if(empty($this->form)){
             $formData = [
                 'system_name' => 'newsletter',
@@ -56,6 +63,7 @@ class Newsletter extends Component
             app('Modules\\Iforms\\Repositories\\FieldRepository')->create($newFieldData);
 
         }
+        
     }
 
     public function render()
