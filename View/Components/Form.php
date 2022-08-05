@@ -18,25 +18,35 @@ class Form extends Component
   public $livewireSubmitEvent;
   public $view;
   public $jsSubmitEvent;
+  public $central;
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
-                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null)
+                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null,$central = true)
   {
     $this->id = $id;
     $this->layout = $layout ?? 'form-layout-1';
     $this->fieldsParams = $fieldsParams ?? [];
     $this->view = "iforms::frontend.components.form.layouts.{$this->layout}.index";
     $this->formRepository = app('Modules\\Iforms\\Repositories\\FormRepository');
+    $this->params = $params;
+    $this->central = $central;
     $this->getForm();
     $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
     $this->formId = Str::slug($this->form->system_name, '_') . ($formId ?? '');
     $this->jsSubmitEvent = $jsSubmitEvent ?? null;
+   
   }
 
   public function getForm()
   {
 
     $params = $this->makeParamsFunction();
+
+    if($this->central){
+      $params["filter"]["notOrganization"] = true;
+    }else{
+      $params["filter"]["organizationId"] = tenant()->id;
+    }
 
     $this->form = $this->formRepository->getItem($this->id, json_decode(json_encode($params)));
   }
