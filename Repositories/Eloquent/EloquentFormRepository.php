@@ -112,10 +112,15 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
 
-      //Filter by parent ID
       if (isset($filter->organizationId) && !empty($filter->organizationId)) {
         $query->where("organization_id", $filter->organizationId);
       }
+
+      //Filter by not organization
+      if (isset($filter->notOrganization) && !empty($filter->notOrganization)) {
+        $query->withoutTenancy();
+      }
+    
 
     }
   
