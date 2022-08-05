@@ -83,8 +83,7 @@ class FieldTransformer extends JsonResource
         ( in_array($fieldType, ['checkbox']) ? false : "" ),
       'colClass' => "col-12 col-sm-".( $field->width ?? '12' ),
       'props' => [
-        'type' => $fieldType === 'phone' ? 'tel' :
-          ( $fieldType === 'file' ? 'media' : $fieldType ),
+        //'type' => $fieldType === 'phone' ? 'tel' : ( $fieldType === 'file' ? 'media' : $fieldType ),
         'label' => $this->label,
         'entity' => $this->options["entity"] ?? "",
         'multiple' => $fieldType === 'selectmultiple' ? true : false
