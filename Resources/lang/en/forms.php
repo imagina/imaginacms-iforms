@@ -18,9 +18,9 @@ return [
   'table' => [
   ],
   'form' => [
-    'submit' => 'Submit',
-    'aceept' => "I accept the ",
-    'termsAndsConditions' => 'Terms and Conditions',
+    'termsAndConditions' => 'I accept
+            <a href=":urlTermsAndConditions" target="_blank" class="h6">
+            the terms and conditions.',
     'customLeadPDFTemplate' => 'Custom PDF Template (only editable by super-admin)',
   ],
   'messages' => [
