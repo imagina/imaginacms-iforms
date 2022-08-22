@@ -19,10 +19,8 @@
       <div id="contentTermsAndConditions" class="col-12 position-relative">
         <div id="CheckFormTermsAndConditions" class="pl-4">
           <input type="checkbox" class="form-check-input" required="" id="TermsAndConditions">
-          <label class="form-check-label h6" for="TermsAndConditions">Acepto los
-            <a href="{{$form->options->urlTermsAndConditions}}" class="h6">
-              Términos y Condiciones.
-            </a>
+          <label class="form-check-label h6" for="TermsAndConditions">
+            {!! trans('iforms::forms.form.termsAndConditions', ['urlTermsAndConditions' =>$form->options->urlTermsAndConditions]) !!}
           </label>
         </div>
       </div>
