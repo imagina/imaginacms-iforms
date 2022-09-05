@@ -90,6 +90,10 @@ class FieldTransformer extends JsonResource
       ]
     ];
     
+    //props type
+    $availableTypes = ["number","email"];
+    (in_array($fieldType,$availableTypes)) ? $data['dynamicField']['props']['type'] = $type : false;
+    
     //Options for ['selectmultiple', 'select', 'radio', 'treeSelect'] field types
     if (in_array($fieldType, ['selectmultiple', 'select', 'radio', 'treeSelect'])) {
 
