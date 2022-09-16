@@ -125,7 +125,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
   public function create($data)
   {
     $lead= $this->model->create($data);
-    event(new  LeadWasCreated($lead,$data));
+
     event(new CreateMedia($lead, $data));
 
     return $lead;
@@ -143,7 +143,13 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    return $model ? $model->update((array)$data) : false;
+
+    if(isset($model->id)){
+      $model->update((array)$data);
+      return $model;
+    }else{
+      throw new Exception('Item not found', 404);
+    }
   }
   public function deleteBy($criteria, $params = false)
   {

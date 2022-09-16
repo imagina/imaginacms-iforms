@@ -14,7 +14,6 @@ $router->group(['prefix' => 'iforms'], function (Router $router) {
     $router->get("attachment/{formId}/{leadId}/{fileZone}", [
         'as' => 'iform.lead.attachment',
         'uses' => 'PublicController@getAttachment',
-        'middleware' => 'logged.in'
     ]);
 
 });

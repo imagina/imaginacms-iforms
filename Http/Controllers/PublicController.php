@@ -153,6 +153,14 @@ class PublicController extends BaseApiController
 
             $type = $attachment["mimetype"] ?? null;
 
+            //user authentication or token validation
+            if(empty(\Auth::id())){
+              $token = $request->input('token');
+              if (empty($token) || !$attachment->validateToken($token)){
+                return redirect()->route(config("asgard.user.config.redirect_route_not_logged_in"));
+              }
+            }
+
             $privateDisk = config('filesystems.disks.public');
             $mediaFilesPath = config('asgard.media.config.files-path');
 
