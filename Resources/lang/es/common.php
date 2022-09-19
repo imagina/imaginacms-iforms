@@ -78,6 +78,7 @@ return [
     'api' => 'Api',
     'recaptcha' => 'Recaptcha',
     'trans' => 'Traducible',
+    'labelFormFileTokenExpirationTime' => 'Tiempo expiración token archivos formularios (En Años)'
   ],
   'editLink' => [
     'tooltipForm' => 'Editar este formulario'
