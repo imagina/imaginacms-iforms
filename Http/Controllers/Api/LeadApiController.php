@@ -277,7 +277,7 @@ class LeadApiController extends BaseApiController
     $attr["medias_single"] = array_merge($attr["medias_single"], [$form->system_name . $field->name . $field->id => $file->id]);
 
     //file token
-    $token = $file->generateToken(365 * setting('iforms::formFileTokenExpirationTime'));
+    $token = $file->generateToken(setting('iforms::formFileTokenExpirationTime'));
 
     //replacing Object binary file with the file Id
     $data[$field->name] = $token->token;
