@@ -30,13 +30,12 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       if (isset($filter->search)) {
         //find search in columns
         $query->where(function ($query) use ($filter) {
-          $query->whereHas('translations', function ($query) use ($filter) {
-            $query->where('locale', $filter->locale)
-              ->where('title', 'like', '%' . $filter->search . '%');
-          })->orWhere('id', 'like', '%' . $filter->search . '%')
+          $query->where('id', 'like', '%' . $filter->search . '%')
+            ->orWhere('values', 'like', '%' . $filter->search . '%')
             ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
             ->orWhere('created_at', 'like', '%' . $filter->search . '%');
         });
+        
       }
       //Filter by date
       if (isset($filter->date)) {
