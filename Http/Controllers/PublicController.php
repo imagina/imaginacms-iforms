@@ -131,42 +131,44 @@ class PublicController extends BaseApiController
 
 
     }
-
-
-    public function getAttachment(Request $request, $formId, $leadId, $fileZone)
-    {
- 
-        try {
-            //Get Parameters from URL.
-            $params = $this->getParamsRequest($request);
-          
-            //Request to Repository
-            $lead = $this->leadRepository->getItem($leadId,$params);
-         
-            //Request to Repository
-            $form = $this->form->getItem($formId,$params);
-
-            if (!isset($lead->id) || !isset($form->id))
-                throw new Exception('Item not found', 404);
-
-            $attachment = $lead->filesByZone($fileZone)->first();
-
-            $type = $attachment["mimetype"] ?? null;
-
-            $privateDisk = config('filesystems.disks.public');
-            $mediaFilesPath = config('asgard.media.config.files-path');
-
-            $path = $privateDisk["root"].$mediaFilesPath. $attachment->filename;
-
-            return response()->file($path, [
-                'Content-Type' => $type,
-            ]);
-
-
-        } catch (\Exception $e) {
-          return abort(404);
-        }
-
+  
+  
+  public function getAttachment(Request $request, $formId, $leadId, $fileZone)
+  {
+    
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+      
+      //Request to Repository
+      $lead = $this->leadRepository->getItem($leadId,$params);
+      
+      //Request to Repository
+      $form = $this->form->getItem($formId,$params);
+      
+      if (!isset($lead->id) || !isset($form->id))
+        throw new Exception('Item not found', 404);
+      
+      $attachment = $lead->filesByZone($fileZone)->first();
+      
+      $type = $attachment["mimetype"] ?? null;
+      
+      $privateDisk = config('filesystems.disks.public');
+      $mediaFilesPath = config('asgard.media.config.files-path');
+      
+      $path = $privateDisk["root"].$mediaFilesPath. $attachment->filename;
+      
+      return response()->file($path, [
+        'Content-Type' => $type,
+      ]);
+      
+      
+    } catch (\Exception $e) {
+      return abort(404);
     }
+    
+  }
+  
+  
 
 }
