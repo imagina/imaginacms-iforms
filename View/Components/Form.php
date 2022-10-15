@@ -21,7 +21,7 @@ class Form extends Component
   public $central;
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
-                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null,$central = true)
+                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true)
   {
     $this->id = $id;
     $this->layout = $layout ?? 'form-layout-1';
@@ -32,9 +32,8 @@ class Form extends Component
     $this->central = $central;
     $this->getForm();
     $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
-    $this->formId = Str::slug($this->form->system_name, '_') . ($formId ?? '');
     $this->jsSubmitEvent = $jsSubmitEvent ?? null;
-   
+
   }
 
   public function getForm()
@@ -42,13 +41,17 @@ class Form extends Component
 
     $params = $this->makeParamsFunction();
 
-    if($this->central){
+    if ($this->central) {
       $params["filter"]["notOrganization"] = true;
-    }else{
+    } else {
       $params["filter"]["organizationId"] = tenant()->id;
     }
 
     $this->form = $this->formRepository->getItem($this->id, json_decode(json_encode($params)));
+    if (isset($this->form->id)) {
+      $this->formId = Str::slug($this->form->system_name, '_') . ($formId ?? '');
+    }
+
   }
 
   private function makeParamsFunction()
@@ -66,6 +69,10 @@ class Form extends Component
 
   public function render()
   {
-    return view($this->view);
+    if (isset($this->form->id)) {
+      return view($this->view);
+    } else {
+      return view('iforms::frontend.components.form.layouts.form-layout-error.index');
+    }
   }
 }

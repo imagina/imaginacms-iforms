@@ -28,6 +28,8 @@ class FormTransformer extends JsonResource
       'user' => new UserTransformer($this->whenLoaded('user')),
       'createdAt' => $this->when($this->created_at, $this->created_at),
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
+      'url' => $this->url ?? '#',
+      'embed' => $this->embed ?? '',
     ];
 
     $filter = json_decode($request->filter);

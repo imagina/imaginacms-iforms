@@ -42,8 +42,8 @@ return [
     'treeSelect' => 'Tree Select',
   ],
   'formTypes' => [
-      'normal' => 'Formulario normal',
-      'steps' => 'Formulario con pasos'
+    'normal' => 'Formulario normal',
+    'steps' => 'Formulario con pasos'
   ],
 
   'status_text' => 'Estatus',
@@ -71,6 +71,7 @@ return [
   'admin_notes' => 'Admin`s notes',
   'created_at' => 'Creation date',
   'parent' => 'Parent',
+  'errorValidationForm' => 'Formulario Inválido',
 
   'setting' => [
     'email' => 'Email',
@@ -90,7 +91,7 @@ return [
   'settings' => [
     'tenant' => [
       'group' => 'Inquilinos',
-      'tenantWithCentralData'=> 'Entidades con data central',
+      'tenantWithCentralData' => 'Entidades con data central',
       'entities' => [
         'forms' => 'Formularios'
       ]
