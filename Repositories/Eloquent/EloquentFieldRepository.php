@@ -5,6 +5,8 @@ namespace Modules\Iforms\Repositories\Eloquent;
 use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
+use Modules\Iforms\Entities\Type;
+
 class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository
 {
   public function getItemsBy($params)
@@ -60,6 +62,25 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       if (isset($filter->parentId) && !empty($filter->parentId)) {
         $query->where("parent_id", $filter->parentId);
       }
+
+      //Filter by type ID
+      if (isset($filter->typeId) && !empty($filter->typeId)) {
+        $query->where("type", $filter->typeId);
+      }
+
+      //Filter by type
+      if (isset($filter->type) && !empty($filter->type)) {
+
+        $type = new Type();
+        $typeId = $type->getIdByValue($filter->type);
+
+        if(!is_null($typeId))
+          $query->where("type",$typeId);
+        else
+          throw new \Exception('Type not found', 404);
+        
+      }
+      
 
     }
     /*== FIELDS ==*/

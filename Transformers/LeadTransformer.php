@@ -30,7 +30,7 @@ class LeadTransformer extends JsonResource
       
       foreach($fields as $field){
         if($field->type == 12) { //FILE
-          $data["values"][$field->name] = url($data["values"][$field->name]);
+          $data["values"][$field->name] = url($data["values"][$field->name] ?? '');
         }
       }
   

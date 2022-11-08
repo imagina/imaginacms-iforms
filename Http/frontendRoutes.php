@@ -11,10 +11,13 @@ $router->group(['prefix' => 'iforms'], function (Router $router) {
 //        //'middleware' => config('asgard.blog.config.middleware'),
 //    ]);
 
-    $router->get("attachment/{formId}/{leadId}/{fileZone}", [
-        'as' => 'iform.lead.attachment',
-        'uses' => 'PublicController@getAttachment',
-        'middleware' => 'logged.in'
-    ]);
+  $router->get("attachment/{formId}/{leadId}/{fileZone}", [
+    'as' => 'iform.lead.attachment',
+    'uses' => 'PublicController@getAttachment',
+  ]);
 
+  $router->get("view/{formId}", [
+    'as' => 'iform.view.form',
+    'uses' => 'PublicController@viewForm',
+  ]);
 });

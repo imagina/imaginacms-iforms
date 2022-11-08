@@ -21,7 +21,7 @@ return [
     'submit' => 'Enviar',
     'termsAndConditions' => 'Acepto los
             <a href=":urlTermsAndConditions" target="_blank" class="h6">
-            Términos y Condiciones.',
+            Términos y Condiciones.</a>',
     'customLeadPDFTemplate' => 'Plantilla PDF Personalizada (sólo editable por super-admin)',
   ],
   'messages' => [

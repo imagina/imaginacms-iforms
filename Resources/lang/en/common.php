@@ -77,6 +77,7 @@ return [
     'api' => 'Api',
     'recaptcha' => 'Recaptcha',
     'trans' => 'Translatable',
+    'labelFormFileTokenExpirationTime' => 'Form file token expiration time (In Days)'
   ],
   'editLink' => [
     'tooltipForm' => 'Edit this form'
