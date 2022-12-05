@@ -5,9 +5,19 @@
     </div>
   </div>
 </div>
-<div class="content-form{{$formId}} position-relative">
-    <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
-                        :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
+<div id="formLayout1" class="content-form{{$formId}} position-relative">
+  @if($withTitle)
+    <div class="title-section {{$colorTitleByClass}} {{$AlainTitle}}">
+      {{$title}}
+    </div>
+  @endif
+  @if($withSubtitle)
+    <div class="subtitle-section {{$colorSubtitleByClass}} {{$AlainSubtitle}}">
+      {{$subtitle}}
+    </div>
+  @endif
+  <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
+                      :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <div class="formerror"></div>
   <form id="{{$formId}}" class="form-horizontal" method="post" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
@@ -39,3 +49,15 @@
   </form>
 </div>
 @include('iforms::frontend.components.form.layouts.mainlayout')
+
+<style>
+    #formLayout1 .title-section {
+        color: {{$colorTitle}};
+        font-size: {{$fontSizeTitle}}px;
+    }
+
+    #formLayout1 .subtitle-section {
+        color: {{$colorSubtitle}};
+        font-size: {{$fontSizeSubtitle}}px;
+    }
+</style>

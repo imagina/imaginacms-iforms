@@ -51,6 +51,7 @@ class IformsServiceProvider extends ServiceProvider
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iforms', 'permissions'), "asgard.iforms.permissions");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iforms', 'cmsPages'), "asgard.iforms.cmsPages");
     $this->mergeConfigFrom($this->getModuleConfigFilePath('iforms', 'cmsSidebar'), "asgard.iforms.cmsSidebar");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('iforms', 'blocks'), "asgard.iforms.blocks");
     $this->publishConfig('iforms', 'crud-fields');
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
