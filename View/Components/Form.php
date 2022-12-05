@@ -34,7 +34,7 @@ class Form extends Component
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
                               $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true,
-                              $title = "Formulario", $subtitle = "Descripción formulario", $withTitle = true,
+                              $title = "Formulario", $subtitle = "Descripción formulario", $withTitle = false,
                               $withSubtitle = false, $fontSizeTitle = "24", $fontSizeSubtitle = "14",
                               $colorTitle = null, $colorSubtitle = null, $AlainTitle = "text-left",
                               $AlainSubtitle = "text-left", $colorTitleByClass = "text-primary",
