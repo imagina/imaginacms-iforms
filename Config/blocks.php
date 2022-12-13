@@ -7,6 +7,24 @@ return [
     "title" => "Formulario",
     "systemName" => "iforms::form",
     "nameSpace" => "Modules\Iforms\View\Components\Form",
+    "contentFields" => [
+      "title" => [
+        "name" => "title",
+        "type" => "input",
+        "isTranslatable" => true,
+        "props" => [
+          "label" => "Titulo"
+        ]
+      ],
+      "subtitle" => [
+        "name" => "subtitle",
+        "type" => "input",
+        "isTranslatable" => true,
+        "props" => [
+          "label" => "Subtitle"
+        ]
+      ],
+    ],
     "attributes" => [
       "general" => [
         "title" => "General",
@@ -45,13 +63,6 @@ return [
               "options" => $vAttributes["validation"]
             ]
           ],
-          "title" => [
-            "name" => "title",
-            "type" => "input",
-            "props" => [
-              "label" => "titulo"
-            ]
-          ],
           "AlainTitle" => [
             "name" => "AlainTitle",
             "value" => "text-left",
@@ -72,13 +83,6 @@ return [
             "props" => [
               "label" => "Mostrar Subtitulo",
               "options" => $vAttributes["validation"]
-            ]
-          ],
-          "subtitle" => [
-            "name" => "subtitle",
-            "type" => "input",
-            "props" => [
-              "label" => "subtitle"
             ]
           ],
           "AlainSubtitle" => [
