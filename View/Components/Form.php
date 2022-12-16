@@ -38,7 +38,7 @@ class Form extends Component
                               $withSubtitle = false, $fontSizeTitle = "24", $fontSizeSubtitle = "14",
                               $colorTitle = null, $colorSubtitle = null, $AlainTitle = "text-left",
                               $AlainSubtitle = "text-left", $colorTitleByClass = "text-primary",
-                              $colorSubtitleByClass = "text-primary"
+                              $colorSubtitleByClass = "text-dark"
   )
   {
     $this->id = $id;
