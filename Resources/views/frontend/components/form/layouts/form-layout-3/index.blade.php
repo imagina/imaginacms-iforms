@@ -1,4 +1,14 @@
-<div class="content-form{{$formId}} position-relative">
+<div id="formLayout3" class="content-form{{$formId}} position-relative">
+  @if($withTitle)
+    <div class="title-section {{$colorTitleByClass}} {{$AlainTitle}}">
+      {{$title}}
+    </div>
+  @endif
+  @if($withSubtitle)
+    <div class="subtitle-section {{$colorSubtitleByClass}} {{$AlainSubtitle}}">
+      {{$subtitle}}
+    </div>
+  @endif
   <div class="formerror"></div>
     <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
@@ -16,3 +26,15 @@
   </form>
 </div>
 @include('iforms::frontend.components.form.layouts.mainlayout')
+
+<style>
+    #formLayout3 .title-section {
+        color: {{$colorTitle}};
+        font-size: {{$fontSizeTitle}}px;
+    }
+
+    #formLayout3 .subtitle-section {
+        color: {{$colorSubtitle}};
+        font-size: {{$fontSizeSubtitle}}px;
+    }
+</style>

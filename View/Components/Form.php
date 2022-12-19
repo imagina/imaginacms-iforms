@@ -19,9 +19,27 @@ class Form extends Component
   public $view;
   public $jsSubmitEvent;
   public $central;
+  public $title;
+  public $subtitle;
+  public $withTitle;
+  public $withSubtitle;
+  public $AlainTitle;
+  public $AlainSubtitle;
+  public $fontSizeTitle;
+  public $fontSizeSubtitle;
+  public $colorTitle;
+  public $colorSubtitle;
+  public $colorTitleByClass;
+  public $colorSubtitleByClass;
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
-                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true)
+                              $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true,
+                              $title = "Formulario", $subtitle = "Descripción formulario", $withTitle = false,
+                              $withSubtitle = false, $fontSizeTitle = "24", $fontSizeSubtitle = "14",
+                              $colorTitle = null, $colorSubtitle = null, $AlainTitle = "text-left",
+                              $AlainSubtitle = "text-left", $colorTitleByClass = "text-primary",
+                              $colorSubtitleByClass = "text-dark"
+  )
   {
     $this->id = $id;
     $this->layout = $layout ?? 'form-layout-1';
@@ -33,7 +51,18 @@ class Form extends Component
     $this->getForm();
     $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
     $this->jsSubmitEvent = $jsSubmitEvent ?? null;
-
+    $this->title = $title;
+    $this->subtitle = $subtitle;
+    $this->withTitle = $withTitle;
+    $this->withSubtitle = $withSubtitle;
+    $this->fontSizeTitle = $fontSizeTitle;
+    $this->fontSizeSubtitle = $fontSizeSubtitle;
+    $this->colorTitle = $colorTitle;
+    $this->colorSubtitle = $colorSubtitle;
+    $this->AlainTitle = $AlainTitle;
+    $this->AlainSubtitle = $AlainSubtitle;
+    $this->colorTitleByClass = $colorTitleByClass;
+    $this->colorSubtitleByClass = $colorSubtitleByClass;
   }
 
   public function getForm()
