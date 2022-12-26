@@ -81,5 +81,12 @@ return [
   ],
   'editLink' => [
     'tooltipForm' => 'Edit this form'
-  ]
+  ],
+  'seeds' => [
+    'titleForm' => 'Contact Form',
+    'fullName' => 'Full name',
+    'email' => 'Email',
+    'phone' => 'Contact number',
+    'message' => 'Message...'
+  ],
 ];

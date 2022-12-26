@@ -18,5 +18,6 @@ class IformsDatabaseSeeder extends Seeder
 
         $this->call(IformsModuleTableSeeder::class);
         $this->call(BlockTableSeeder::class);
+        $this->call(ContactFormTableSeeder::class);
     }
 }

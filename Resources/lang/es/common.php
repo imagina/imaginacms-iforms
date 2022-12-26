@@ -96,5 +96,12 @@ return [
         'forms' => 'Formularios'
       ]
     ]
-  ]
+  ],
+  'seeds' => [
+    'titleForm' => 'Formulario Contacto',
+    'fullName' => 'Nombre Completo',
+    'email' => 'Correo Electrónico',
+    'phone' => 'Numero de Contacto',
+    'message' => 'Mensaje...'
+  ],
 ];
