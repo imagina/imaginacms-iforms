@@ -5,6 +5,7 @@ namespace Modules\Iforms\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Iforms\Entities\Block;
 use Modules\Iforms\Entities\Form;
 
