@@ -32,9 +32,11 @@
         color: {{$colorTitle}};
         font-size: {{$fontSizeTitle}}px;
     }
-
     #formLayout3 .subtitle-section {
         color: {{$colorSubtitle}};
         font-size: {{$fontSizeSubtitle}}px;
+    }
+    #formLayout3 .form-group .col-style {
+        padding: 0 0 15px 0;
     }
 </style>

@@ -2,9 +2,9 @@
 $fields = $form->fields;
 ?>
 {{ csrf_field() }}
-<div class="form-group row">
+<div class="form-group mb-0">
   @foreach($fields as $field)
-    <div class="col-12 col-sm-{{ $field->width ?? '12' }} py-1 px-1">
+    <div class="col-12 col-sm-{{ $field->width ?? '12' }} col-style">
       @switch($field->present()->type['value'])
         @case('text')
         @if(!empty($field->prefix) || !empty($field->suffix))
