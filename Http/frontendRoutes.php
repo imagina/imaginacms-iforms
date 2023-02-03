@@ -20,4 +20,8 @@ $router->group(['prefix' => 'iforms'], function (Router $router) {
     'as' => 'iform.view.form',
     'uses' => 'PublicController@viewForm',
   ]);
+  $router->get("external/render/{formId}", [
+    'as' => 'iform.js.form',
+    'uses' => 'PublicController@renderJsForm',
+  ]);
 });

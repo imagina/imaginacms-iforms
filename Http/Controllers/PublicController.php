@@ -130,29 +130,29 @@ class PublicController extends BaseApiController
     return response()->json($response);
 
 
-    }
-  
-  
+  }
+
+
   public function getAttachment(Request $request, $formId, $leadId, $fileZone)
   {
-    
+
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
-      $lead = $this->leadRepository->getItem($leadId,$params);
-      
+      $lead = $this->leadRepository->getItem($leadId, $params);
+
       //Request to Repository
-      $form = $this->form->getItem($formId,$params);
-      
+      $form = $this->form->getItem($formId, $params);
+
       if (!isset($lead->id) || !isset($form->id))
         throw new Exception('Item not found', 404);
-      
+
       $attachment = $lead->filesByZone($fileZone)->first();
-      
+
       $type = $attachment["mimetype"] ?? null;
-      
+
       //user authentication or token validation
       if (empty(\Auth::id())) {
         $token = $request->input('token');
@@ -180,17 +180,28 @@ class PublicController extends BaseApiController
   public function viewForm(Request $request, $formId)
   {
     try {
-
-      return view('iforms::frontend.index',compact('formId'));
-
+      $params = $request->all();
+      $formElementId = $params["formElementId"] ?? null;
+      return view('iforms::frontend.index', compact('formId', 'formElementId'));
     } catch (\Exception $e) {
 
       return abort(404);
 
     }
-
   }
 
-  
-
+  public function renderJsForm(Request $request, $formId)
+  {
+    $params = $request->all();
+    //Instance the file URL
+    $fileUrl = asset('modules/iforms/Render/formFrame.js');
+    //Get file
+    $jsString = file_get_contents($fileUrl);
+    //Replace form id
+    $jsString = str_replace("{formId}", str_replace(".js", "", $formId), $jsString);
+    $jsString = str_replace("{iframeId}", ($params["iframeId"] ?? uniqid()), $jsString);
+    $jsString = str_replace("{domainUrl}", url("iforms/view"), $jsString);
+    //Return file
+    return response($jsString)->header('Content-Type', 'application/javascript');
+  }
 }
