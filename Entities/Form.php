@@ -84,12 +84,14 @@ class Form extends Model
 
   public function getUrlAttribute()
   {
-    return \LaravelLocalization::localizeUrl('/iforms/view/'.$this->id);
+    return \LaravelLocalization::localizeUrl('/iforms/view/' . $this->id);
   }
 
   public function getEmbedAttribute()
   {
-    $embed = "<iframe src='$this->url' title='$this->title' frameborder='0' allowfullscreen></iframe>";
+    $elementUid = uniqid();
+    //$embed = "<iframe src='$this->url' title='$this->title' frameborder='0' allowfullscreen></iframe>";
+    $embed = "<script id='scriptIframeId-{$elementUid}' src='https://www.imaginacolombia.com/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
 }
