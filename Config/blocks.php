@@ -160,4 +160,111 @@ return [
       ],
     ]
   ],
+  "newsletter" => [
+        "title" => "Newsletter",
+        "systemName" => "iforms::newsletter",
+        "nameSpace" => "Modules\Iforms\View\Components\Newsletter",
+        "contentFields" => [
+            "title" => [
+                "name" => "title",
+                "type" => "input",
+                "isTranslatable" => true,
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Titulo"
+                ]
+            ],
+            "description" => [
+                "name" => "description",
+                "type" => "input",
+                "isTranslatable" => true,
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Descripción"
+                ]
+            ],
+            "postDescription" => [
+                "name" => "postDescription",
+                "type" => "input",
+                "isTranslatable" => true,
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Post Descripción"
+                ]
+            ],
+            "submitLabel" => [
+                "name" => "submitLabel",
+                "type" => "input",
+                "isTranslatable" => true,
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Label de Botón"
+                ]
+            ],
+        ],
+        "attributes" => [
+            "general" => [
+                "title" => "General",
+                "fields" => [
+                    "layout" => [
+                        "name" => "layout",
+                        "value" => "newsletter-layout-1",
+                        "type" => "select",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Plantillas Para Newsletter",
+                            "options" => [
+                                ["label" => "Newsletter Plantilla 1", "value" => "newsletter-layout-1"]
+                            ]
+                        ]
+                    ],
+                    "titleClasses" => [
+                        "name" => "titleClasses",
+                        "value" => "mb-0",
+                        "type" => "input",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Clases para Titulo"
+                        ]
+                    ],
+                    "descriptionClasses" => [
+                        "name" => "descriptionClasses",
+                        "value" => "mb-3",
+                        "type" => "input",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Clases para Descripción"
+                        ]
+                    ],
+                    "postDescriptionClasses" => [
+                        "name" => "postDescriptionClasses",
+                        "value" => "mb-3",
+                        "type" => "input",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Clases para Post Descripción"
+                        ]
+                    ],
+                    "inputClasses" => [
+                        "name" => "inputClasses",
+                        "value" => "bg-transparent",
+                        "type" => "input",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Clases para el input"
+                        ]
+                    ],
+                    "buttonClasses" => [
+                        "name" => "buttonClasses",
+                        "value" => "btn btn-primary px-3",
+                        "type" => "input",
+                        "columns" => "col-12",
+                        "props" => [
+                            "label" => "Clases para el botón"
+                        ]
+                    ],
+                ]
+            ],
+        ]
+    ],
 ];
