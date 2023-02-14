@@ -60,6 +60,6 @@
         font-size: {{$fontSizeSubtitle}}px;
     }
     #formLayout1 .form-group .col-style {
-        padding: 0 0 15px 0;
+        margin-bottom: 10px;
     }
 </style>
