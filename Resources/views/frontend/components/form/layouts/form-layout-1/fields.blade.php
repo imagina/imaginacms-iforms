@@ -2,7 +2,7 @@
 $fields = $form->fields;
 ?>
 {{ csrf_field() }}
-<div class="form-group">
+<div class="form-group row">
   @foreach($fields as $index => $field)
     <div class="col-12 col-sm-{{ $field->width ?? '12' }} col-style {{$field->name}}">
       @switch($field->present()->type['value'])
