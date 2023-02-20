@@ -67,6 +67,7 @@ class SendEmail
         "icon_class" => "fas fa-clipboard-list",
         "link" => env("APP_URL")."/iadmin/#/form/lead/?viewLead=$lead->id",
         "content" => "iforms::emails.textform",
+        "replyTo" => $reply,
         "setting" => [
           "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
         ],
