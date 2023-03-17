@@ -27,6 +27,7 @@ class SendEmail
     $lead = $event->entity;
     $form = $event->data['form'];
     $reply = $event->data['reply'];
+
     $sender = $this->setting->get('core::site-name');
   
     //Emails from setting iforms::from-email
@@ -57,7 +58,7 @@ class SendEmail
   
     //send notification by email, broadcast and push -- by default only send by email
     $this->notificationService->to([
-      "email" => $emailsTo                    ,
+      "email" => $emailsTo,
       "broadcast" => $users->pluck('id')->toArray(),
       "push" => $users->pluck('id')->toArray(),
     ])->push(

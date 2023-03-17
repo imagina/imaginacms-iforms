@@ -15,7 +15,8 @@ return [
   "newBlock" => "new Block",
   "updateBlock" => "Update Block",
   "deleteBlock" => "Delete Block",
-  "replyTo" => "Field to reply to",
+  "replyTo" => "Email to reply",
+  "replyToName" => "Name to reply",
   "form" => [
     "label" => "Label",
     "placeholder" => "Placeholder",

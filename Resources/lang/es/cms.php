@@ -15,7 +15,8 @@ return [
   "newBlock" => "Nuevo Bloque",
   "updateBlock" => "Actualizar bloque",
   "deleteBlock" => "Eliminar bloque",
-  "replyTo" => "Campo para responder",
+  "replyTo" => "Email para responder",
+  "replyToName" => "Nombre para responder",
   "form" => [
     "label" => "Etiqueta",
     "placeholder" => "Placeholder",
