@@ -18,6 +18,7 @@ return [
   'table' => [
   ],
   'form' => [
+    'submit' => 'Submit',
     'termsAndConditions' => 'I accept
             <a href=":urlTermsAndConditions" target="_blank" class="h6">
             the terms and conditions.</a>',
