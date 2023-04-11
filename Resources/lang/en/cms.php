@@ -38,6 +38,13 @@ return [
   ],
   "message" => [
     "helpToOptionsField" => "Type the option and press enter..."
+  ],
+  "documentation" => [
+    'forms' => "Forms allow you to capture information of different types, you can create forms and configure
+     each field of the, names, types... the forms can be used by other modules as relations to
+     allow capturing more information than the standard in each case.",
+    'leads' => "Leads are the information captured from the forms, you can list, filter and export this
+     information, as well as identifying from which form I enter this information.",
   ]
 ];
 
