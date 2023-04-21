@@ -6,9 +6,10 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
+use Modules\Core\Support\Traits\AuditTrait;
 class Block extends Model
 {
-    use Translatable;
+    use Translatable, AuditTrait;
 
     protected $table = 'iforms__blocks';
     public $translatedAttributes = [

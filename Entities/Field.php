@@ -9,9 +9,11 @@ use Modules\Iforms\Presenters\FieldPresenter;
 use Illuminate\Support\Str;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
+use Modules\Core\Support\Traits\AuditTrait;
+
 class Field extends Model
 {
-  use Translatable, PresentableTrait;
+  use Translatable, PresentableTrait, AuditTrait;
   
   protected $table = 'iforms__fields';
   
