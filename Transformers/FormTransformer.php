@@ -5,6 +5,7 @@ namespace Modules\Iforms\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Iprofile\Transformers\UserTransformer;
+use Modules\Isite\Transformers\RevisionTransformer;
 
 class FormTransformer extends JsonResource
 {
@@ -30,6 +31,7 @@ class FormTransformer extends JsonResource
       'updatedAt' => $this->when($this->updated_at, $this->updated_at),
       'url' => $this->url ?? '#',
       'embed' => $this->embed ?? '',
+      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
     ];
 
     $filter = json_decode($request->filter);
