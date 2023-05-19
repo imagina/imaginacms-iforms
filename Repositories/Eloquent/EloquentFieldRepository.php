@@ -132,6 +132,11 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
     }
+
+    if (!isset($params->filter->field)) {
+      $query->where('id', $criteria);
+    }
+
     /*== REQUEST ==*/
     return $query->first();
   }

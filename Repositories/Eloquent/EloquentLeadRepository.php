@@ -119,6 +119,11 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
     }
+
+    if (!isset($params->filter->field)) {
+      $query->where('id', $criteria);
+    }
+
     /*== REQUEST ==*/
     return $query->first();
   }
