@@ -94,7 +94,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
     } else {
-      isset($params->take) ?? $params->take ? $query->take($params->take) : false;//Take
+      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
     }
   }
