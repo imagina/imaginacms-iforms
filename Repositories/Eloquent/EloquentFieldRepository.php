@@ -104,7 +104,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = ['translations'];//Default relationships
@@ -113,7 +113,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       $query->with($includeDefault);//Add Relationships to query
     }
     /*== FIELDS ==*/
-    if (is_array($params->fields) && count($params->fields))
+    if (isset($params->fields) && is_array($params->fields) && count($params->fields))
       $query->select($params->fields);
     /*== FILTER ==*/
     if (isset($params->filter)) {
