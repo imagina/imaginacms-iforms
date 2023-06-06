@@ -87,7 +87,7 @@ class Form extends Component
   {
 
     return [
-      "include" => $this->params["include"] ?? ["*"],
+      "include" => $this->params["include"] ?? null,
       "fields" => [],
       "take" => $this->params["take"] ?? false,
       "page" => $this->params["page"] ?? false,
