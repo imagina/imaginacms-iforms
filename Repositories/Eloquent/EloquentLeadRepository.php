@@ -15,7 +15,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -35,7 +35,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
             ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
             ->orWhere('created_at', 'like', '%' . $filter->search . '%');
         });
-        
+
       }
       //Filter by date
       if (isset($filter->date)) {
@@ -61,7 +61,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       if (isset($filter->formId)) {
         $query->where("form_id", $filter->formId);
       }
-  
+
       //add filter by id
       if (isset($filter->id)) {
         is_array($filter->id) ? true : $filter->id = [$filter->id];
@@ -81,16 +81,17 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
     } else {
-      $params->take ? $query->take($params->take) : false;//Take
+      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
     }
   }
+
   public function getItem($criteria, $params = false)
   {
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -118,17 +119,24 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
     }
+
+    if (!isset($params->filter->field)) {
+      $query->where('id', $criteria);
+    }
+
     /*== REQUEST ==*/
     return $query->first();
   }
+
   public function create($data)
   {
-    $lead= $this->model->create($data);
+    $lead = $this->model->create($data);
 
     event(new CreateMedia($lead, $data));
 
     return $lead;
   }
+
   public function updateBy($criteria, $data, $params = false)
   {
     /*== initialize query ==*/
@@ -143,13 +151,14 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
 
-    if(isset($model->id)){
+    if (isset($model->id)) {
       $model->update((array)$data);
       return $model;
-    }else{
+    } else {
       throw new Exception('Item not found', 404);
     }
   }
+
   public function deleteBy($criteria, $params = false)
   {
     /*== initialize query ==*/
@@ -162,7 +171,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    if(isset($model->id)) {
+    if (isset($model->id)) {
       event(new DeleteMedia($model->id, get_class($model)));
       $model->delete();
     };

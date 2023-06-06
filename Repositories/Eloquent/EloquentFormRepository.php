@@ -14,7 +14,7 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = ['translations','fields','fields.translations'];//Default relationships
@@ -54,6 +54,11 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
       if (isset($filter->userId) && !empty($filter->userId)) {
         $query->where("user_id", $filter->userId);
       }
+
+      if (isset($filter->id)) {
+        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
+        $query->where('id', $filter->id);
+      }
     }
 
     if (isset($this->model->tenantWithCentralData) && $this->model->tenantWithCentralData && isset(tenant()->id)) {
@@ -73,11 +78,11 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
     } else {
-      $params->take ? $query->take($params->take) : false;//Take
+      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
     }
   }
-  
+
   public function getItem($criteria, $params = false)
   {
 
@@ -120,28 +125,28 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
       if (isset($filter->notOrganization) && !empty($filter->notOrganization)) {
         $query->withoutTenancy();
       }
-    
+
 
     }
-  
+
     if (isset($this->model->tenantWithCentralData) && $this->model->tenantWithCentralData && isset(tenant()->id)) {
       $model = $this->model;
-    
+
       $query->withoutTenancy();
       $query->where(function ($query) use ($model) {
         $query->where($model->qualifyColumn(BelongsToTenant::$tenantIdColumn), tenant()->getTenantKey())
           ->orWhereNull($model->qualifyColumn(BelongsToTenant::$tenantIdColumn));
       });
     }
-    
+
     if (!isset($params->filter->field)) {
       $query->where('id', $criteria);
     }
-   
+
     /*== REQUEST ==*/
     return $query->first();
   }
-  
+
   public function create($data)
   {
     $form = $this->model->create($data);
@@ -150,8 +155,8 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
     }
     return $form;
   }
-  
-  
+
+
   /**
    * @param string $systemName
    * @return Slider

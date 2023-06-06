@@ -4,6 +4,7 @@
 namespace Modules\Iforms\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Isite\Transformers\RevisionTransformer;
 
 class FieldTransformer extends JsonResource
 {
@@ -29,6 +30,7 @@ class FieldTransformer extends JsonResource
       'rules' => $this->rules,
       'form' => new FormTransformer($this->whenLoaded('form')),
       'block' => new BlockTransformer($this->whenLoaded('block')),
+      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
     ];
 
     $filter = json_decode($request->filter);

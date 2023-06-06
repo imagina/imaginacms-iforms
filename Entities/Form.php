@@ -5,12 +5,17 @@ namespace Modules\Iforms\Entities;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\Isite\Traits\RevisionableTrait;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
 class Form extends Model
 {
-  use Translatable, BelongsToTenant, AuditTrait;
+  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait;
+
+  public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
+  public $entity = 'Modules\Iforms\Entities\Form';
+  public $repository = 'Modules\Iforms\Repositories\FormRepository';
 
   protected $table = 'iforms__forms';
 
