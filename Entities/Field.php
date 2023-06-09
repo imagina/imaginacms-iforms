@@ -61,7 +61,7 @@ class Field extends Model
   {
     return $this->belongsTo(Block::class);
   }
-
+  
   public function getSelectableAttribute($value)
   {
     return json_decode($value);
@@ -76,7 +76,7 @@ class Field extends Model
   {
     return json_decode($value);
   }
-
+  
   public function getLabelAttribute($value)
   {
     return $value . ($this->required ? config('asgard.iforms.config.requiredFieldLabel') : '');

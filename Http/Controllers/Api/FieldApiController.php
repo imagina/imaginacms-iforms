@@ -91,8 +91,10 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes') ?? [];//Get data
       //Validate Request
       $this->validateRequestApi(new CreateRequest($data));
+      
       //Create item
       $newData = $this->resource->create($data);
+      
       //Response
       $response = ["data" => new Transformer($newData)];
       \DB::commit(); //Commit to Data Base
@@ -119,6 +121,9 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes');
       //Validate Request
       $this->validateRequestApi(new UpdateRequest($data));
+  
+      if(isset($data["name"])) unset($data["name"]);
+      
       //Update data
       $newData = $this->resource->updateBy($criteria, $data, $params);
       //Response

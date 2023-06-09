@@ -3,6 +3,7 @@
 namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class FieldTranslation extends Model
 {
@@ -15,4 +16,5 @@ class FieldTranslation extends Model
     ];
 
     protected $table = 'iforms__field_translations';
+  
 }
