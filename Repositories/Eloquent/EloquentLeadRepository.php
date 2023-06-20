@@ -100,7 +100,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       $query->with($includeDefault);//Add Relationships to query
     }
     /*== FIELDS ==*/
-    if (is_array($params->fields) && count($params->fields))
+    if (isset($params->fields) && is_array($params->fields) && count($params->fields))
       $query->select($params->fields);
     /*== FILTER ==*/
     if (isset($params->filter)) {
