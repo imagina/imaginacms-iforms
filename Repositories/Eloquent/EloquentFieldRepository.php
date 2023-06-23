@@ -143,7 +143,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
 
   public function create($data)
   {
-    $data["name"] = uniqid("f".$data["form_id"]."_b".$data["block_id"]."_");
+    $data["name"] = uniqid("f".$data["form_id"]."_b".$data["block_id"] ?? ""."_");
     $category = $this->model->create($data);
     return $category;
   }
