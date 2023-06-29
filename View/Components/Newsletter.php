@@ -62,7 +62,7 @@ class Newsletter extends Component
 
         if($this->central)
             $params["filter"]["notOrganization"] = true;
-    
+
         $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->getItem('newsletter',json_decode(json_encode($params)));
 
         if(empty($this->form)){
@@ -72,6 +72,10 @@ class Newsletter extends Component
                 'active' => 1,
             ];
             $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->create($formData);
+            $newBlockData = [
+              'form_id' => $this->form->id,
+            ];
+            app('Modules\\Iforms\\Repositories\\BlockRepository')->create($newBlockData);
             $newFieldData = [
                 'required' => 1,
                 'name' => trans('iforms::fields.form.email.name'),
@@ -84,7 +88,7 @@ class Newsletter extends Component
             app('Modules\\Iforms\\Repositories\\FieldRepository')->create($newFieldData);
 
         }
-        
+
     }
 
     public function render()
