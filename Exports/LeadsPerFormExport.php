@@ -34,6 +34,7 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
 
   public function __construct($params, $exportParams)
   {
+    $this->userId = \Auth::id();//Set for ReportQueue
     $this->exportParams = $exportParams;
     $this->params = $params;
     $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');

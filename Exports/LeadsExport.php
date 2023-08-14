@@ -32,6 +32,7 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
 
   public function __construct($params, $exportParams)
   {
+    $this->userId = \Auth::id();//Set for ReportQueue
     $this->params = $params;
     $this->exportParams = $exportParams;
     $this->inotification = app('Modules\Notification\Services\Inotification');
