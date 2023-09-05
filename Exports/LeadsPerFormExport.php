@@ -21,8 +21,12 @@ use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Notification\Services\Inotification;
 use Modules\Iforms\Entities\Form;
 
+use Modules\Isite\Traits\ReportQueueTrait;
+
 class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, ShouldQueue, WithEvents
 {
+  use ReportQueueTrait;
+
   private $params;
   private $exportParams;
   private $leadRepository;
@@ -30,6 +34,7 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
 
   public function __construct($params, $exportParams)
   {
+    $this->userId = \Auth::id();//Set for ReportQueue
     $this->exportParams = $exportParams;
     $this->params = $params;
     $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');
@@ -83,6 +88,7 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
     return [
       // Event gets raised at the start of the process.
       BeforeExport::class => function (BeforeExport $event) {
+        $this->lockReport($this->exportParams->exportName);
       },
       // Event gets raised before the download/store starts.
       BeforeWriting::class => function (BeforeWriting $event) {
@@ -92,6 +98,7 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
       },
       // Event gets raised at the end of the sheet process
       AfterSheet::class => function (AfterSheet $event) {
+        $this->unlockReport($this->exportParams->exportName);
         //Send pusher notification
         $this->inotification->to(['broadcast' => $this->params->user->id])->push([
           "title" => "New report",

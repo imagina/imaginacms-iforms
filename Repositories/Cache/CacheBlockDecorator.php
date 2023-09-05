@@ -73,5 +73,12 @@ class CacheBlockDecorator extends BaseCacheDecorator implements BlockRepository
 
         return $this->repository->deleteBy($criteria, $params);
     }
-
+    
+    public function batchUpdate($params)
+    {
+      $this->clearCache();
+  
+      return $this->repository->batchUpdate($params);
+    }
+  
 }
