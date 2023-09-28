@@ -26,70 +26,68 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
 {
   use Exportable, ReportQueueTrait;
 
-  private $params;
-  private $exportParams;
-  private $inotification;
+    private $params;
 
-  public function __construct($params, $exportParams)
-  {
-    $this->userId = \Auth::id();//Set for ReportQueue
-    $this->params = $params;
-    $this->exportParams = $exportParams;
-    $this->inotification = app('Modules\Notification\Services\Inotification');
-  }
+    private $exportParams;
 
-  /**
-   * @return \Illuminate\Support\Collection
-   */
-  public function sheets(): array
-  {
-    //Get forms
-    $forms = (isset($this->params->filter->formId) && $this->params->filter->formId) ?
-      Form::where('id', $this->params->filter->formId)->with(['fields', 'translations'])->get() :
-      Form::with(['fields', 'translations'])->get();
+    private $inotification;
 
-    //Add Sheets
-    $sheets = [];
-    foreach ($forms as $form) $sheets[] = new LeadsPerFormExport($form, $this->params);
+    public function __construct($params, $exportParams)
+    {
+        $this->params = $params;
+        $this->exportParams = $exportParams;
+        $this->inotification = app('Modules\Notification\Services\Inotification');
+    }
 
-    //Response
-    return $sheets;
-  }
+    public function sheets(): array
+    {
+        //Get forms
+        $forms = (isset($this->params->filter->formId) && $this->params->filter->formId) ?
+          Form::where('id', $this->params->filter->formId)->with(['fields', 'translations'])->get() :
+          Form::with(['fields', 'translations'])->get();
 
-  /**
-   * //Handling Events
-   *
-   * @return array
-   */
-  public function registerEvents(): array
-  {
-    return [
-      // Event gets raised at the start of the process.
-      BeforeExport::class => function (BeforeExport $event) {
+        //Add Sheets
+        $sheets = [];
+        foreach ($forms as $form) {
+            $sheets[] = new LeadsPerFormExport($form, $this->params);
+        }
+
+        //Response
+        return $sheets;
+    }
+
+    /**
+     * //Handling Events
+     */
+    public function registerEvents(): array
+    {
+        return [
+            // Event gets raised at the start of the process.
+            BeforeExport::class => function (BeforeExport $event) {
         $this->lockReport($this->exportParams->exportName);
-      },
-      // Event gets raised before the download/store starts.
-      BeforeWriting::class => function (BeforeWriting $event) {
-      },
-      // Event gets raised just after the sheet is created.
-      BeforeSheet::class => function (BeforeSheet $event) {
-      },
-      // Event gets raised at the end of the sheet process
-      AfterSheet::class => function (AfterSheet $event) {
+            },
+            // Event gets raised before the download/store starts.
+            BeforeWriting::class => function (BeforeWriting $event) {
+            },
+            // Event gets raised just after the sheet is created.
+            BeforeSheet::class => function (BeforeSheet $event) {
+            },
+            // Event gets raised at the end of the sheet process
+            AfterSheet::class => function (AfterSheet $event) {
         $this->unlockReport($this->exportParams->exportName);
-        //Send pusher notification
-        $this->inotification->to(['broadcast' => $this->params->user->id])->push([
-          "title" => "New report",
-          "message" => "Your report is ready!",
-          "link" => url(''),
-          "isAction" => true,
-          "frontEvent" => [
-            "name" => "isite.export.ready",
-            "data" => $this->exportParams
-          ],
-          "setting" => ["saveInDatabase" => 1]
-        ]);
-      },
-    ];
-  }
+                //Send pusher notification
+                $this->inotification->to(['broadcast' => $this->params->user->id])->push([
+                    'title' => 'New report',
+                    'message' => 'Your report is ready!',
+                    'link' => url(''),
+                    'isAction' => true,
+                    'frontEvent' => [
+                        'name' => 'isite.export.ready',
+                        'data' => $this->exportParams,
+                    ],
+                    'setting' => ['saveInDatabase' => 1],
+                ]);
+            },
+        ];
+    }
 }

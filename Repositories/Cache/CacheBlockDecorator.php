@@ -2,8 +2,8 @@
 
 namespace Modules\Iforms\Repositories\Cache;
 
-use Modules\Iforms\Repositories\BlockRepository;
 use Modules\Core\Repositories\Cache\BaseCacheDecorator;
+use Modules\Iforms\Repositories\BlockRepository;
 
 class CacheBlockDecorator extends BaseCacheDecorator implements BlockRepository
 {
@@ -16,8 +16,6 @@ class CacheBlockDecorator extends BaseCacheDecorator implements BlockRepository
 
     /**
      * List or resources
-     *
-     * @return collection
      */
     public function getItemsBy($params)
     {
@@ -28,8 +26,6 @@ class CacheBlockDecorator extends BaseCacheDecorator implements BlockRepository
 
     /**
      * find a resource by id or slug
-     *
-     * @return object
      */
     public function getItem($criteria, $params = false)
     {
@@ -73,12 +69,16 @@ class CacheBlockDecorator extends BaseCacheDecorator implements BlockRepository
 
         return $this->repository->deleteBy($criteria, $params);
     }
-    
+
+    /**
+     * batch a resource
+     *
+     * @return mixed
+     */
     public function batchUpdate($params)
     {
-      $this->clearCache();
-  
-      return $this->repository->batchUpdate($params);
+        $this->clearCache();
+
+        return $this->repository->batchUpdate($params);
     }
-  
 }

@@ -15,7 +15,7 @@ return [
         "props" => [
           "label" => "Titulo"
         ]
-      ],
+                            ],
       "subtitle" => [
         "name" => "subtitle",
         "type" => "input",
@@ -182,7 +182,7 @@ return [
                 "props" => [
                     "label" => "Descripción"
                 ]
-            ],
+        ],
             "postDescription" => [
                 "name" => "postDescription",
                 "type" => "input",
@@ -191,7 +191,7 @@ return [
                 "props" => [
                     "label" => "Post Descripción"
                 ]
-            ],
+                        ],
             "submitLabel" => [
                 "name" => "submitLabel",
                 "type" => "input",
@@ -200,8 +200,8 @@ return [
                 "props" => [
                     "label" => "Label de Botón"
                 ]
-            ],
-        ],
+                    ],
+                        ],
         "attributes" => [
             "general" => [
                 "title" => "General",
@@ -226,7 +226,7 @@ return [
                         "props" => [
                             "label" => "Clases para Titulo"
                         ]
-                    ],
+                        ],
                     "descriptionClasses" => [
                         "name" => "descriptionClasses",
                         "value" => "mb-3",
@@ -244,7 +244,7 @@ return [
                         "props" => [
                             "label" => "Clases para Post Descripción"
                         ]
-                    ],
+                        ],
                     "inputClasses" => [
                         "name" => "inputClasses",
                         "value" => "bg-transparent",
@@ -262,7 +262,7 @@ return [
                         "props" => [
                             "label" => "Clases para el botón"
                         ]
-                    ],
+                ],
                 ]
             ],
         ]

@@ -1,7 +1,7 @@
 <?php
 
 return [
-  'admin' => [
+    'admin' => [
     "forms" => [
       "permission" => "iforms.forms.manage",
       "activated" => true,
@@ -16,7 +16,7 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
-    ],
+        ],
     "formsDesign" => [
       "permission" => null,
       "activated" => true,
@@ -27,7 +27,7 @@ return [
       "title" => "iforms.cms.sidebar.designForm",
       "icon" => "fab fa-wpforms",
       "authenticated" => true
-    ],
+            ],
     "fields" => [
       "permission" => "iforms.fields.manage",
       "activated" => true,
@@ -44,7 +44,7 @@ return [
           "iforms_cms_admin_forms"
         ]
       ]
-    ],
+        ],
     "fieldsCreate" => [
       "permission" => null,
       "activated" => true,
@@ -58,7 +58,7 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
-    ],
+                ],
     "fieldsUpdate" => [
       "permission" => null,
       "activated" => true,
@@ -72,7 +72,7 @@ return [
       "subHeader" => [
         "refresh" => true
       ]
-    ],
+            ],
     "leads" => [
       "permission" => "iforms.leads.manage",
       "activated" => true,
@@ -90,7 +90,7 @@ return [
           "iforms_cms_admin_forms"
         ]
       ]
-    ],
+        ],
     "leadsShow" => [
       "permission" => null,
       "activated" => true,
@@ -102,7 +102,7 @@ return [
       "icon" => "fas fa-chalkboard-teacher",
       "authenticated" => true
     ]
-  ],
-  'panel' => [],
+    ],
+    'panel' => [],
   'main' => []
 ];
