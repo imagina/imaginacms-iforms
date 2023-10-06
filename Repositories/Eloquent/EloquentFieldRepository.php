@@ -6,6 +6,7 @@ use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 use Modules\Iforms\Entities\Type;
+use Modules\Iforms\Entities\Field;
 
 class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository
 {
@@ -84,6 +85,10 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       if (isset($filter->id)) {
         !is_array($filter->id) ? $filter->id = [$filter->id] : false;
         $query->where('id', $filter->id);
+      }
+
+      if (isset($filter->parentId)) {
+        $query->where('parent_id', $filter->parentId);
       }
 
     }

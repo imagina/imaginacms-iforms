@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Iforms\Repositories\FormRepository;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\Iforms\Entities\Form;
 
 class EloquentFormRepository extends EloquentBaseRepository implements FormRepository
 {
@@ -58,6 +59,10 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
       if (isset($filter->id)) {
         !is_array($filter->id) ? $filter->id = [$filter->id] : false;
         $query->where('id', $filter->id);
+      }
+
+      if (isset($filter->parentId)) {
+        $query->where('parent_id', $filter->parentId);
       }
     }
 
