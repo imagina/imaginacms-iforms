@@ -32,6 +32,7 @@ class FormTransformer extends JsonResource
       'url' => $this->url ?? '#',
       'embed' => $this->embed ?? '',
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
+      'parentId' => $this->when($this->parent_id, $this->parent_id),
     ];
 
     $filter = json_decode($request->filter);
