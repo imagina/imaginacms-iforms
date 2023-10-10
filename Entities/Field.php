@@ -58,6 +58,11 @@ class Field extends Model
     return $this->belongsTo(Form::class);
   }
 
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Field', 'parent_id');
+  }
+
   public function block()
   {
     return $this->belongsTo(Block::class);

@@ -59,6 +59,11 @@ class Form extends Model
     return $this->hasMany(Field::class)->with('translations')->orderBy('order', 'asc');
   }
 
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Form', 'parent_id');
+  }
+
   public function leads()
   {
     return $this->hasMany(Lead::class);
