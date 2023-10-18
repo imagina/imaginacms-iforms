@@ -3,9 +3,6 @@
 
 namespace Modules\Iforms\Events\Handlers;
 
-
-use Illuminate\Support\Arr;
-
 class HandleFormeable
 {
     public function handle($event = null)
@@ -14,11 +11,12 @@ class HandleFormeable
       $data = $event->data;
       $entity = $event->entity;
       
-      if(isset($data['form_id']))
+        if(!\Schema::hasTable('iforms__formeable')) return;
+        if (isset($data['form_id'])) {
         $entity->forms()->sync([$data['form_id']]);
-      else
+        } else {
         $entity->forms()->sync([]);
       
     }
-
+    }
 }
