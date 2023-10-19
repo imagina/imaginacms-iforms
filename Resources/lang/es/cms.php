@@ -44,7 +44,12 @@ return [
   "label" => [
     "parentForm" => "Formulario padre",
     "dragFieldsHere" => "Arrastra los campos aquí",
-    "addNewBlock" => "Agregar nuevo bloque"
+    "addNewBlock" => "Agregar nuevo bloque",
+    "emptyBlock" => "Bloque vacio"
+  ],
+  "feedBack" => [
+    "newForm" => "Enviar otra respuesta",
+    "message" => "¡Todo listo!  Tu formulario ha sido enviado con éxito."
   ],
   "documentation" => [
     'forms' => "Los formularios permiten capturar información de diferentes tipos, puedes crear formularios y configurar
