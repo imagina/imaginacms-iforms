@@ -60,8 +60,8 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       }
 
       //Filter by parent ID
-      if (isset($filter->parentId) && !empty($filter->parentId)) {
-        $query->where("parent_id", $filter->parentId);
+      if (in_array("parentId",array_keys(get_object_vars($filter)))) {
+        $query->where('parent_id', $filter->parentId);
       }
 
       //Filter by type ID

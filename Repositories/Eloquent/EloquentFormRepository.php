@@ -61,7 +61,7 @@ class EloquentFormRepository extends EloquentBaseRepository implements FormRepos
         $query->where('id', $filter->id);
       }
 
-      if (isset($filter->parentId)) {
+      if (in_array("parentId",array_keys(get_object_vars($filter)))) {
         $query->where('parent_id', $filter->parentId);
       }
     }
