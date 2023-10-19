@@ -44,7 +44,12 @@ return [
   "label" => [
     "parentForm" => "Parent form",
     "dragFieldsHere" => "Drag the fields here",
-    "addNewBlock" => "Add a new block"
+    "addNewBlock" => "Add a new block",
+    "emptyBlock" => "Empty block"
+  ],
+  "feedBack" => [
+    "newForm" => "Fill another Form",
+    "message" => "¡Done!, Your Form has been successfully sent!"
   ],
   "documentation" => [
     'forms' => "Forms allow you to capture information of different types, you can create forms and configure
