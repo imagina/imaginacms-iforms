@@ -106,7 +106,7 @@ class LeadApiController extends BaseApiController
     \DB::beginTransaction();
     try {
 
-      $data = $request->all() ?? [];//Get data
+      $data = $request->input('attributes') ?? $request->all() ?? [];//Get data
 
       $form = $this->form->find($data['form_id']);
       if (empty($form->id)) {
@@ -122,11 +122,11 @@ class LeadApiController extends BaseApiController
       $attr['values'] = array();
       $fields = $form->fields;
       $attr['reply'] = [['address' => env('MAIL_FROM_ADDRESS'),'email' => env('MAIL_FROM_ADDRESS'), 'name' => 'Client']];
-  
+
       //find the reply To email field value
       if(isset($form->options->replyTo) && !empty($form->options->replyTo)){
         $replyToField = $fields->where("id",$form->options->replyTo)->first();
-    
+
         if(isset($replyToField->id)){
           if(isset($data[$replyToField->name]) && !empty($data[$replyToField->name])){
             $attr['reply'][0]['address'] = $data[$replyToField->name];
@@ -135,18 +135,18 @@ class LeadApiController extends BaseApiController
           }
         }
       }
-  
+
       //find the reply To name field value
       if(isset($form->options->replyToName) && !empty($form->options->replyToName)){
         $replyToNameField = $fields->where("id",$form->options->replyToName)->first();
-    
+
         if(isset($replyToNameField->id)){
           if(isset($data[$replyToNameField->name]) && !empty($data[$replyToNameField->name])){
             $attr['reply'][0]['name'] = $data[$replyToNameField->name];
           }
         }
       }
-  
+
       foreach ($fields as $field) {
 
         //If field it's type FILE

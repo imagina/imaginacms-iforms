@@ -40,6 +40,7 @@ class Field extends Model
     'block_id',
     'options',
     'rules',
+    'parent_id'
   ];
 
   protected $presenter = FieldPresenter::class;
@@ -55,6 +56,11 @@ class Field extends Model
   public function form()
   {
     return $this->belongsTo(Form::class);
+  }
+
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Field', 'parent_id');
   }
 
   public function block()

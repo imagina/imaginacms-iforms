@@ -32,7 +32,8 @@ class Form extends Model
     'user_id',
     'options',
     'form_type',
-    'organization_id'
+    'organization_id',
+    'parent_id'
   ];
 
   protected $casts = [
@@ -56,6 +57,11 @@ class Form extends Model
   public function fields()
   {
     return $this->hasMany(Field::class)->with('translations')->orderBy('order', 'asc');
+  }
+
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Form', 'parent_id');
   }
 
   public function leads()

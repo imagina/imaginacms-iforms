@@ -37,7 +37,19 @@ return [
     "submitText" => "Submit text"
   ],
   "message" => [
-    "helpToOptionsField" => "Type the option and press enter..."
+    "helpToOptionsField" => "Type the option and press enter...",
+    "descriptionChildrenForm" => "Drag the fields you want from left to right to add them to the form blocks.",
+    "fieldEditingModalbanner" => "To edit inherited fields, first remove the field, edit it in the parent form, and then drag it back to the desired block."
+  ],
+  "label" => [
+    "parentForm" => "Parent form",
+    "dragFieldsHere" => "Drag the fields here",
+    "addNewBlock" => "Add a new block",
+    "emptyBlock" => "Empty block"
+  ],
+  "feedBack" => [
+    "newForm" => "Fill another Form",
+    "message" => "¡Done!, Your Form has been successfully sent!"
   ],
   "documentation" => [
     'forms' => "Forms allow you to capture information of different types, you can create forms and configure
