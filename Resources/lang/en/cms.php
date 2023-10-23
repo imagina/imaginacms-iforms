@@ -39,18 +39,22 @@ return [
   "message" => [
     "helpToOptionsField" => "Type the option and press enter...",
     "descriptionChildrenForm" => "Drag the fields you want from left to right to add them to the form blocks.",
-    "fieldEditingModalbanner" => "To edit inherited fields, first remove the field, edit it in the parent form, and then drag it back to the desired block."
+    "fieldEditingModalbanner" => "To edit inherited fields, first remove the field, edit it in the parent form, and then drag it back to the desired block.",
+    "descriptionParentForm" => "Here you can create, edit, and delete blocks and fields in the form. You can also edit specific form information from here.",
+    "tooltipInfoFormParent" => "Child forms originate from parent forms and can contain the same fields as the parent form, but they do not allow the creation of new fields."
   ],
   "label" => [
     "parentForm" => "Parent form",
     "dragFieldsHere" => "Drag the fields here",
     "addNewBlock" => "Add a new block",
-    "emptyBlock" => "Empty block"
+    "emptyBlock" => "Empty block",
+    "openParentForm" => "Open parent form"
   ],
   "feedBack" => [
     "newForm" => "Fill another Form",
     "message" => "¡Done!, Your Form has been successfully sent!"
   ],
+  "fillForm" => "Fill Form",
   "documentation" => [
     'forms' => "Forms allow you to capture information of different types, you can create forms and configure
      each field of the, names, types... the forms can be used by other modules as relations to
