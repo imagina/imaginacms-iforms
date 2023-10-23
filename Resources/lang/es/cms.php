@@ -37,7 +37,7 @@ return [
     "submitText" => "Texto de enviado"
   ],
   "message" => [
-    "helpToOptionsField" => "Escribe la opción y preciona enter...",
+    "helpToOptionsField" => "Escribe la opción y presionar enter...",
     "descriptionChildrenForm" => "Arrastra los campos que quieras de izquierda a derecha para agregarlos a los bloques del formulario.",
     "fieldEditingModalbanner" => "Para editar campos heredados, primero elimina el campo, edítalo en el formulario principal y luego vuelve a arrastrarlo al bloque deseado.",
     "descriptionParentForm" => "Aquí puedes crear, editar y eliminar bloques y campos de el formulario. También puedes editar desde aquí información propia del formulario.",
