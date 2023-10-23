@@ -18,7 +18,9 @@ class FormTransformer extends JsonResource
       'systemName' => $this->when($this->system_name, $this->system_name),
       'submitText' => $this->when($this->submit_text, $this->submit_text),
       'successText' => $this->when($this->success_text, $this->success_text),
-      'active' => $this->when($this->active, $this->active),
+      'active' => $this->active ? '1' : '0',
+      'parentId' => $this->when($this->parent_id, $this->parent_id),
+      'parent' => new FormTransformer($this->whenLoaded('parent')),
       'destinationEmail' => $this->when($this->destination_email, $this->destination_email),
       'userId' => $this->when($this->user_id, $this->user_id),
       'options' => $this->when($this->options, $this->options),
@@ -32,7 +34,6 @@ class FormTransformer extends JsonResource
       'url' => $this->url ?? '#',
       'embed' => $this->embed ?? '',
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
-      'parentId' => $this->when($this->parent_id, $this->parent_id),
     ];
 
     $filter = json_decode($request->filter);

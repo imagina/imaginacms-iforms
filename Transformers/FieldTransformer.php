@@ -32,6 +32,8 @@ class FieldTransformer extends JsonResource
       'block' => new BlockTransformer($this->whenLoaded('block')),
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
       'parentId' => $this->when($this->parent_id, $this->parent_id),
+      'parent' => new FieldTransformer($this->whenLoaded('parent')),
+
     ];
 
     $filter = json_decode($request->filter);
