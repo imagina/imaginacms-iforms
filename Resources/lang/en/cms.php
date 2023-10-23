@@ -47,7 +47,8 @@ return [
     "parentForm" => "Parent form",
     "dragFieldsHere" => "Drag the fields here",
     "addNewBlock" => "Add a new block",
-    "emptyBlock" => "Empty block"
+    "emptyBlock" => "Empty block",
+    "openParentForm" => "Open parent form"
   ],
   "feedBack" => [
     "newForm" => "Fill another Form",

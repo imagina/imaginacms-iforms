@@ -47,7 +47,8 @@ return [
     "parentForm" => "Formulario padre",
     "dragFieldsHere" => "Arrastra los campos aquí",
     "addNewBlock" => "Agregar nuevo bloque",
-    "emptyBlock" => "Bloque vacio"
+    "emptyBlock" => "Bloque vacio",
+    "openParentForm" => "Abrir formulario padre"
   ],
   "feedBack" => [
     "newForm" => "Enviar otra respuesta",
