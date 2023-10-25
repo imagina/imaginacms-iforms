@@ -39,7 +39,7 @@ return [
   "message" => [
     "helpToOptionsField" => "Type the option and press enter...",
     "descriptionChildrenForm" => "Drag the fields you want from left to right to add them to the form blocks.",
-    "fieldEditingModalbanner" => "To edit inherited fields, first remove the field, edit it in the parent form, and then drag it back to the desired block.",
+    "fieldEditingModalbanner" => "Here, you can edit the field, but with certain values restricted because it's an inherited field. The values you see locked must match how they are defined in the parent form. If you wish to edit these fields, go to the parent form and edit them there, and all child fields will automatically update.",
     "descriptionParentForm" => "Here you can create, edit, and delete blocks and fields in the form. You can also edit specific form information from here.",
     "tooltipInfoFormParent" => "Child forms originate from parent forms and can contain the same fields as the parent form, but they do not allow the creation of new fields."
   ],

@@ -39,7 +39,7 @@ return [
   "message" => [
     "helpToOptionsField" => "Escribe la opción y presionar enter...",
     "descriptionChildrenForm" => "Arrastra los campos que quieras de izquierda a derecha para agregarlos a los bloques del formulario.",
-    "fieldEditingModalbanner" => "Para editar campos heredados, primero elimina el campo, edítalo en el formulario principal y luego vuelve a arrastrarlo al bloque deseado.",
+    "fieldEditingModalbanner" => "Aquí podrás editar el campo pero con algunos valores restringidos debido a que es un campo heredado, los valores que ves bloqueados es porque deben ser iguales a como están definidos en el formulario padre, si deseas editar estos campos ve editar el formulario padre y allí podrás cambiar esos valores y automáticamente todos los campos hijos se actualizarán.",
     "descriptionParentForm" => "Aquí puedes crear, editar y eliminar bloques y campos de el formulario. También puedes editar desde aquí información propia del formulario.",
     "tooltipInfoFormParent" => "Los formularios hijos se originan a partir de formularios padres y pueden contener los mismos campos que el formulario padre, pero no permiten la creación de campos nuevos."
   ],
