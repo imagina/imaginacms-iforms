@@ -200,7 +200,7 @@ class PublicController extends BaseApiController
     //Replace form id
     $jsString = str_replace("{formId}", str_replace(".js", "", $formId), $jsString);
     $jsString = str_replace("{iframeId}", ($params["iframeId"] ?? uniqid()), $jsString);
-    $jsString = str_replace("{domainUrl}", url("iforms/view"), $jsString);
+    $jsString = str_replace("{domainUrl}", url("iadmin/#/form/lead/create-public/"), $jsString);
     //Return file
     return response($jsString)->header('Content-Type', 'application/javascript');
   }

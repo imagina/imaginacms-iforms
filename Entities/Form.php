@@ -104,7 +104,7 @@ class Form extends Model
   {
     $elementUid = uniqid();
     //$embed = "<iframe src='$this->url' title='$this->title' frameborder='0' allowfullscreen></iframe>";
-    $embed = "<script id='scriptIframeId-{$elementUid}' src='https://www.imaginacolombia.com/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
+    $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
 }
