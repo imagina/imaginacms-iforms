@@ -1,7 +1,8 @@
 @extends('isite::frontend.layouts.master')
 
 @section('content')
-  <div class="form">
+  <hr>
+  <div class="form py-5">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -10,6 +11,7 @@
       </div>
     </div>
   </div>
+  <hr>
 @stop
 
 @section("scripts")
