@@ -184,9 +184,7 @@ class PublicController extends BaseApiController
       $formElementId = $params["formElementId"] ?? null;
       return view('iforms::frontend.index', compact('formId', 'formElementId'));
     } catch (\Exception $e) {
-
       return abort(404);
-
     }
   }
 
