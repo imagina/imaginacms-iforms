@@ -1,7 +1,17 @@
-@extends('isite::frontend.layouts.blank')
+@extends('isite::frontend.layouts.master')
 
 @section('content')
-  <x-iforms::form :id="$formId"/>
+  <hr>
+  <div class="form py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <x-iforms::form :withTitle="true" :withSubtitle="true" :id="$formId"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
 @stop
 
 @section("scripts")
