@@ -13,7 +13,7 @@
               colorTitleByClass="text-center mb-2 mb-md-3"
               fontSizeTitle="33"
               :withSubtitle="true"
-              colorSubtitleByClass="text-center mb-2 mb-md-3"
+              colorSubtitleByClass="text-center mb-3"
               fontSizeSubtitle="19"
               :subtitle="trans('iforms::forms.form.formDefault.subtitle')"
             />
@@ -58,6 +58,7 @@
     content: "\e49a";
     line-height: 1;
     margin-right: 6px;
+    font-weight: 300;
   }
 
   .form .card-form .subtitle-section {
@@ -68,12 +69,6 @@
     width: 80%;
     margin: auto;
     min-width: 240px;
-  }
-
-  @media (max-width: 767.98px) {
-    .form .card-form form {
-      width: 100%;
-    }
   }
 
   .form .card-form form label {
@@ -129,4 +124,18 @@
 
   }
 
+
+  @media (max-width: 767.98px) {
+    .form .card-form form {
+      width: 100%;
+    }
+
+    .form .card-form .title-section {
+      font-size: 27px !important;
+    }
+
+    .form .card-form .subtitle-section {
+      font-size: 16px !important;
+    }
+  }
 </style>
