@@ -1,17 +1,27 @@
 @extends('isite::frontend.layouts.master')
 
 @section('content')
-  <hr>
   <div class="form py-5">
     <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <x-iforms::form :withTitle="true" :withSubtitle="true" :id="$formId"/>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="card-form">
+            <x-iforms::form
+              :id="$formId"
+              :withTitle="true"
+              :title="trans('iforms::forms.form.formDefault.title')"
+              colorTitleByClass="text-center mb-2 mb-md-3"
+              fontSizeTitle="33"
+              :withSubtitle="true"
+              colorSubtitleByClass="text-center mb-3"
+              fontSizeSubtitle="19"
+              :subtitle="trans('iforms::forms.form.formDefault.subtitle')"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <hr>
 @stop
 
 @section("scripts")
