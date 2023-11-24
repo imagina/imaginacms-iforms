@@ -6,6 +6,7 @@ namespace Modules\Iforms\Transformers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Iprofile\Transformers\UserTransformer;
 use Modules\Isite\Transformers\RevisionTransformer;
+use Modules\Iqreable\Transformers\QrTransformer;
 
 class FormTransformer extends JsonResource
 {
@@ -34,6 +35,7 @@ class FormTransformer extends JsonResource
       'url' => $this->url ?? '#',
       'embed' => $this->embed ?? '',
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
+      'qrs' => QrTransformer::collection($this->whenLoaded('qrs')),
     ];
 
     $filter = json_decode($request->filter);
