@@ -184,7 +184,6 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     $model = $query->where($field ?? 'id', $criteria)->first();
     $validateField = event(new FieldIsDeleting($model));
     if ($validateField) {
-      throw new \Exception(trans('requestable::common.errors.FieldProtect'), 406);
       $model ? $model->delete() : false;
     } else {
       throw new \Exception(trans('requestable::common.errors.FieldProtect'), 406);
