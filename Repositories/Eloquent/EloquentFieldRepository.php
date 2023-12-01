@@ -7,6 +7,7 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 use Modules\Iforms\Entities\Type;
 use Modules\Iforms\Entities\Field;
+use Modules\Iforms\Events\FieldIsDeleting;
 
 class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository
 {
@@ -181,7 +182,13 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    $model ? $model->delete() : false;
+    $validateField = event(new FieldIsDeleting($model));
+    if ($validateField) {
+      throw new \Exception(trans('requestable::common.errors.FieldProtect'), 406);
+      $model ? $model->delete() : false;
+    } else {
+      throw new \Exception(trans('requestable::common.errors.FieldProtect'), 406);
+    }
   }
 
   public function updateOrders($data)

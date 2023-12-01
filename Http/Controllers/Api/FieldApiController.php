@@ -91,10 +91,10 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes') ?? [];//Get data
       //Validate Request
       $this->validateRequestApi(new CreateRequest($data));
-      
+
       //Create item
       $newData = $this->resource->create($data);
-      
+
       //Response
       $response = ["data" => new Transformer($newData)];
       \DB::commit(); //Commit to Data Base
@@ -109,7 +109,7 @@ class FieldApiController extends BaseApiController
 
   /**
    * Update the specified resource in storage.
-   * @param  Request $request
+   * @param Request $request
    * @return Response
    */
   public function update($criteria, Request $request)
@@ -121,9 +121,9 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes');
       //Validate Request
       $this->validateRequestApi(new UpdateRequest($data));
-  
-      if(isset($data["name"])) unset($data["name"]);
-      
+
+      if (isset($data["name"])) unset($data["name"]);
+
       //Update data
       $newData = $this->resource->updateBy($criteria, $data, $params);
       //Response
@@ -160,7 +160,7 @@ class FieldApiController extends BaseApiController
     return response()->json($response, $status ?? 200);
   }
 
-  public function batchUpdate (Request $request)
+  public function batchUpdate(Request $request)
   {
     \DB::beginTransaction();
     try {

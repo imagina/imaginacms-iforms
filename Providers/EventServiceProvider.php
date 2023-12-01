@@ -7,6 +7,8 @@ use Modules\Iforms\Events\Handlers\HandleFormeable;
 use Modules\Iforms\Events\Handlers\SendEmail;
 use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Iforms\Events\SyncFormeable;
+use Modules\Iforms\Events\FieldIsDeleting;
+use Modules\Requestable\Events\Handlers\ValidateFieldIsDeleting;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -17,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
     ],
     SyncFormeable::class => [
       HandleFormeable::class,
+    ],
+    FieldIsDeleting::class => [
+      ValidateFieldIsDeleting::class,
     ],
   ];
 }

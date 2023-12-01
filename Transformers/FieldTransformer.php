@@ -33,6 +33,7 @@ class FieldTransformer extends JsonResource
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
       'parentId' => $this->when($this->parent_id, $this->parent_id),
       'parent' => new FieldTransformer($this->whenLoaded('parent')),
+      'systemType' => $this->when($this->system_type, $this->system_type),
 
     ];
 
