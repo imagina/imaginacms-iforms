@@ -77,7 +77,7 @@ class Form extends Component
     }
 
     $this->form = $this->formRepository->getItem($this->id, json_decode(json_encode($params)));
-    if (!$this->form) {
+    if (!isset($this->form->id)) {
       $params['filter']['field'] = 'system_name';
       $this->form = $this->formRepository->getItem($this->id, json_decode(json_encode($params)));
     }

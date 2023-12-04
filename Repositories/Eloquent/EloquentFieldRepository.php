@@ -61,7 +61,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       }
 
       //Filter by parent ID
-      if (in_array("parentId",array_keys(get_object_vars($filter)))) {
+      if (in_array("parentId", array_keys(get_object_vars($filter)))) {
         $query->where('parent_id', $filter->parentId);
       }
 
@@ -149,7 +149,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
 
   public function create($data)
   {
-    $data["name"] = uniqid("f".$data["form_id"]."_b".$data["block_id"] ?? ""."_");
+    $data["name"] = uniqid("f" . $data["form_id"] . "_b" . $data["block_id"] ?? "" . "_");
     $category = $this->model->create($data);
     return $category;
   }
@@ -183,11 +183,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
     $validateField = event(new FieldIsDeleting($model));
-    if ($validateField) {
-      $model ? $model->delete() : false;
-    } else {
-      throw new \Exception(trans('requestable::common.errors.FieldProtect'), 406);
-    }
+    $model ? $model->delete() : false;
   }
 
   public function updateOrders($data)
