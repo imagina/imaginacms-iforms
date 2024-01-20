@@ -45,7 +45,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -72,7 +72,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -101,7 +101,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -132,7 +132,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
   }
@@ -155,7 +155,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
   }
@@ -176,7 +176,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
 
