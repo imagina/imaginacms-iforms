@@ -24,6 +24,7 @@ class Form extends Model
     'title',
     'submit_text',
     'success_text',
+    'description',
   ];
 
   protected $fillable = [

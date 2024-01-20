@@ -16,6 +16,7 @@ class FormTransformer extends JsonResource
     $data = [
       'id' => $this->when($this->id, $this->id),
       'title' => $this->when($this->title, $this->title),
+      'description' => $this->when($this->description, $this->description),
       'systemName' => $this->when($this->system_name, $this->system_name),
       'submitText' => $this->when($this->submit_text, $this->submit_text),
       'successText' => $this->when($this->success_text, $this->success_text),
@@ -47,6 +48,7 @@ class FormTransformer extends JsonResource
         $data[$lang]['title'] = $this->hasTranslation($lang) ? $this->translate("$lang")['title'] : '';
         $data[$lang]['submitText'] = $this->hasTranslation($lang) ? $this->translate("$lang")['submit_text'] : '';
         $data[$lang]['successText'] = $this->hasTranslation($lang) ? $this->translate("$lang")['success_text'] : '';
+        $data[$lang]['description'] = $this->hasTranslation($lang) ? $this->translate("$lang")['description'] : '';
       }
     }
 

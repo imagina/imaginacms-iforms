@@ -34,6 +34,7 @@ class FieldTransformer extends JsonResource
       'parentId' => $this->when($this->parent_id, $this->parent_id),
       'parent' => new FieldTransformer($this->whenLoaded('parent')),
       'systemType' => $this->when($this->system_type, $this->system_type),
+      'visibility' => $this->when($this->visibility, $this->visibility),
 
     ];
 
@@ -83,6 +84,8 @@ class FieldTransformer extends JsonResource
         ($fieldType === 'file' ? 'media' :
           ($fieldType == 'selectmultiple' ? 'select' : $fieldType)
         ),
+      'visibility' => $this->visibility,
+      'systemType' => $this->system_type,
       'name' => $fieldType === 'file' ? "mediasSingle" : $this->name,
       'required' => $this->required ? true : false,
       "value" => in_array($fieldType, ['selectmultiple', 'radio']) ? [] :

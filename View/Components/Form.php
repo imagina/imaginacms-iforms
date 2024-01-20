@@ -13,6 +13,7 @@ class Form extends Component
   public $layout;
   public $fieldsParams;
   public $form;
+  public $fields;
   public $formId;
   public $formRepository;
   public $livewireSubmitEvent;
@@ -34,7 +35,7 @@ class Form extends Component
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
                               $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true,
-                              $title = "Formulario", $subtitle = "Descripción formulario", $withTitle = false,
+                              $title = null, $subtitle = null, $withTitle = false,
                               $withSubtitle = false, $fontSizeTitle = "24", $fontSizeSubtitle = "14",
                               $colorTitle = null, $colorSubtitle = null, $AlainTitle = "text-left",
                               $AlainSubtitle = "text-left", $colorTitleByClass = "text-primary",
@@ -49,10 +50,17 @@ class Form extends Component
     $this->params = $params;
     $this->central = $central;
     $this->getForm();
+    
+    if(isset($this->form->id)){
+  
+      $this->fields = $this->form->fields()->where("visibility", "!=", "internal")->get();
+
+    }
+    
     $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
     $this->jsSubmitEvent = $jsSubmitEvent ?? null;
-    $this->title = $title;
-    $this->subtitle = $subtitle;
+    $this->title = $title ?? $this->form->title ?? trans('iforms::forms.form.formDefault.title');
+    $this->subtitle = $subtitle ?? $this->form->description ?? trans('iforms::forms.form.formDefault.subtitle');
     $this->withTitle = $withTitle;
     $this->withSubtitle = $withSubtitle;
     $this->fontSizeTitle = $fontSizeTitle;
