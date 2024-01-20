@@ -9,13 +9,11 @@
             <x-iforms::form
               :id="$formId"
               :withTitle="true"
-              :title="trans('iforms::forms.form.formDefault.title')"
               colorTitleByClass="text-center mb-2 mb-md-3"
               fontSizeTitle="33"
               :withSubtitle="true"
               colorSubtitleByClass="text-center mb-3"
               fontSizeSubtitle="19"
-              :subtitle="trans('iforms::forms.form.formDefault.subtitle')"
             />
           </div>
         </div>

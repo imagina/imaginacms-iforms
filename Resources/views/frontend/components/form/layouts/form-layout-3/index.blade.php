@@ -6,7 +6,7 @@
   @endif
   @if($withSubtitle)
     <div class="subtitle-section {{$colorSubtitleByClass}} {{$AlainSubtitle}}">
-      {{$subtitle}}
+      {!!$subtitle!!}
     </div>
   @endif
   <div class="formerror"></div>

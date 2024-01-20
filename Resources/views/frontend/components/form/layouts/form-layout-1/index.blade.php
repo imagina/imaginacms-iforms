@@ -13,7 +13,7 @@
   @endif
   @if($withSubtitle)
     <div class="subtitle-section {{$colorSubtitleByClass}} {{$AlainSubtitle}}">
-      {{$subtitle}}
+      {!!$subtitle!!}
     </div>
   @endif
   <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
