@@ -53,7 +53,7 @@ class Form extends Component
     
     if(isset($this->form->id)){
   
-      $this->fields = $this->form->fields()->where("visibility", "!=", "internal")->get();
+      $this->fields = $this->form->fields->where("visibility", "!=", "internal");
 
     }
     
