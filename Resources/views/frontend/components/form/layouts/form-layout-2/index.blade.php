@@ -12,7 +12,10 @@
     <x-isite::captcha :formId="$formId"/>
     <div class="w-100 {{$buttonAlign}}">
         <button type="submit"
-                class="{{$buttonClass}}">{{$buttonIcon}}{{ $form->submit_text ?? $buttonText }}</button>
+                class="{{$buttonClass}}">
+          @if($buttonIcon) <i class="{{$buttonIcon}}"></i> @endif
+          {{ $form->submit_text ?? $buttonText }}
+        </button>
     </div>
   </form>
 

@@ -13,7 +13,7 @@
     <div class="w-100 {{$buttonAlign}}">
         <button type="submit"
                 class="{{$buttonClass}}">
-            @if($buttonIcon) <i class="{{$buttonIcon}}"></i>@endif
+            @if($buttonIcon) <i class="{{$buttonIcon}}"></i> @endif
             {{ $form->submit_text ?? $buttonText }}
         </button>
     </div>

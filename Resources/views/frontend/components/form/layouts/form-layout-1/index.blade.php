@@ -34,7 +34,10 @@
     <div class="form-group row mb-0">
       <div class="col-sm-12 {{$buttonAlign}}">
         <button type="submit"
-                class="{{$buttonClass}}">{{$buttonIcon}}{{ $form->submit_text ?? $buttonText }}</button>
+                class="{{$buttonClass}}">
+          @if($buttonIcon) <i class="{{$buttonIcon}}"></i> @endif
+          {{ $form->submit_text ?? $buttonText }}
+        </button>
       </div>
     </div>
   </form>
