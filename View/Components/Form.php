@@ -32,6 +32,14 @@ class Form extends Component
   public $colorSubtitle;
   public $colorTitleByClass;
   public $colorSubtitleByClass;
+  public $buttonAlign;
+  public $buttonClass;
+  public $buttonText;
+  public $buttonIcon;
+  public $titleClass;
+  public $subtitleClass;
+  public $titleStyle;
+  public $subtitleStyle;
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
                               $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true,
@@ -39,7 +47,9 @@ class Form extends Component
                               $withSubtitle = false, $fontSizeTitle = "24", $fontSizeSubtitle = "14",
                               $colorTitle = null, $colorSubtitle = null, $AlainTitle = "text-left",
                               $AlainSubtitle = "text-left", $colorTitleByClass = "text-primary",
-                              $colorSubtitleByClass = "text-dark"
+                              $colorSubtitleByClass = "text-dark", $buttonAlign = "text-right",
+                              $buttonClass = "btn btn-primary", $buttonText = null, $buttonIcon = null,
+                              $titleClass = "", $subtitleClass = "", $titleStyle = "", $subtitleStyle = ""
   )
   {
     $this->id = $id;
@@ -49,6 +59,14 @@ class Form extends Component
     $this->formRepository = app('Modules\\Iforms\\Repositories\\FormRepository');
     $this->params = $params;
     $this->central = $central;
+    $this->buttonAlign = $buttonAlign;
+    $this->buttonClass = $buttonClass;
+    $this->buttonText = $buttonText ?? trans('iforms::forms.form.submit');
+    $this->buttonIcon = $buttonIcon;
+    $this->titleClass = $titleClass;
+    $this->subtitleClass = $subtitleClass;
+    $this->titleStyle = $titleStyle;
+    $this->subtitleStyle = $subtitleStyle;
     $this->getForm();
     
     if(isset($this->form->id)){
