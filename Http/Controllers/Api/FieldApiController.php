@@ -45,7 +45,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -72,7 +72,7 @@ class FieldApiController extends BaseApiController
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -91,17 +91,17 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes') ?? [];//Get data
       //Validate Request
       $this->validateRequestApi(new CreateRequest($data));
-      
+
       //Create item
       $newData = $this->resource->create($data);
-      
+
       //Response
       $response = ["data" => new Transformer($newData)];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
@@ -109,7 +109,7 @@ class FieldApiController extends BaseApiController
 
   /**
    * Update the specified resource in storage.
-   * @param  Request $request
+   * @param Request $request
    * @return Response
    */
   public function update($criteria, Request $request)
@@ -121,9 +121,9 @@ class FieldApiController extends BaseApiController
       $data = $request->input('attributes');
       //Validate Request
       $this->validateRequestApi(new UpdateRequest($data));
-  
-      if(isset($data["name"])) unset($data["name"]);
-      
+
+      if (isset($data["name"])) unset($data["name"]);
+
       //Update data
       $newData = $this->resource->updateBy($criteria, $data, $params);
       //Response
@@ -132,7 +132,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
   }
@@ -155,12 +155,12 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
   }
 
-  public function batchUpdate (Request $request)
+  public function batchUpdate(Request $request)
   {
     \DB::beginTransaction();
     try {
@@ -176,7 +176,7 @@ class FieldApiController extends BaseApiController
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     return response()->json($response, $status ?? 200);
 

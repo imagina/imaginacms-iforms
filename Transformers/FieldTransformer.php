@@ -4,6 +4,7 @@
 namespace Modules\Iforms\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 use Modules\Isite\Transformers\RevisionTransformer;
 
 class FieldTransformer extends JsonResource
@@ -33,6 +34,8 @@ class FieldTransformer extends JsonResource
       'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
       'parentId' => $this->when($this->parent_id, $this->parent_id),
       'parent' => new FieldTransformer($this->whenLoaded('parent')),
+      'systemType' => $this->when($this->system_type, $this->system_type),
+      'visibility' => $this->when($this->visibility, $this->visibility),
 
     ];
 
@@ -51,6 +54,13 @@ class FieldTransformer extends JsonResource
     //simplifying the type value variable
     $fieldType = $this->present()->type["value"] ?? "";
 
+    $vIf = true;
+    if(isset($filter->renderLocation) && !empty($filter->renderLocation)){
+      if(Str::contains($this->system_type,$filter->renderLocation)){
+        if(Str::contains($this->system_type, 'internalHidden'))
+          $vIf = false;
+      }
+    }
     /**
      * creating the dynamic field to the iadmin
      * values correlations
@@ -87,6 +97,7 @@ class FieldTransformer extends JsonResource
       "value" => in_array($fieldType, ['selectmultiple', 'radio']) ? [] :
         (in_array($fieldType, ['checkbox']) ? false : ""),
       'colClass' => "col-12 col-sm-" . ($field->width ?? '12'),
+      'vIf' => $vIf,
       'props' => [
         'label' => $this->label,
         'entity' => $this->options["entity"] ?? "",

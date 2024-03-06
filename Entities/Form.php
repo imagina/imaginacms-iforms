@@ -8,10 +8,11 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
 
 use Modules\Core\Support\Traits\AuditTrait;
+use Modules\Iqreable\Traits\IsQreable;
 
 class Form extends Model
 {
-  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait;
+  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait, IsQreable;
 
   public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
   public $entity = 'Modules\Iforms\Entities\Form';
@@ -23,6 +24,7 @@ class Form extends Model
     'title',
     'submit_text',
     'success_text',
+    'description',
   ];
 
   protected $fillable = [

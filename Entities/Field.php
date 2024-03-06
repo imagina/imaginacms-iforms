@@ -40,7 +40,8 @@ class Field extends Model
     'block_id',
     'options',
     'rules',
-    'parent_id'
+    'parent_id',
+    'visibility'
   ];
 
   protected $presenter = FieldPresenter::class;
