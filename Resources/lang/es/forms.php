@@ -23,10 +23,6 @@ return [
             <a href=":urlTermsAndConditions" target="_blank" class="h6">
             Términos y Condiciones.</a>',
     'customLeadPDFTemplate' => 'Plantilla PDF Personalizada (sólo editable por super-admin)',
-    'formDefault' => [
-      'title' => '¡Bienvenido!',
-      'subtitle' => 'Completa el siguiente formulario'
-    ]
   ],
   'messages' => [
     'from' => ' de ',

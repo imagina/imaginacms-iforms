@@ -23,10 +23,6 @@ return [
             <a href=":urlTermsAndConditions" target="_blank" class="h6">
             the terms and conditions.</a>',
     'customLeadPDFTemplate' => 'Custom PDF Template (only editable by super-admin)',
-    'formDefault' => [
-      'title' => '¡Welcome!',
-      'subtitle' => 'Complete the following form'
-    ]
   ],
   'messages' => [
     'from' => ' from ',
