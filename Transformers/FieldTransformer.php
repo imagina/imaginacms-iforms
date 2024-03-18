@@ -3,34 +3,40 @@
 namespace Modules\Iforms\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 use Modules\Isite\Transformers\RevisionTransformer;
 
 class FieldTransformer extends JsonResource
 {
-    public function toArray($request)
-    {
-        $data = [
-            'id' => $this->when($this->id, $this->id),
-            'type' => $this->when($this->type, (int) $this->type),
-            'typeObject' => $this->when($this->type, $this->present()->type),
-            'name' => $this->when($this->name, $this->name),
-            'label' => $this->when($this->label, $this->label),
-            'placeholder' => $this->when($this->placeholder, $this->placeholder),
-            'description' => $this->when($this->description, $this->description),
-            'required' => $this->required ? 1 : 0,
-            'order' => $this->order,
-            'width' => $this->width ?? 12,
-            'prefix' => $this->when($this->prefix, $this->prefix),
-            'suffix' => $this->when($this->suffix, $this->suffix),
-            'blockId' => $this->block_id ?? '',
-            'formId' => $this->when($this->form_id, $this->form_id),
-            'selectable' => $this->when($this->selectable, $this->selectable),
-            'options' => $this->options,
-            'rules' => $this->rules,
-            'form' => new FormTransformer($this->whenLoaded('form')),
-            'block' => new BlockTransformer($this->whenLoaded('block')),
-            'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
-        ];
+  public function toArray($request)
+  {
+    $data = [
+      'id' => $this->when($this->id, $this->id),
+      'type' => $this->when($this->type, (int)$this->type),
+      'typeObject' => $this->when($this->type, $this->present()->type),
+      'name' => $this->when($this->name, $this->name),
+      'label' => $this->when($this->label, $this->label),
+      'placeholder' => $this->when($this->placeholder, $this->placeholder),
+      'description' => $this->when($this->description, $this->description),
+      'required' => $this->required ? 1 : 0,
+      'order' => $this->order,
+      'width' => $this->width ?? 12,
+      'prefix' => $this->when($this->prefix, $this->prefix),
+      'suffix' => $this->when($this->suffix, $this->suffix),
+      'blockId' => $this->block_id ?? '',
+      'formId' => $this->when($this->form_id, $this->form_id),
+      'selectable' => $this->when($this->selectable, $this->selectable),
+      'options' => $this->options,
+      'rules' => $this->rules,
+      'form' => new FormTransformer($this->whenLoaded('form')),
+      'block' => new BlockTransformer($this->whenLoaded('block')),
+      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
+      'parentId' => $this->when($this->parent_id, $this->parent_id),
+      'parent' => new FieldTransformer($this->whenLoaded('parent')),
+      'systemType' => $this->when($this->system_type, $this->system_type),
+      'visibility' => $this->when($this->visibility, $this->visibility),
+
+    ];
 
         $filter = json_decode($request->filter);
         // Return data with available translations
@@ -47,48 +53,56 @@ class FieldTransformer extends JsonResource
         //simplifying the type value variable
         $fieldType = $this->present()->type['value'] ?? '';
 
-        /**
-         * creating the dynamic field to the iadmin
-         * values correlations
-         * type ($fieldType):
-         *    ['text', 'textarea', 'number', 'email', 'phone'] => "input"
-         *    'file' => 'media'
-         *    'selectmultiple' => 'select'
-         *    default => $fieldType
-         *
-         * name ($fieldType):
-         *    'file' => 'mediasSingle'
-         *    default => $this->name // field name
-         *
-         * value ($fieldType): // default value
-         *    ['selectmultiple','radio'] => []
-         *    ['checkbox'] => false
-         *
-         * props.type ($fieldType):
-         *    'phone' => 'tel'
-         *    'file' => 'media'
-         *    default => $fieldType
-         *
-         * props.multiple ($fieldType):
-         *    'selectmultiple' => true
-         *    default => false
-         */
-        $data['dynamicField'] = [
-            'type' => in_array($fieldType, ['text', 'textarea', 'number', 'email', 'phone']) ? 'input' :
-              ($fieldType === 'file' ? 'media' :
-                ($fieldType == 'selectmultiple' ? 'select' : $fieldType)
-              ),
-            'name' => $fieldType === 'file' ? 'mediasSingle' : $this->name,
-            'required' => $this->required ? true : false,
-            'value' => in_array($fieldType, ['selectmultiple', 'radio']) ? [] :
-              (in_array($fieldType, ['checkbox']) ? false : ''),
-            'colClass' => 'col-12 col-sm-'.($field->width ?? '12'),
-            'props' => [
-                'label' => $this->label,
-                'entity' => $this->options['entity'] ?? '',
-                'multiple' => $fieldType === 'selectmultiple' ? true : false,
-            ],
-        ];
+    $vIf = true;
+    if(isset($filter->renderLocation) && !empty($filter->renderLocation)){
+      if(Str::contains($this->system_type,$filter->renderLocation)){
+        if(Str::contains($this->system_type, 'internalHidden'))
+          $vIf = false;
+      }
+    }
+    /**
+     * creating the dynamic field to the iadmin
+     * values correlations
+     * type ($fieldType):
+     *    ['text', 'textarea', 'number', 'email', 'phone'] => "input"
+     *    'file' => 'media'
+     *    'selectmultiple' => 'select'
+     *    default => $fieldType
+     *
+     * name ($fieldType):
+     *    'file' => 'mediasSingle'
+     *    default => $this->name // field name
+     *
+     * value ($fieldType): // default value
+     *    ['selectmultiple','radio'] => []
+     *    ['checkbox'] => false
+     *
+     * props.type ($fieldType):
+     *    'phone' => 'tel'
+     *    'file' => 'media'
+     *    default => $fieldType
+     *
+     * props.multiple ($fieldType):
+     *    'selectmultiple' => true
+     *    default => false
+     */
+    $data['dynamicField'] = [
+      'type' => in_array($fieldType, ['text', 'textarea', 'number', 'email', 'phone']) ? 'input' :
+        ($fieldType === 'file' ? 'media' :
+          ($fieldType == 'selectmultiple' ? 'select' : $fieldType)
+        ),
+      'name' => $fieldType === 'file' ? "mediasSingle" : $this->name,
+      'required' => $this->required ? true : false,
+      "value" => in_array($fieldType, ['selectmultiple', 'radio']) ? [] :
+        (in_array($fieldType, ['checkbox']) ? false : ""),
+      'colClass' => "col-12 col-sm-" . ($field->width ?? '12'),
+      'vIf' => $vIf,
+      'props' => [
+        'label' => $this->label,
+        'entity' => $this->options["entity"] ?? "",
+        'multiple' => $fieldType === 'selectmultiple' ? true : false
+      ]
+    ];
 
         //props type
         $availableTypes = ['number', 'email'];

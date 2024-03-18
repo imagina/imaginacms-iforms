@@ -48,8 +48,10 @@ trait Formeable
           ->withTimestamps();
     }
 
-    public function getFormAttribute()
-    {
-        return $this->forms->first();
-    }
+  public function form()
+  {
+    return $this->morphToMany(Form::class, 'formeable', 'iforms__formeable')
+      ->withPivot('formeable_type')
+      ->withTimestamps();
+  }
 }

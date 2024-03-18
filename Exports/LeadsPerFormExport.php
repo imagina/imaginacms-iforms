@@ -27,29 +27,29 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
 {
   use ReportQueueTrait;
 
-    private $params;
+  private $params;
+  private $exportParams;
+  private $leadRepository;
+  private $inotification;
 
-    private $exportParams;
+  public function __construct($params, $exportParams)
+  {
+    $this->userId = \Auth::id();//Set for ReportQueue
+    $this->exportParams = $exportParams;
+    $this->params = $params;
+    $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');
+    $this->inotification = app('Modules\Notification\Services\Inotification');
+  }
 
-    private $leadRepository;
-
-    private $inotification;
-
-    public function __construct($params, $exportParams)
-    {
-        $this->exportParams = $exportParams;
-        $this->params = $params;
-        $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');
-        $this->inotification = app('Modules\Notification\Services\Inotification');
-    }
-
-    public function query(): Collection
-    {
-        //Get query
-        $this->params->returnAsQuery = true;
-
-        return $this->leadRepository->getItemsBy($this->params);
-    }
+  /**
+   * @return \Illuminate\Support\Collection
+   */
+  public function query()
+  {
+    //Get query
+    $this->params->returnAsQuery = true;
+    return $this->leadRepository->getItemsBy($this->params);
+  }
 
     /*
     /**
@@ -79,36 +79,40 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
         return array_merge(array_values($values), [$lead->created_at, $lead->updated_at]);
     }
 
-    /**
-     * //Handling Events
-     */
-    public function registerEvents(): array
-    {
-        return [
-            // Event gets raised at the start of the process.
-            BeforeExport::class => function (BeforeExport $event) {
-            },
-            // Event gets raised before the download/store starts.
-            BeforeWriting::class => function (BeforeWriting $event) {
-            },
-            // Event gets raised just after the sheet is created.
-            BeforeSheet::class => function (BeforeSheet $event) {
-            },
-            // Event gets raised at the end of the sheet process
-            AfterSheet::class => function (AfterSheet $event) {
-                //Send pusher notification
-                $this->inotification->to(['broadcast' => $this->params->user->id])->push([
-                    'title' => 'New report',
-                    'message' => 'Your report is ready!',
-                    'link' => url(''),
-                    'isAction' => true,
-                    'frontEvent' => [
-                        'name' => 'isite.export.ready',
-                        'data' => $this->exportParams,
-                    ],
-                    'setting' => ['saveInDatabase' => 1],
-                ]);
-            },
-        ];
-    }
+  /**
+   * //Handling Events
+   *
+   * @return array
+   */
+  public function registerEvents(): array
+  {
+    return [
+      // Event gets raised at the start of the process.
+      BeforeExport::class => function (BeforeExport $event) {
+        $this->lockReport($this->exportParams->exportName);
+      },
+      // Event gets raised before the download/store starts.
+      BeforeWriting::class => function (BeforeWriting $event) {
+      },
+      // Event gets raised just after the sheet is created.
+      BeforeSheet::class => function (BeforeSheet $event) {
+      },
+      // Event gets raised at the end of the sheet process
+      AfterSheet::class => function (AfterSheet $event) {
+        $this->unlockReport($this->exportParams->exportName);
+        //Send pusher notification
+        $this->inotification->to(['broadcast' => $this->params->user->id])->push([
+          "title" => "New report",
+          "message" => "Your report is ready!",
+          "link" => url(''),
+          "isAction" => true,
+          "frontEvent" => [
+            "name" => "isite.export.ready",
+            "data" => $this->exportParams
+          ],
+          "setting" => ["saveInDatabase" => 1]
+        ]);
+      },
+    ];
+  }
 }

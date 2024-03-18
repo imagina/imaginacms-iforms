@@ -1,21 +1,12 @@
 <div id="loading-form">
   <div class="lds-spinner">
-    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+    <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
     </div>
   </div>
 </div>
 <div id="formLayout1" class="content-form{{$formId}} position-relative">
-  @if($withTitle)
-    <div class="title-section {{$colorTitleByClass}} {{$AlainTitle}}">
-      {{$title}}
-    </div>
-  @endif
-  @if($withSubtitle)
-    <div class="subtitle-section {{$colorSubtitleByClass}} {{$AlainSubtitle}}">
-      {{$subtitle}}
-    </div>
-  @endif
+  @include('iforms::frontend.components.form.layouts.titles',array('layout'=>'formLayout1'))
   <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                       :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <div class="formerror"></div>
@@ -41,9 +32,12 @@
     </div>
 
     <div class="form-group row mb-0">
-      <div class="col-sm-12 text-right">
+      <div class="col-sm-12 {{$buttonAlign}}">
         <button type="submit"
-                class="btn btn-primary">{{ $form->submit_text ?? trans('iforms::forms.form.submit')}}</button>
+                class="{{$buttonClass}}">
+          @if($buttonIcon) <i class="{{$buttonIcon}}"></i> @endif
+          {{ $form->submit_text ?? $buttonText }}
+        </button>
       </div>
     </div>
   </form>
@@ -51,14 +45,6 @@
 @include('iforms::frontend.components.form.layouts.mainlayout')
 
 <style>
-    #formLayout1 .title-section {
-        color: {{$colorTitle}};
-        font-size: {{$fontSizeTitle}}px;
-    }
-    #formLayout1 .subtitle-section {
-        color: {{$colorSubtitle}};
-        font-size: {{$fontSizeSubtitle}}px;
-    }
     #formLayout1 .form-group .col-style {
         margin-bottom: 10px;
     }

@@ -5,16 +5,20 @@ namespace Modules\Iforms\Http\Controllers\Api;
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 // Base Api
-use Modules\Iforms\Entities\Type;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+
 // Transformers
+use Modules\Iforms\Transformers\TypeTransformer;
 
 // Entity
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Iforms\Entities\Type;
 
 class TypeApiController extends BaseApiController
 {
-    private $types;
+
+  private $types;
 
     public function __construct(Type $formTypes)
     {

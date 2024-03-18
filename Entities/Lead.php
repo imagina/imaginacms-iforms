@@ -3,11 +3,12 @@
 namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Core\Support\Traits\AuditTrait;
-use Modules\Isite\Traits\RevisionableTrait;
-use Modules\Media\Support\Traits\MediaRelation;
 use Modules\User\Entities\Sentinel\User;
+use Modules\Media\Support\Traits\MediaRelation;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\Isite\Traits\RevisionableTrait;
+
+use Modules\Core\Support\Traits\AuditTrait;
 
 class Lead extends Model
 {
