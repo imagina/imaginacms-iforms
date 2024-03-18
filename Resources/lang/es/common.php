@@ -1,50 +1,50 @@
 <?php
 
 return [
-    'iforms' => 'Formularios',
+  'iforms' => 'Formularios',
 
-    'button' => [
-        'read more' => 'Read More',
-    ],
-    'table' => [
-    ],
-    'form' => [
-    ],
-    'messages' => [
-        'fieldRequired' => 'El Campo :field es obligatorio',
-        'title is required' => 'The title is required',
-        'title min 2' => 'Title must contain at least two characters',
-        'description is required' => 'The Description is required',
-        'description min 2' => 'The description must contain at least two characters',
-        'summary is required' => 'The summary is required',
-        'summary min 2' => 'The summary must contain at least two characters',
-        'captcha_required' => 'El Captcha es requerido',
-        'captcha_invalid' => 'El Captcha es inválido o no está correctamente configurado',
-    ],
-    'validation' => [
-    ],
-    'types' => [
-        'text' => 'Texto',
-        'number' => 'Nùmero',
-        'textarea' => 'Área de Texto',
-        'email' => 'Correo electrónico',
-        'select' => 'Seleccion',
-        'selectmultiple' => 'Seleccion Multiple',
-        'checkbox' => 'Check',
-        'radio' => 'Radio',
-        'city' => 'Ciudad',
-        'department' => 'Departamento',
-        'country' => 'País',
-        'location' => 'Localizaciòn',
-        'phone' => 'Teléfono',
-        'date' => 'Fecha',
-        'file' => 'Archivo',
-        'treeSelect' => 'Tree Select',
-    ],
-    'formTypes' => [
-        'normal' => 'Formulario normal',
-        'steps' => 'Formulario con pasos',
-    ],
+  'button' => [
+    "read more" => "Read More"
+  ],
+  'table' => [
+  ],
+  'form' => [
+  ],
+  'messages' => [
+    'fieldRequired' => 'El Campo :field es obligatorio',
+    'title is required' => 'The title is required',
+    'title min 2' => 'Title must contain at least two characters',
+    'description is required' => 'The Description is required',
+    'description min 2' => 'The description must contain at least two characters',
+    'summary is required' => 'The summary is required',
+    'summary min 2' => 'The summary must contain at least two characters',
+    'captcha_required' => 'El Captcha es requerido',
+    'captcha_invalid' => 'El Captcha es inválido o no está correctamente configurado',
+  ],
+  'validation' => [
+  ],
+  'types' => [
+    'text' => 'Texto',
+    'number' => 'Nùmero',
+    'textarea' => 'Área de Texto',
+    'email' => 'Correo electrónico',
+    'select' => 'Seleccion',
+    'selectmultiple' => 'Seleccion Multiple',
+    'checkbox' => 'Check',
+    'radio' => 'Radio',
+    'city' => 'Ciudad',
+    'department' => 'Departamento',
+    'country' => 'País',
+    'location' => 'Localizaciòn',
+    'phone' => 'Teléfono',
+    'date' => 'Fecha',
+    'file' => 'Archivo',
+    'treeSelect' => 'Tree Select',
+  ],
+  'formTypes' => [
+    'normal' => 'Formulario normal',
+    'steps' => 'Formulario con pasos'
+  ],
 
     'status_text' => 'Estatus',
 

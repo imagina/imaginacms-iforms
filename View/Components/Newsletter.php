@@ -1,11 +1,13 @@
 <?php
 
+
 namespace Modules\Iforms\View\Components;
 
 use Illuminate\View\Component;
 
 class Newsletter extends Component
 {
+
     public $id;
 
     public $layout;
@@ -42,10 +44,11 @@ class Newsletter extends Component
                                 $central = false,
                                 $titleClasses = 'mb-0',
                                 $descriptionClasses = 'mb-3',
-                                $postDescriptionClasses = 'mb-3',
-                                $buttonClasses = 'btn btn-primary px-3',
-                                $inputClasses = 'bg-transparent'
-    ) {
+                                $postDescriptionClasses = "mb-3",
+                                $buttonClasses = "btn btn-primary px-3",
+                                $inputClasses = "bg-transparent"
+    )
+    {
         $this->layout = $layout ?? 'newsletter-layout-1';
         $this->view = "iforms::frontend.components.newsletter.layouts.{$this->layout}.index";
         $this->title = $title ?? '';
@@ -84,6 +87,10 @@ class Newsletter extends Component
                 'active' => 1,
             ];
             $this->form = app('Modules\\Iforms\\Repositories\\FormRepository')->create($formData);
+            $newBlockData = [
+              'form_id' => $this->form->id,
+            ];
+            app('Modules\\Iforms\\Repositories\\BlockRepository')->create($newBlockData);
             $newFieldData = [
                 'required' => 1,
                 'name' => trans('iforms::fields.form.email.name'),

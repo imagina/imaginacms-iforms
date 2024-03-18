@@ -4,11 +4,13 @@ namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
-use Modules\Core\Support\Traits\AuditTrait;
 use Modules\Iforms\Presenters\FieldPresenter;
+use Illuminate\Support\Str;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
+
+use Modules\Core\Support\Traits\AuditTrait;
 
 class Field extends Model
 {
@@ -22,26 +24,27 @@ class Field extends Model
 
     protected $table = 'iforms__fields';
 
-    public $translatedAttributes = [
-        'label',
-        'placeholder',
-        'description',
-    ];
-
-    protected $fillable = [
-        'type',
-        'name',
-        'required',
-        'form_id',
-        'selectable',
-        'order',
-        'prefix',
-        'suffix',
-        'width',
-        'block_id',
-        'options',
-        'rules',
-    ];
+  public $translatedAttributes = [
+    'label',
+    'placeholder',
+    'description',
+  ];
+  protected $fillable = [
+    'type',
+    'name',
+    'required',
+    'form_id',
+    'selectable',
+    'order',
+    'prefix',
+    'suffix',
+    'width',
+    'block_id',
+    'options',
+    'rules',
+    'parent_id',
+    'visibility'
+  ];
 
     protected $presenter = FieldPresenter::class;
 
@@ -58,15 +61,20 @@ class Field extends Model
         return $this->belongsTo(Form::class);
     }
 
-    public function block()
-    {
-        return $this->belongsTo(Block::class);
-    }
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Field', 'parent_id');
+  }
 
-    public function getSelectableAttribute($value)
-    {
-        return json_decode($value);
-    }
+  public function block()
+  {
+    return $this->belongsTo(Block::class);
+  }
+
+  public function getSelectableAttribute($value)
+  {
+    return json_decode($value);
+  }
 
     public function setSelectableAttribute($value)
     {

@@ -11,17 +11,28 @@ return [
       "title" => [
         "name" => "title",
         "type" => "input",
+        "columns" => "col-12",
         "isTranslatable" => true,
         "props" => [
-          "label" => "Titulo"
+          "label" => "Titulo del Formulario"
         ]
-                            ],
+      ],
       "subtitle" => [
         "name" => "subtitle",
         "type" => "input",
+        "columns" => "col-12",
         "isTranslatable" => true,
         "props" => [
-          "label" => "Subtitle"
+          "label" => "Subtitle del Formulario"
+        ]
+      ],
+      "buttonText" => [
+        "name" => "buttonText",
+        "type" => "input",
+        "columns" => "col-12",
+        "isTranslatable" => true,
+        "props" => [
+            "label" => "Texto del Boton del Formulario"
         ]
       ],
     ],
@@ -54,108 +65,178 @@ return [
               ]
             ]
           ],
-          "withTitle" => [
-            "name" => "withTitle",
-            "value" => "1",
-            "type" => "select",
-            "props" => [
-              "label" => "Mostrar Titulo",
-              "options" => $vAttributes["validation"]
-            ]
-          ],
-          "AlainTitle" => [
-            "name" => "AlainTitle",
-            "value" => "text-left",
-            "type" => "select",
-            "props" => [
-              "label" => "Alineación del titulo",
-              "options" => [
-                ["label" => "Alineación a la Izquierda", "value" => "text-left"],
-                ["label" => "Alineación a la Derecha", "value" => "text-right"],
-                ["label" => "Alineación Centrado", "value" => "text-center"],
-              ]
-            ]
-          ],
-          "withSubtitle" => [
-            "name" => "withSubtitle",
-            "value" => "1",
-            "type" => "select",
-            "props" => [
-              "label" => "Mostrar Subtitulo",
-              "options" => $vAttributes["validation"]
-            ]
-          ],
-          "AlainSubtitle" => [
-            "name" => "AlainSubtitle",
-            "value" => "text-left",
-            "type" => "select",
-            "props" => [
-              "label" => "Alineación del subtitulo",
-              "options" => [
-                ["label" => "Alineación a la Izquierda", "value" => "text-left"],
-                ["label" => "Alineación a la Derecha", "value" => "text-right"],
-                ["label" => "Alineación Centrado", "value" => "text-center"],
-              ]
-            ]
-          ],
-          "fontSizeTitle" => [
-            "name" => "fontSizeTitle",
-            "type" => "input",
-            "props" => [
-              "label" => "Tamaño de fuente Titulo Principal",
-              "type" => "number"
-            ]
-          ],
-          "colorTitle" => [
-            "name" => "colorTitle",
-            "type" => "inputColor",
-            "props" => [
-              "label" => "Color Titulo Principal"
-            ]
-          ],
-          "fontSizeSubtitle" => [
-            "name" => "fontSizeSubtitle",
-            "type" => "input",
-            "props" => [
-              "label" => "Tamaño de fuente Subtitulo",
-              "type" => "number"
-            ]
-          ],
-          "colorSubtitle" => [
-            "name" => "colorSubtitle",
-            "type" => "inputColor",
-            "props" => [
-              "label" => "Color Subtitulo"
-            ]
-          ],
-          "colorTitleByClass" => [
-            "name" => "colorTitleByClass",
-            "value" => "text-primary",
-            "type" => "select",
-            "props" => [
-              "label" => "Color del Titulo",
-              "options" => [
-                ["label" => "Texto en Color Primario", "value" => "text-primary"],
-                ["label" => "Texto en Color Secundario", "value" => "text-secondary"],
-                ["label" => "Texto en Color Negro", "value" => "text-dark"],
-                ["label" => "Texto en Color Blanco", "value" => "text-white"],
-              ]
-            ]
-          ],
-          "colorSubtitleByClass" => [
-            "name" => "colorSubtitleByClass",
-            "value" => "text-primary",
-            "type" => "select",
-            "props" => [
-              "label" => "Color del Subtitulo",
-              "options" => [
-                ["label" => "Texto en Color Primario", "value" => "text-primary"],
-                ["label" => "Texto en Color Secundario", "value" => "text-secondary"],
-                ["label" => "Texto en Color Negro", "value" => "text-dark"],
-                ["label" => "Texto en Color Blanco", "value" => "text-white"],
-              ]
-            ]
-          ],
+        ]
+      ],
+      "title" => [
+        "title" => "Titulo",
+        "fields" => [
+            "withTitle" => [
+                "name" => "withTitle",
+                "value" => "1",
+                "type" => "select",
+                "props" => [
+                    "label" => "Mostrar Titulo",
+                    "options" => $vAttributes["validation"]
+                ]
+            ],
+            "fontSizeTitle" => [
+                "name" => "fontSizeTitle",
+                "type" => "input",
+                "props" => [
+                    "label" => "Tamaño de fuente",
+                    "type" => "number"
+                ]
+            ],
+            "AlainTitle" => [
+                "name" => "AlainTitle",
+                "columns" => "col-12",
+                "value" => "text-left",
+                "type" => "select",
+                "props" => [
+                    "label" => "Alineación",
+                    "options" => $vAttributes["textAlign"]
+                ]
+            ],
+            "colorTitleByClass" => [
+                "name" => "colorTitleByClass",
+                "type" => "select",
+                "props" => [
+                    "label" => "Color Class",
+                    "options" => $vAttributes["textColors"]
+                ]
+            ],
+            "colorTitle" => [
+                "name" => "colorTitle",
+                "type" => "inputColor",
+                "props" => [
+                    "label" => "Color Custom",
+                ],
+                "help" => [
+                    "description" => "Selecciona el color Custom en Color Class para activarlo",
+                ]
+            ],
+            "titleClass" => [
+                "name" => "titleClass",
+                "type" => "input",
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Clases",
+                ],
+            ],
+            "titleStyle" => [
+                "name" => "titleStyle",
+                "type" => "input",
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Estilo",
+                    'type' => 'textarea',
+                    'rows' => 5,
+                ],
+                "help" => [
+                    "description" => "Permite agregar estilos adicionales en titulo",
+                ]
+            ],
+        ]
+      ],
+      "subtitle" => [
+        "title" => "Subtitulos",
+        "fields" => [
+            "withSubtitle" => [
+                "name" => "withSubtitle",
+                "value" => "1",
+                "type" => "select",
+                "props" => [
+                    "label" => "Mostrar Subtitulo",
+                    "options" => $vAttributes["validation"]
+                ]
+            ],
+            "fontSizeSubtitle" => [
+                "name" => "fontSizeSubtitle",
+                "type" => "input",
+                "props" => [
+                    "label" => "Tamaño de fuente",
+                    "type" => "number"
+                ]
+            ],
+            "AlainSubtitle" => [
+                "name" => "AlainSubtitle",
+                "columns" => "col-12",
+                "value" => "text-left",
+                "type" => "select",
+                "props" => [
+                    "label" => "Alineación",
+                    "options" => $vAttributes["textAlign"]
+                ]
+            ],
+            "colorSubtitleByClass" => [
+                "name" => "colorSubtitleByClass",
+                "type" => "select",
+                "props" => [
+                    "label" => "Color Class",
+                    "options" => $vAttributes["textColors"]
+                ]
+            ],
+            "colorSubtitle" => [
+                "name" => "colorSubtitle",
+                "type" => "inputColor",
+                "props" => [
+                    "label" => "Color Custom",
+                ],
+                "help" => [
+                    "description" => "Selecciona el color Custom en Color Class para activarlo",
+                ]
+            ],
+            "subtitleClass" => [
+                "name" => "subtitleClass",
+                "type" => "input",
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Clases",
+                ],
+            ],
+            "subtitleStyle" => [
+                "name" => "subtitleStyle",
+                "type" => "input",
+                "columns" => "col-12",
+                "props" => [
+                    "label" => "Estilo",
+                    'type' => 'textarea',
+                    'rows' => 5,
+                ],
+                "help" => [
+                    "description" => "Permite agregar estilos adicionales en subtitulo",
+                ]
+            ],
+        ]
+      ],
+      "buttom" => [
+        "title" => "Boton",
+        "fields" => [
+            "buttonClass" => [
+                "name" => "buttonClass",
+                "value" => "btn btn-primary",
+                "columns" => "col-12",
+                "type" => "input",
+                "props" => [
+                    "label" => "Clases",
+                ]
+            ],
+            "buttonAlign" => [
+                "name" => "buttonAlign",
+                "value" => "text-right",
+                "type" => "select",
+                "props" => [
+                    "label" => "Alineación",
+                    "options" => $vAttributes["textAlign"]
+                ]
+            ],
+            "buttonIcon" => [
+                "name" => "buttonIcon",
+                "type" => "input",
+                "props" => [
+                    "label" => "Icono",
+                ]
+            ],
         ]
       ],
     ]
@@ -182,7 +263,7 @@ return [
                 "props" => [
                     "label" => "Descripción"
                 ]
-        ],
+            ],
             "postDescription" => [
                 "name" => "postDescription",
                 "type" => "input",
@@ -191,7 +272,7 @@ return [
                 "props" => [
                     "label" => "Post Descripción"
                 ]
-                        ],
+            ],
             "submitLabel" => [
                 "name" => "submitLabel",
                 "type" => "input",
@@ -200,8 +281,8 @@ return [
                 "props" => [
                     "label" => "Label de Botón"
                 ]
-                    ],
-                        ],
+            ],
+        ],
         "attributes" => [
             "general" => [
                 "title" => "General",
@@ -226,7 +307,7 @@ return [
                         "props" => [
                             "label" => "Clases para Titulo"
                         ]
-                        ],
+                    ],
                     "descriptionClasses" => [
                         "name" => "descriptionClasses",
                         "value" => "mb-3",
@@ -244,7 +325,7 @@ return [
                         "props" => [
                             "label" => "Clases para Post Descripción"
                         ]
-                        ],
+                    ],
                     "inputClasses" => [
                         "name" => "inputClasses",
                         "value" => "bg-transparent",
@@ -262,7 +343,7 @@ return [
                         "props" => [
                             "label" => "Clases para el botón"
                         ]
-                ],
+                    ],
                 ]
             ],
         ]

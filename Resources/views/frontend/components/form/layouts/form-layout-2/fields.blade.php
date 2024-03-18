@@ -1,6 +1,3 @@
-<?php
-$fields = $form->fields;
-?>
 {{ csrf_field() }}
 <div class="row">
   @foreach($fields as $index => $field)

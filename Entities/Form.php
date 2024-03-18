@@ -4,37 +4,39 @@ namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Core\Support\Traits\AuditTrait;
-use Modules\Isite\Traits\RevisionableTrait;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+use Modules\Isite\Traits\RevisionableTrait;
+
+use Modules\Core\Support\Traits\AuditTrait;
+use Modules\Iqreable\Traits\IsQreable;
 
 class Form extends Model
 {
-    use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait;
+  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait, IsQreable;
 
-    public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
+  public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
+  public $entity = 'Modules\Iforms\Entities\Form';
+  public $repository = 'Modules\Iforms\Repositories\FormRepository';
 
-    public $entity = 'Modules\Iforms\Entities\Form';
+  protected $table = 'iforms__forms';
 
-    public $repository = 'Modules\Iforms\Repositories\FormRepository';
+  public $translatedAttributes = [
+    'title',
+    'submit_text',
+    'success_text',
+    'description',
+  ];
 
-    protected $table = 'iforms__forms';
-
-    public $translatedAttributes = [
-        'title',
-        'submit_text',
-        'success_text',
-    ];
-
-    protected $fillable = [
-        'system_name',
-        'active',
-        'destination_email',
-        'user_id',
-        'options',
-        'form_type',
-        'organization_id',
-    ];
+  protected $fillable = [
+    'system_name',
+    'active',
+    'destination_email',
+    'user_id',
+    'options',
+    'form_type',
+    'organization_id',
+    'parent_id'
+  ];
 
     protected $casts = [
         'options' => 'array',
@@ -58,10 +60,15 @@ class Form extends Model
         return $this->hasMany(Field::class)->with('translations')->orderBy('order', 'asc');
     }
 
-    public function leads()
-    {
-        return $this->hasMany(Lead::class);
-    }
+  public function parent()
+  {
+    return $this->belongsTo('Modules\Iforms\Entities\Form', 'parent_id');
+  }
+
+  public function leads()
+  {
+    return $this->hasMany(Lead::class);
+  }
 
     public function blocks()
     {
@@ -95,12 +102,11 @@ class Form extends Model
         return \LaravelLocalization::localizeUrl('/iforms/view/'.$this->id);
     }
 
-    public function getEmbedAttribute()
-    {
-        $elementUid = uniqid();
-        //$embed = "<iframe src='$this->url' title='$this->title' frameborder='0' allowfullscreen></iframe>";
-        $embed = "<script id='scriptIframeId-{$elementUid}' src='https://www.imaginacolombia.com/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
-
-        return $embed;
-    }
+  public function getEmbedAttribute()
+  {
+    $elementUid = uniqid();
+    //$embed = "<iframe src='$this->url' title='$this->title' frameborder='0' allowfullscreen></iframe>";
+    $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
+    return $embed;
+  }
 }

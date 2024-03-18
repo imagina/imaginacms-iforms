@@ -26,31 +26,31 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
 {
   use Exportable, ReportQueueTrait;
 
-    private $params;
+  private $params;
+  private $exportParams;
+  private $inotification;
 
-    private $exportParams;
+  public function __construct($params, $exportParams)
+  {
+    $this->userId = \Auth::id();//Set for ReportQueue
+    $this->params = $params;
+    $this->exportParams = $exportParams;
+    $this->inotification = app('Modules\Notification\Services\Inotification');
+  }
 
-    private $inotification;
+  /**
+   * @return \Illuminate\Support\Collection
+   */
+  public function sheets(): array
+  {
+    //Get forms
+    $forms = (isset($this->params->filter->formId) && $this->params->filter->formId) ?
+      Form::where('id', $this->params->filter->formId)->with(['fields', 'translations'])->get() :
+      Form::with(['fields', 'translations'])->get();
 
-    public function __construct($params, $exportParams)
-    {
-        $this->params = $params;
-        $this->exportParams = $exportParams;
-        $this->inotification = app('Modules\Notification\Services\Inotification');
-    }
-
-    public function sheets(): array
-    {
-        //Get forms
-        $forms = (isset($this->params->filter->formId) && $this->params->filter->formId) ?
-          Form::where('id', $this->params->filter->formId)->with(['fields', 'translations'])->get() :
-          Form::with(['fields', 'translations'])->get();
-
-        //Add Sheets
-        $sheets = [];
-        foreach ($forms as $form) {
-            $sheets[] = new LeadsPerFormExport($form, $this->params);
-        }
+    //Add Sheets
+    $sheets = [];
+    foreach ($forms as $form) $sheets[] = new LeadsPerFormExport($form, $this->params);
 
         //Response
         return $sheets;

@@ -12,6 +12,7 @@ class FormTranslation extends Model
         'title',
         'submit_text',
         'success_text',
+      'description',
     ];
 
     protected $table = 'iforms__form_translations';

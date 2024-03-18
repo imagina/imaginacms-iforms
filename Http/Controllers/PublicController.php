@@ -175,18 +175,18 @@ class PublicController extends BaseApiController
         }
     }
 
-    public function renderJsForm(Request $request, $formId)
-    {
-        $params = $request->all();
-        //Instance the file URL
-        $fileUrl = asset('modules/iforms/Render/formFrame.js');
-        //Get file
-        $jsString = file_get_contents($fileUrl);
-        //Replace form id
-        $jsString = str_replace('{formId}', str_replace('.js', '', $formId), $jsString);
-        $jsString = str_replace('{iframeId}', ($params['iframeId'] ?? uniqid()), $jsString);
-        $jsString = str_replace('{domainUrl}', url('iforms/view'), $jsString);
-        //Return file
-        return response($jsString)->header('Content-Type', 'application/javascript');
-    }
+  public function renderJsForm(Request $request, $formId)
+  {
+    $params = $request->all();
+    //Instance the file URL
+    $fileUrl = asset('modules/iforms/Render/formFrame.js');
+    //Get file
+    $jsString = file_get_contents($fileUrl);
+    //Replace form id
+    $jsString = str_replace("{formId}", str_replace(".js", "", $formId), $jsString);
+    $jsString = str_replace("{iframeId}", ($params["iframeId"] ?? uniqid()), $jsString);
+    $jsString = str_replace("{domainUrl}", url("iadmin/#/form/lead/create-public/"), $jsString);
+    //Return file
+    return response($jsString)->header('Content-Type', 'application/javascript');
+  }
 }
