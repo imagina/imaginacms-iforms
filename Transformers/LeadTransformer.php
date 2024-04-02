@@ -28,8 +28,8 @@ class LeadTransformer extends JsonResource
       ];
       
       $form = $this->form;
-      $fields = $form->fields;
-      
+      $fields = $form->fields ?? [];
+
       foreach($fields as $field){
         if($field->type == 12) { //FILE
           $data["values"][$field->name] = url($data["values"][$field->name] ?? '');
