@@ -34,7 +34,8 @@ return [
       "full" => "Full Ancho"
     ],
     "successText" => "Texto de exito",
-    "submitText" => "Texto de enviado"
+    "submitText" => "Texto de enviado",
+    "formNotExist" => "ID del formulario: {id} <b class='text-red-7'>(No existe)</b>"
   ],
   "message" => [
     "helpToOptionsField" => "Escribe la opción y presionar enter...",
