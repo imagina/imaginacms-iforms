@@ -9,7 +9,6 @@
           width: 100%;
           height: 100%;
       }
-
       .lds-spinner {
           color: #fff;
           display: block;
@@ -19,6 +18,9 @@
           margin: auto;
           background: #fff;
           top: 50%;
+          & .spinner-border {
+              width: 3rem; height: 3rem;
+          }
       }
   </style>
   <script type="text/javascript" defer>

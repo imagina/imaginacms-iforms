@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Modules\Iforms\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -7,7 +8,6 @@ use Illuminate\Support\Str;
 use Modules\Iprofile\Transformers\UserTransformer;
 use Modules\Isite\Transformers\RevisionTransformer;
 use Modules\Media\Transformers\NewTransformers\MediaTransformer;
-
 class LeadTransformer extends JsonResource
 {
     public function toArray($request)

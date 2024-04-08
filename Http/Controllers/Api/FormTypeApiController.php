@@ -1,16 +1,20 @@
 <?php
 
+
 namespace Modules\Iforms\Http\Controllers\Api;
 
 // Requests & Response
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 // Base Api
-use Modules\Iforms\Entities\FormType;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+
 // Transformers
+use Modules\Iforms\Transformers\TypeTransformer;
 
 // Entity
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Iforms\Entities\FormType;
 
 class FormTypeApiController extends BaseApiController
 {

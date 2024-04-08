@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Iforms\Http\Requests\CreateBlockRequest;
 use Modules\Iforms\Http\Requests\UpdateBlockRequest;
+
 // Base Api
-use Modules\Iforms\Repositories\BlockRepository;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+
 // Transformers
 use Modules\Iforms\Transformers\BlockTransformer;
+
 // Repositories
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Iforms\Repositories\BlockRepository;
 
 class BlockApiController extends BaseApiController
 {

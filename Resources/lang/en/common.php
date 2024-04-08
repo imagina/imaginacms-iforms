@@ -1,49 +1,49 @@
 <?php
 
 return [
-    'iforms' => 'Forms',
+  'iforms' => 'Forms',
 
-    'button' => [
-        'read more' => 'Read More',
-    ],
-    'table' => [
-    ],
-    'form' => [
-    ],
-    'messages' => [
-        'title is required' => 'The title is required',
-        'title min 2' => 'Title must contain at least two characters',
-        'description is required' => 'The Description is required',
-        'description min 2' => 'The description must contain at least two characters',
-        'summary is required' => 'The summary is required',
-        'summary min 2' => 'The summary must contain at least two characters',
-        'captcha_required' => 'The Captcha is required',
-        'captcha_invalid' => 'The Captcha is invalid or not properly configured',
-    ],
-    'validation' => [
-    ],
-    'types' => [
-        'text' => 'Text',
-        'number' => 'Number',
-        'textarea' => 'Text Area',
-        'email' => 'E-mail',
-        'select' => 'Select',
-        'selectmultiple' => 'Multi select',
-        'checkbox' => 'Check',
-        'radio' => 'Radio',
-        'city' => 'City',
-        'department' => 'Departament',
-        'country' => 'Country',
-        'location' => 'Location',
-        'phone' => 'Phone',
-        'date' => 'Date',
-        'file' => 'File',
-        'treeSelect' => 'Tree Select',
-    ],
-    'formTypes' => [
-        'normal' => 'Normal Form',
-        'steps' => 'Form with steps',
-    ],
+  'button' => [
+    "read more" => "Read More"
+  ],
+  'table' => [
+  ],
+  'form' => [
+  ],
+  'messages' => [
+    'title is required' => 'The title is required',
+    'title min 2' => 'Title must contain at least two characters',
+    'description is required' => 'The Description is required',
+    'description min 2' => 'The description must contain at least two characters',
+    'summary is required' => 'The summary is required',
+    'summary min 2' => 'The summary must contain at least two characters',
+    'captcha_required' => 'The Captcha is required',
+      'captcha_invalid' => 'The Captcha is invalid or not properly configured',
+  ],
+  'validation' => [
+  ],
+  'types' => [
+    'text' => 'Text',
+    'number' => 'Number',
+    'textarea' => 'Text Area',
+    'email' => 'E-mail',
+    'select' => 'Select',
+    'selectmultiple' => 'Multi select',
+    'checkbox' => 'Check',
+    'radio' => 'Radio',
+    'city' => 'City',
+    'department' => 'Departament',
+    'country' => 'Country',
+    'location' => 'Location',
+    'phone' => 'Phone',
+    'date' => 'Date',
+    'file' => 'File',
+    'treeSelect' => 'Tree Select',
+  ],
+  'formTypes' => [
+      'normal' => 'Normal Form',
+      'steps' => 'Form with steps'
+  ],
 
     'status_text' => 'Estatus',
 

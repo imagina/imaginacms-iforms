@@ -11,11 +11,12 @@ use Modules\Iforms\Repositories\FormRepository;
 use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Iforms\Services\LeadsExportService;
 use Modules\Iforms\Transformers\LeadTransformer;
-use Modules\Ihelpers\Events\UpdateMedia;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-use Modules\Media\Helpers\FileHelper;
 use Modules\Media\Validators\AvailableExtensionsRule;
+use Modules\Ihelpers\Events\UpdateMedia;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Modules\Media\Helpers\FileHelper;
+use Illuminate\Support\Str;
 
 // Base Api
 
@@ -27,92 +28,91 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LeadApiController extends BaseApiController
 {
-    private $lead;
+  private $lead;
+  private $form;
 
-    private $form;
+  public function __construct(LeadRepository $lead, FormRepository $form)
+  {
+    $this->lead = $lead;
+    $this->form = $form;
+  }
 
-    public function __construct(LeadRepository $lead, FormRepository $form)
-    {
-        $this->lead = $lead;
-        $this->form = $form;
+  /**
+   * GET ITEMS
+   *
+   * @return mixed
+   */
+  public function index(Request $request)
+  {
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+      //Request to Repository
+      $data = $this->lead->getItemsBy($params);
+
+      if (isset($params->filter->export) && $params->filter->export == true) {
+        $LeadsExportService = new LeadsExportService();
+        return $LeadsExportService->exportFile($data);
+      }
+
+      //Response
+      $response = ["data" => LeadTransformer::collection($data)];
+      //If request pagination add meta-page
+      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 
-    /**
-     * GET ITEMS
-     *
-     * @return mixed
-     */
-    public function index(Request $request)
-    {
-        try {
-            //Get Parameters from URL.
-            $params = $this->getParamsRequest($request);
-            //Request to Repository
-            $data = $this->lead->getItemsBy($params);
-
-            if (isset($params->filter->export) && $params->filter->export == true) {
-                $LeadsExportService = new LeadsExportService();
-
-                return $LeadsExportService->exportFile($data);
-            }
-
-            //Response
-            $response = ['data' => LeadTransformer::collection($data)];
-            //If request pagination add meta-page
-            $params->page ? $response['meta'] = ['page' => $this->pageTransformer($data)] : false;
-        } catch (\Exception $e) {
-            $status = $this->getStatusError($e->getCode());
-            $response = ['errors' => $e->getMessage()];
-        }
-        //Return response
-        return response()->json($response ?? ['data' => 'Request successful'], $status ?? 200);
+  /**
+   * GET A ITEM
+   *
+   * @param $criteria
+   * @return mixed
+   */
+  public function show($criteria, Request $request)
+  {
+    try {
+      //Get Parameters from URL.
+      $params = $this->getParamsRequest($request);
+      //Request to Repository
+      $data = $this->lead->getItem($criteria, $params);
+      //Break if no found item
+      if (!$data) throw new Exception('Item not found', 204);
+      //Response
+      $response = ["data" => new LeadTransformer($data)];
+      //If request pagination add meta-page
+      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
+    } catch (\Exception $e) {
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
     }
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 
-    /**
-     * GET A ITEM
-     *
-     * @return mixed
-     */
-    public function show($criteria, Request $request)
-    {
-        try {
-            //Get Parameters from URL.
-            $params = $this->getParamsRequest($request);
-            //Request to Repository
-            $data = $this->lead->getItem($criteria, $params);
-            //Break if no found item
-            if (! $data) {
-                throw new Exception('Item not found', 204);
-            }
-            //Response
-            $response = ['data' => new LeadTransformer($data)];
-            //If request pagination add meta-page
-            $params->page ? $response['meta'] = ['page' => $this->pageTransformer($data)] : false;
-        } catch (\Exception $e) {
-            $status = $this->getStatusError($e->getCode());
-            $response = ['errors' => $e->getMessage()];
-        }
-        //Return response
-        return response()->json($response ?? ['data' => 'Request successful'], $status ?? 200);
-    }
+  /**
+   * CREATE A ITEM
+   *
+   * @param Request $request
+   * @return mixed
+   */
+  public function create(Request $request)
+  {
+    \DB::beginTransaction();
+    try {
 
-    /**
-     * CREATE A ITEM
-     *
-     * @return mixed
-     */
-    public function create(Request $request)
-    {
-        \DB::beginTransaction();
-        try {
-            $data = $request->all() ?? []; //Get data
+      $data = $request->input('attributes') ?? $request->all() ?? [];//Get data
 
-            $form = $this->form->find($data['form_id']);
-            if (empty($form->id)) {
-                throw new \Exception(trans('iforms::common.forms_not_found'));
-            }
+      $form = $this->form->find($data['form_id']);
+      if (empty($form->id)) {
+        throw new \Exception(trans('iforms::common.forms_not_found'));
+      }
 
-            $this->validateRequestApi(new CreateLeadRequest($data));
+      $this->validateRequestApi(new CreateLeadRequest($data));
 
             $attr = [];
             $attr['form'] = $form;
