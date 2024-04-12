@@ -34,7 +34,8 @@ return [
       "full" => "Full Width"
     ],
     "successText" => "Success text",
-    "submitText" => "Submit text"
+    "submitText" => "Submit text",
+    "formNotExist" => "Form ID: {id} <b class='text-red-7'>(Not exist)</b>"
   ],
   "message" => [
     "helpToOptionsField" => "Type the option and press enter...",
@@ -65,3 +66,4 @@ return [
      information, as well as identifying from which form I enter this information.",
   ]
 ];
+
