@@ -68,7 +68,7 @@ class Form extends Component
     $this->subtitleStyle = $subtitleStyle;
     $this->getForm();
 
-    if(isset($this->form->id)){
+    if (isset($this->form->id)) {
 
       $this->fields = $this->form->fields->where("visibility", "!=", "internal");
 
@@ -114,7 +114,6 @@ class Form extends Component
 
   private function makeParamsFunction()
   {
-
     return [
       "include" => $this->params["include"] ?? null,
       "fields" => [],
