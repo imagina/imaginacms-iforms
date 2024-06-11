@@ -8,9 +8,7 @@ class CreateLeadRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [
-            //'g-recaptcha-response' => 'required|captcha'
-        ];
+        return [];
     }
 
     public function translationRules()
@@ -25,10 +23,7 @@ class CreateLeadRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [
-            //'g-recaptcha-response.required' => trans('iforms::common.captcha_required'),
-            //'g-recaptcha-response.captcha'=> trans('iforms::common.captcha_required'),
-        ];
+        return [];
     }
 
     public function translationMessages()

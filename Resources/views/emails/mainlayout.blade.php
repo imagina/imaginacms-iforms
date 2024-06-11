@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="header-contend text-center py-3">
-                <img src="{{Setting::get('site::logo-1')}}" alt="" style="max-width: 150px">
+                <img src="{{Setting::get('isite::logo1')}}" alt="" style="max-width: 150px">
             </div>
 
         </header>
@@ -176,7 +176,7 @@
 
         <footer class="p-3 text-center">
             <div class="text-center">
-                <img src="{{Setting::get('site::logo-2')}}" alt="" style="max-width: 150px">
+                <img src="{{Setting::get('isite::logo1')}}" alt="" style="max-width: 150px">
 
             </div>
 

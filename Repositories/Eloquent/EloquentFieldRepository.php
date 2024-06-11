@@ -5,6 +5,10 @@ namespace Modules\Iforms\Repositories\Eloquent;
 use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
+use Modules\Iforms\Entities\Type;
+use Modules\Iforms\Entities\Field;
+use Modules\Iforms\Events\FieldIsDeleting;
+
 class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository
 {
   public function getItemsBy($params)
@@ -12,7 +16,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = ['translations'];//Default relationships
@@ -57,8 +61,35 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       }
 
       //Filter by parent ID
-      if (isset($filter->parentId) && !empty($filter->parentId)) {
-        $query->where("parent_id", $filter->parentId);
+      if (in_array("parentId", array_keys(get_object_vars($filter)))) {
+        $query->where('parent_id', $filter->parentId);
+      }
+
+      //Filter by type ID
+      if (isset($filter->typeId) && !empty($filter->typeId)) {
+        $query->where("type", $filter->typeId);
+      }
+
+      //Filter by type
+      if (isset($filter->type) && !empty($filter->type)) {
+
+        $type = new Type();
+        $typeId = $type->getIdByValue($filter->type);
+
+        if (!is_null($typeId))
+          $query->where("type", $typeId);
+        else
+          throw new \Exception('Type not found', 404);
+
+      }
+
+      if (isset($filter->id)) {
+        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
+        $query->where('id', $filter->id);
+      }
+
+      if (isset($filter->parentId)) {
+        $query->where('parent_id', $filter->parentId);
       }
 
     }
@@ -69,16 +100,17 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
     } else {
-      $params->take ? $query->take($params->take) : false;//Take
+      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
     }
   }
+
   public function getItem($criteria, $params = false)
   {
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = ['translations'];//Default relationships
@@ -87,7 +119,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
       $query->with($includeDefault);//Add Relationships to query
     }
     /*== FIELDS ==*/
-    if (is_array($params->fields) && count($params->fields))
+    if (isset($params->fields) && is_array($params->fields) && count($params->fields))
       $query->select($params->fields);
     /*== FILTER ==*/
     if (isset($params->filter)) {
@@ -106,14 +138,22 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
     }
+
+    if (!isset($params->filter->field)) {
+      $query->where('id', $criteria);
+    }
+
     /*== REQUEST ==*/
     return $query->first();
   }
+
   public function create($data)
   {
+    $data["name"] = uniqid("f" . $data["form_id"] . "_b" . $data["block_id"] ?? "" . "_");
     $category = $this->model->create($data);
     return $category;
   }
+
   public function updateBy($criteria, $data, $params = false)
   {
     /*== initialize query ==*/
@@ -129,6 +169,7 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     $model = $query->where($field ?? 'id', $criteria)->first();
     return $model ? $model->update((array)$data) : false;
   }
+
   public function deleteBy($criteria, $params = false)
   {
     /*== initialize query ==*/
@@ -141,14 +182,15 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
+    $validateField = event(new FieldIsDeleting($model));
     $model ? $model->delete() : false;
   }
 
-  public function updateOrders ($data)
+  public function updateOrders($data)
   {
     $fields = [];
-    foreach ($data['fields'] as $field){
-      $fields[] = $this->model->find($field['id'])->update(['order' => $field['order']]);
+    foreach ($data as $field) {
+      $fields[] = $this->model->find($field['id'])->update($field);
     }
     return $fields;
   }

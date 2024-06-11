@@ -9,7 +9,10 @@ class FormTranslation extends Model
     public $timestamps = false;
 
     protected $fillable = [
-      'title'
+        'title',
+        'submit_text',
+        'success_text',
+      'description',
     ];
 
     protected $table = 'iforms__form_translations';

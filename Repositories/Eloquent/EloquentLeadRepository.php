@@ -5,6 +5,8 @@ namespace Modules\Iforms\Repositories\Eloquent;
 use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Iforms\Repositories\LeadRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Ihelpers\Events\CreateMedia;
+use Modules\Ihelpers\Events\DeleteMedia;
 
 class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepository
 {
@@ -13,7 +15,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -28,13 +30,12 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       if (isset($filter->search)) {
         //find search in columns
         $query->where(function ($query) use ($filter) {
-          $query->whereHas('translations', function ($query) use ($filter) {
-            $query->where('locale', $filter->locale)
-              ->where('title', 'like', '%' . $filter->search . '%');
-          })->orWhere('id', 'like', '%' . $filter->search . '%')
+          $query->where('id', 'like', '%' . $filter->search . '%')
+            ->orWhere('values', 'like', '%' . $filter->search . '%')
             ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
             ->orWhere('created_at', 'like', '%' . $filter->search . '%');
         });
+
       }
       //Filter by date
       if (isset($filter->date)) {
@@ -52,8 +53,8 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
         $query->orderBy($orderByField, $orderWay);//Add order to query
       }
       //Filter by parent ID
-      if (isset($filter->parentId)) {
-        $query->where("parent_id", $filter->parentId);
+      if (in_array("parentId",array_keys(get_object_vars($filter)))) {
+        $query->where('parent_id', $filter->parentId);
       }
 
       //Filter by parent ID
@@ -61,24 +62,36 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
         $query->where("form_id", $filter->formId);
       }
 
+      //add filter by id
+      if (isset($filter->id)) {
+        is_array($filter->id) ? true : $filter->id = [$filter->id];
+        $query->whereIn('id', $filter->id);
+      }
+
     }
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
+
+    //Return as query
+    if (isset($params->returnAsQuery) && $params->returnAsQuery) return $query;
+
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
       return $query->paginate($params->take);
     } else {
-      $params->take ? $query->take($params->take) : false;//Take
+      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
       return $query->get();
     }
   }
+
   public function getItem($criteria, $params = false)
   {
     // INITIALIZE QUERY
     $query = $this->model->query();
     /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include)) {//If Request all relationships
+    if (in_array('*', $params->include ?? [])) {//If Request all relationships
       $query->with([]);
     } else {//Especific relationships
       $includeDefault = [];//Default relationships
@@ -87,7 +100,7 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
       $query->with($includeDefault);//Add Relationships to query
     }
     /*== FIELDS ==*/
-    if (is_array($params->fields) && count($params->fields))
+    if (isset($params->fields) && is_array($params->fields) && count($params->fields))
       $query->select($params->fields);
     /*== FILTER ==*/
     if (isset($params->filter)) {
@@ -106,17 +119,24 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
         // find by specific attribute or by id
         $query->where($field ?? 'id', $criteria);
     }
+
+    if (!isset($params->filter->field)) {
+      $query->where('id', $criteria);
+    }
+
     /*== REQUEST ==*/
     return $query->first();
   }
+
   public function create($data)
   {
+    $lead = $this->model->create($data);
 
-    $lead= $this->model->create($data);
-    event(new  LeadWasCreated($lead,$data));
+    event(new CreateMedia($lead, $data));
 
     return $lead;
   }
+
   public function updateBy($criteria, $data, $params = false)
   {
     /*== initialize query ==*/
@@ -130,8 +150,15 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    return $model ? $model->update((array)$data) : false;
+
+    if (isset($model->id)) {
+      $model->update((array)$data);
+      return $model;
+    } else {
+      throw new Exception('Item not found', 404);
+    }
   }
+
   public function deleteBy($criteria, $params = false)
   {
     /*== initialize query ==*/
@@ -144,6 +171,9 @@ class EloquentLeadRepository extends EloquentBaseRepository implements LeadRepos
     }
     /*== REQUEST ==*/
     $model = $query->where($field ?? 'id', $criteria)->first();
-    $model ? $model->delete() : false;
+    if (isset($model->id)) {
+      event(new DeleteMedia($model->id, get_class($model)));
+      $model->delete();
+    };
   }
 }
