@@ -134,48 +134,49 @@ class PublicController extends BaseApiController
 
 
   public function getAttachment(Request $request, $formId, $leadId, $fileZone)
-  {
+    {
 
-    try {
-      //Get Parameters from URL.
-      $params = $this->getParamsRequest($request);
+        try {
+            //Get Parameters from URL.
+            $params = $this->getParamsRequest($request);
 
-      //Request to Repository
-      $lead = $this->leadRepository->getItem($leadId, $params);
+            //Request to Repository
+            $lead = $this->leadRepository->getItem($leadId, $params);
 
-      //Request to Repository
-      $form = $this->form->getItem($formId, $params);
+            //Request to Repository
+            $form = $this->form->getItem($formId, $params);
 
-      if (!isset($lead->id) || !isset($form->id))
-        throw new Exception('Item not found', 404);
+            if (!isset($lead->id) || !isset($form->id))
+                throw new Exception('Item not found', 404);
 
-      $attachment = $lead->filesByZone($fileZone)->first();
+            $attachment = $lead->filesByZone($fileZone)->first();
 
-      $type = $attachment["mimetype"] ?? null;
+            $type = $attachment["mimetype"] ?? null;
 
-      //user authentication or token validation
-      if (empty(\Auth::id())) {
-        $token = $request->input('token');
-        if (empty($token) || !$attachment->validateToken($token)) {
-          return redirect()->route(config("asgard.user.config.redirect_route_not_logged_in"));
+            //user authentication or token validation
+            if (empty(\Auth::id())) {
+                $token = $request->input('token');
+                if (empty($token) || !$attachment->validateToken($token)) {
+                    return redirect()->route(config("asgard.user.config.redirect_route_not_logged_in"));
+                }
+            }
+
+            $privateDisk = config('filesystems.disks.public');
+            $mediaFilesPath = config('asgard.media.config.files-path');
+
+            $path = $privateDisk["root"] . $mediaFilesPath . $attachment->filename;
+
+            return Response::make(file_get_contents($path), 200, [
+                'Content-Type' => $type,
+                'Content-Disposition' => "inline; filename=".$attachment->filename
+            ]);
+
+
+        } catch (\Exception $e) {
+            return abort(404);
         }
-      }
 
-      $privateDisk = config('filesystems.disks.public');
-      $mediaFilesPath = config('asgard.media.config.files-path');
-
-      $path = $privateDisk["root"] . $mediaFilesPath . $attachment->filename;
-
-      return response()->file($path, [
-        'Content-Type' => $type,
-      ]);
-
-
-    } catch (\Exception $e) {
-      return abort(404);
     }
-
-  }
 
   public function viewForm(Request $request, $formId)
   {
