@@ -148,10 +148,10 @@ class LeadApiController extends BaseApiController
 
             foreach ($fields as $field) {
                 //If field it's type FILE
-                if ($field->type == 12) {
-                    $this->saveAttachment($form, $field, $data, $attr, $data[$field->name]);
+                if ($field->type == 12 &&  $data[$field->name] !== 'undefined' ) {
+                  $this->saveAttachment($form, $field, $data, $attr, $data[$field->name]);
                 }
-                $attr['values'][$field->name] = $data[$field->name] ?? null;
+                $attr['values'][$field->name] = $data[$field->name] !== 'undefined' ? $data[$field->name] :  null;
             }
 
             //Create item
