@@ -53,6 +53,12 @@ class SendEmail
             $emailsTo = array_merge($emailsTo, $form->destination_email ?? []);
         }
 
+        // Filter out empty values
+        $filteredEmails = array_filter($emailsTo, function($email) {
+          return !empty(trim($email)); // trim to remove any whitespace around empty values
+        });
+        $emailsTo = array_values($filteredEmails);
+
         \Log::info('[Iforms::sending lead email]::to:'.implode(',', $emailsTo));
         \Log::info('[Iforms::sending lead broadcast and push]::to:'.implode(',', $users->pluck('id')->toArray()));
 
