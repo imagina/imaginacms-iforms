@@ -92,6 +92,10 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
         $query->where('parent_id', $filter->parentId);
       }
 
+      if(isset($filter->name)){
+        $filterName = is_array($filter->name) ? $filter->name : [$filter->name];
+        $query->whereIn('name', $filterName);
+      }
     }
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
