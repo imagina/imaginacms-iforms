@@ -9,11 +9,11 @@ class UpdateFieldRequest extends BaseFormRequest
 {
     public function rules()
     {
-      return [
-        "options.availableExtensions" => [
-          new AvailableExtensionsRule()
-        ]
-      ];
+        return [
+            "options.availableExtensions" => [
+              new AvailableExtensionsRule()
+            ]
+        ];
     }
 
     public function translationRules()
@@ -34,5 +34,9 @@ class UpdateFieldRequest extends BaseFormRequest
     public function translationMessages()
     {
         return [];
+    }
+
+    public function getValidator(){
+        return $this->getValidatorInstance();
     }
 }

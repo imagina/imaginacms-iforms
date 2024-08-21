@@ -3,23 +3,33 @@
 namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
-use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Core\Icrud\Entities\CrudModel;
 
-use Modules\Core\Support\Traits\AuditTrait;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Iqreable\Traits\IsQreable;
 
-class Form extends Model
+class Form extends CrudModel
 {
-  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait, IsQreable;
-
-  public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
-  public $entity = 'Modules\Iforms\Entities\Form';
-  public $repository = 'Modules\Iforms\Repositories\FormRepository';
+  use Translatable,  BelongsToTenant, IsQreable;
 
   protected $table = 'iforms__forms';
-
+  public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
+  public $repository = 'Modules\Iforms\Repositories\FormRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iforms\Http\Requests\CreateFormRequest',
+      'update' => 'Modules\Iforms\Http\Requests\UpdateFormRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
+  
   public $translatedAttributes = [
     'title',
     'submit_text',
@@ -109,4 +119,5 @@ class Form extends Model
     $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
+  
 }

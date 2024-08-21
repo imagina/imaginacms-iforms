@@ -2,23 +2,32 @@
 
 namespace Modules\Iforms\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Modules\User\Entities\Sentinel\User;
-use Modules\Media\Support\Traits\MediaRelation;
+use Modules\Core\Icrud\Entities\CrudModel;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
-use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Media\Support\Traits\MediaRelation;
+use Modules\User\Entities\Sentinel\User;
 
-use Modules\Core\Support\Traits\AuditTrait;
-
-class Lead extends Model
+class Lead extends CrudModel
 {
-  use MediaRelation,BelongsToTenant, AuditTrait, RevisionableTrait;
-
-  public $transformer = 'Modules\Iforms\Transformers\LeadTransformer';
-  public $entity = 'Modules\Iforms\Entities\Lead';
-  public $repository = 'Modules\Iforms\Repositories\LeadRepository';
+  use BelongsToTenant, MediaRelation;
 
   protected $table = 'iforms__leads';
+  public $transformer = 'Modules\Iforms\Transformers\LeadTransformer';
+  public $repository = 'Modules\Iforms\Repositories\LeadRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iforms\Http\Requests\CreateLeadRequest',
+      'update' => 'Modules\Iforms\Http\Requests\UpdateLeadRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
   
   protected $fillable = [
     'form_id',
@@ -39,4 +48,5 @@ class Lead extends Model
   {
     return $this->belongsTo(User::class, 'assigned_to_id');
   }
+  
 }

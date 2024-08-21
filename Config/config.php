@@ -39,6 +39,7 @@ return [
     ],
     "leadsItem" => [
       'moduleName' => "Iforms",
+      'exportName' => "LeadsItemFormExport",
       'fileName' => "Leads-item",
       'fileType' => "pdf",
       "content" => "iforms::pdf.leadItem", // to customize use the crud-field customLeadPDFTemplate
@@ -56,3 +57,4 @@ return [
     'leads' => "iforms::cms.documentation.leads",
   ]
 ];
+

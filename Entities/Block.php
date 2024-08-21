@@ -3,22 +3,31 @@
 namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
-use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Core\Icrud\Entities\CrudModel;
 
-use Modules\Core\Support\Traits\AuditTrait;
 
-class Block extends Model
+class Block extends CrudModel
 {
-  use Translatable, AuditTrait, RevisionableTrait;
-
-  public $transformer = 'Modules\Iforms\Transformers\BlockTransformer';
-  public $entity = 'Modules\Iforms\Entities\Block';
-  public $repository = 'Modules\Iforms\Repositories\BlockRepository';
+  use Translatable;
 
   protected $table = 'iforms__blocks';
-
+  public $transformer = 'Modules\Iforms\Transformers\BlockTransformer';
+  public $repository = 'Modules\Iforms\Repositories\BlockRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iforms\Http\Requests\CreateBlockRequest',
+      'update' => 'Modules\Iforms\Http\Requests\UpdateBlockRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
+ 
   public $translatedAttributes = [
     'title',
     'description'
@@ -52,4 +61,5 @@ class Block extends Model
       return json_decode($value);
     }
   }
+  
 }

@@ -140,6 +140,19 @@ class Type extends Model
         
   }
 
+  public function getAllTypes()
+  {
+
+      $types = $this->types;
+      $transform = [];
+      foreach ($types as $key => $type) {
+         array_push($transform,['id' => $type['id'], 'name' => $type['name']]);
+      }
+      
+      return collect($transform);
+
+  }
+
 
 
 
