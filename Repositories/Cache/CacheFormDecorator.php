@@ -13,4 +13,17 @@ class CacheFormDecorator extends BaseCacheCrudDecorator implements FormRepositor
         $this->entityName = 'iforms.forms';
         $this->repository = $form;
     }
+
+    /**
+       * Find by System Name
+       *
+       * @return mixed
+       */
+    public function findBySystemName($systemName)
+    {
+        return $this->remember(function () use ($systemName) {
+            return $this->repository->findBySystemName($systemName);
+        });
+    }
+    
 }

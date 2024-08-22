@@ -13,4 +13,11 @@ class CacheBlockDecorator extends BaseCacheCrudDecorator implements BlockReposit
         $this->entityName = 'iforms.blocks';
         $this->repository = $block;
     }
+
+    public function batchUpdate($params)
+    {
+        $this->clearCache();
+
+        return $this->repository->batchUpdate($params);
+    }
 }

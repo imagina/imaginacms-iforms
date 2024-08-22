@@ -4,7 +4,9 @@ namespace Modules\Iforms\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Type extends Model
+use Modules\Core\Icrud\Entities\CrudStaticModel;
+
+class Type extends CrudStaticModel
 {
   const TEXT = 1;
   const TEXTAREA = 2;
@@ -24,11 +26,11 @@ class Type extends Model
   /**
    * @var array
    */
-  private $types = [];
+  protected $records = [];
 
   public function __construct()
   {
-    $this->types = [
+    $this->records = [
       [
         'id' => self::TEXT,
         'name' => trans('iforms::common.types.text'),
@@ -103,58 +105,33 @@ class Type extends Model
   }
 
   /**
-   * Get the available statuses
-   * @return array
-   */
-  public function lists()
-  {
-    return $this->types;
-  }
-
-  /**
-   * Get the post status
+   * Get id | Important: Si se agrega el show genera un error de vistas, parece que necesitan un default
    * @param int $id
    * @return string
    */
   public function get($id)
   {
     $id--;
-    if (isset($this->types[$id])) {
-      return $this->types[$id];
+    if (isset($this->records[$id])) {
+      return $this->records[$id];
     }
-    return $this->types[0];
+    return $this->records[0];
   }
 
   /*
-  * GET id by value (email,phone......)
+  * GET id by value (email,phone......) | Important: Lo utilizan en un filtro
   */
   public function getIdByValue($value)
   {
     
-    $onlyValues = array_column($this->types, 'value');
+    $onlyValues = array_column($this->records, 'value');
     $key = array_search($value, $onlyValues);
     if($key)
-      return $this->types[$key]['id'];
+      return $this->records[$key]['id'];
 
     return null;
         
   }
-
-  public function getAllTypes()
-  {
-
-      $types = $this->types;
-      $transform = [];
-      foreach ($types as $key => $type) {
-         array_push($transform,['id' => $type['id'], 'name' => $type['name']]);
-      }
-      
-      return collect($transform);
-
-  }
-
-
-
 
 
 }
