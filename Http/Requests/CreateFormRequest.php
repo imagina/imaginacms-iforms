@@ -7,14 +7,14 @@ use Modules\Iforms\Rules\OnlyOneNestedChildRule;
 
 class CreateFormRequest extends BaseFormRequest
 {
-  public function rules()
-  {
-    return [
-      "parent_id" => [
-        new OnlyOneNestedChildRule('iforms__forms')
-      ]
-    ];
-  }
+    public function rules()
+    {
+        return [
+            "parent_id" => [
+              new OnlyOneNestedChildRule('iforms__forms')
+            ]
+        ];
+    }
 
     public function translationRules()
     {
@@ -35,4 +35,9 @@ class CreateFormRequest extends BaseFormRequest
     {
         return [];
     }
+
+    public function getValidator(){
+        return $this->getValidatorInstance();
+    }
+    
 }
