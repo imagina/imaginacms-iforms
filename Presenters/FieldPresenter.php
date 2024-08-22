@@ -3,6 +3,7 @@
 namespace Modules\Iforms\Presenters;
 
 use Laracasts\Presenter\Presenter;
+use Modules\Iforms\Entities\Type;
 
 class FieldPresenter extends Presenter
 {
@@ -23,8 +24,9 @@ class FieldPresenter extends Presenter
     }
 
     public function type()
-    {
-        return $this->types->get($this->entity->type);
+    {   
+        $type = new Type();
+        return $type->show($this->entity->type ?? reset($type->lists()));
     }
 
 

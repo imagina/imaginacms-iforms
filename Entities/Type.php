@@ -23,80 +23,76 @@ class Type extends CrudStaticModel
   const TREE_SELECT = 13;
   const HIDDEN = 14;
 
-  /**
-   * @var array
-   */
-  protected $records = [];
 
   public function __construct()
   {
     $this->records = [
-      [
+      self::TEXT => [
         'id' => self::TEXT,
         'name' => trans('iforms::common.types.text'),
         'value' => 'text'
       ],
-      [
+      self::TEXTAREA => [
         'id' => self::TEXTAREA,
         'name' => trans('iforms::common.types.textarea'),
         'value' => 'textarea'
       ],
-      [
+      self::NUMBER => [
         'id' => self::NUMBER,
         'name' => trans('iforms::common.types.number'),
         'value' => 'number'
       ],
-      [
+      self::EMAIL => [
         'id' => self::EMAIL,
         'name' => trans('iforms::common.types.email'),
         'value' => 'email'
       ],
-      [
+      self::SELECT => [
         'id' => self::SELECT,
         'name' => trans('iforms::common.types.select'),
         'value' => 'select'
       ],
-      [
+      self::SELECT_MULTIPLE => [
         'id' => self::SELECT_MULTIPLE,
         'name' => trans('iforms::common.types.selectmultiple'),
         'value' => 'selectmultiple'
       ],
-      [
+      self::CHECKBOX => [
         'id' => self::CHECKBOX,
         'name' => trans('iforms::common.types.checkbox'),
         'value' => 'checkbox'
       ],
-      [
+      self::RADIO => [
         'id' => self::RADIO,
         'name' => trans('iforms::common.types.radio'),
         'value' => 'radio'
       ],
-      [
+      self::LOCATION => [
         'id' => self::LOCATION,
         'name' => trans('iforms::common.types.location'),
         'value' => 'location'
       ],
-      [
+      self::PHONE => [
         'id' => self::PHONE,
         'name' => trans('iforms::common.types.phone'),
         'value' => 'phone'
       ],
-      [
+      self::DATE => [
         'id' => self::DATE,
         'name' => trans('iforms::common.types.date'),
         'value' => 'date'
       ],
-      [
+      self::FILE => [
         'id' => self::FILE,
         'name' => trans('iforms::common.types.file'),
         'value' => 'file'
       ],
-      [
+      self::TREE_SELECT => [
         'id' => self::TREE_SELECT,
         'name' => trans('iforms::common.types.treeSelect'),
         'value' => 'treeSelect'
       ],
-      [
+      self::HIDDEN => [
         'id' => self::HIDDEN,
         'name' => trans('iforms::common.types.hidden'),
         'value' => 'hidden'
@@ -104,19 +100,7 @@ class Type extends CrudStaticModel
     ];
   }
 
-  /**
-   * Get id | Important: Si se agrega el show genera un error de vistas, parece que necesitan un default
-   * @param int $id
-   * @return string
-   */
-  public function get($id)
-  {
-    $id--;
-    if (isset($this->records[$id])) {
-      return $this->records[$id];
-    }
-    return $this->records[0];
-  }
+
 
   /*
   * GET id by value (email,phone......) | Important: Lo utilizan en un filtro

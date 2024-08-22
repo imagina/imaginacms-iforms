@@ -71,15 +71,13 @@ $router->group(['prefix' =>'/iform/v4'], function (Router $router) {
     $router->apiCrud([
       'module' => 'iforms',
       'prefix' => 'types',
-      'staticEntity' => "Modules\Iforms\Entities\Type",
-      'use' => ['index' => 'getAllTypes', 'show' => 'get']
+      'staticEntity' => "Modules\Iforms\Entities\Type"
     ]);
 
     $router->apiCrud([
       'module' => 'iforms',
       'prefix' => 'form-types',
-      'staticEntity' => "Modules\Iforms\Entities\FormType",
-      'use' => ['index' => 'getAllTypes', 'show' => 'get']
+      'staticEntity' => "Modules\Iforms\Entities\FormType"
     ]);
 // append
 
