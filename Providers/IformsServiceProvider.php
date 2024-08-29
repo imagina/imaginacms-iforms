@@ -8,6 +8,7 @@ use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Iforms\Listeners\RegisterIformsSidebar;
+use Illuminate\Support\Facades\Blade;
 
 class IformsServiceProvider extends ServiceProvider
 {
@@ -51,6 +52,8 @@ class IformsServiceProvider extends ServiceProvider
         $this->publishConfig('iforms', 'crud-fields');
 
         //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        $this->registerComponents();
     }
 
     /**
