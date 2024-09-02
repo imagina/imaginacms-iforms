@@ -9,10 +9,11 @@ use Modules\Isite\Traits\RevisionableTrait;
 
 use Modules\Core\Support\Traits\AuditTrait;
 use Modules\Iqreable\Traits\IsQreable;
+use Modules\Core\Icrud\Traits\HasCacheClearable;
 
 class Form extends Model
 {
-  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait, IsQreable;
+  use Translatable, BelongsToTenant, AuditTrait, RevisionableTrait, IsQreable, HasCacheClearable;
 
   public $transformer = 'Modules\Iforms\Transformers\FormTransformer';
   public $entity = 'Modules\Iforms\Entities\Form';
@@ -109,4 +110,15 @@ class Form extends Model
     $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
+
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => [
+                config("app.url"),
+                $this->url
+            ]
+        ];
+    }
+
 }
