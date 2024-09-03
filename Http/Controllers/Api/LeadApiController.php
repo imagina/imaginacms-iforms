@@ -79,8 +79,6 @@ class LeadApiController extends BaseCrudController
         $this->validateRequestApi(new $this->model->requestValidation['create']($data));
       }
 
-      dd($data);
-
       $form = $this->form->find($data['form_id']);
       if (empty($form->id)) {
         throw new \Exception(trans('iforms::common.forms_not_found'));
