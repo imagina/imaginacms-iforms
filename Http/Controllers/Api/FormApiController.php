@@ -92,7 +92,7 @@ class FormApiController extends BaseCrudController
       $model = $this->modelRepository->updateBy($criteria, $modelData, $params);
 
       //Throw exception if no found item
-      if (!$model) throw new Exception('Item not found', 204);
+      if (!$model) throw new \Exception('Item not found', 204);
 
       //Response
       $response = ["data" => CrudResource::transformData($model)];
