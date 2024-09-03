@@ -72,12 +72,14 @@ class LeadApiController extends BaseCrudController
     \DB::beginTransaction();
     try {
       //Get model data
-      $data = $request->input('attributes') ?? [];
+      $data = $request->input('attributes') ?? $request->all() ?? [];//Get data
 
       //Validate Request
       if (isset($this->model->requestValidation['create'])) {
         $this->validateRequestApi(new $this->model->requestValidation['create']($data));
       }
+
+      dd($data);
 
       $form = $this->form->find($data['form_id']);
       if (empty($form->id)) {
