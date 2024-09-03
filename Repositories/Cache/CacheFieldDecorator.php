@@ -11,6 +11,7 @@ class CacheFieldDecorator extends BaseCacheCrudDecorator implements FieldReposit
     {
         parent::__construct();
         $this->entityName = 'iforms.fields';
+        $this->tags = ['iforms.blocks','iforms.forms'];
         $this->repository = $field;
     }
 }
