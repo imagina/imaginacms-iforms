@@ -2,101 +2,67 @@
 
 namespace Modules\Iforms\Http\Controllers\Api;
 
-// Requests & Response
+use Modules\Core\Icrud\Controllers\BaseCrudController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\Iforms\Events\LeadWasCreated;
-use Modules\Iforms\Http\Requests\CreateLeadRequest;
-use Modules\Iforms\Http\Requests\UpdateLeadRequest as UpdateRequest;
-use Modules\Iforms\Repositories\FormRepository;
+//Model
+use Modules\Iforms\Entities\Lead;
 use Modules\Iforms\Repositories\LeadRepository;
+
 use Modules\Iforms\Services\LeadsExportService;
-use Modules\Iforms\Transformers\LeadTransformer;
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
+use Modules\Iforms\Events\LeadWasCreated;
 use Modules\Media\Validators\AvailableExtensionsRule;
 use Modules\Ihelpers\Events\UpdateMedia;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Modules\Media\Helpers\FileHelper;
-use Illuminate\Support\Str;
 
-// Base Api
-
-// Transformers
-
-// Repositories
-
-// Export
-
-class LeadApiController extends BaseApiController
+class LeadApiController extends BaseCrudController
 {
-  private $lead;
-  private $form;
+  public $model;
+  public $modelRepository;
+  public $form;
 
-  public function __construct(LeadRepository $lead, FormRepository $form)
+  public function __construct(Lead $model, LeadRepository $modelRepository)
   {
-    $this->lead = $lead;
-    $this->form = $form;
+    $this->model = $model;
+    $this->modelRepository = $modelRepository;
+    $this->form = app("Modules\Iforms\Repositories\FormRepository");
   }
 
   /**
-   * GET ITEMS
+   * Controller To request all model data
    *
    * @return mixed
    */
   public function index(Request $request)
   {
     try {
-      //Get Parameters from URL.
+      //Get Parameters from request
       $params = $this->getParamsRequest($request);
-      //Request to Repository
-      $data = $this->lead->getItemsBy($params);
 
       if (isset($params->filter->export) && $params->filter->export == true) {
         $LeadsExportService = new LeadsExportService();
         return $LeadsExportService->exportFile($data);
       }
 
+      //Request data to Repository
+      $models = $this->modelRepository->getItemsBy($params);
+
       //Response
-      $response = ["data" => LeadTransformer::collection($data)];
+      $response = ['data' => $this->modelRepository->getItemsByTransformed($models, $params)];
+
       //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
+      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($models)] : false;
     } catch (\Exception $e) {
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
+
     //Return response
-    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+    return response($response ?? ['data' => 'Request successful'], $status ?? 200);
   }
 
   /**
-   * GET A ITEM
-   *
-   * @param $criteria
-   * @return mixed
-   */
-  public function show($criteria, Request $request)
-  {
-    try {
-      //Get Parameters from URL.
-      $params = $this->getParamsRequest($request);
-      //Request to Repository
-      $data = $this->lead->getItem($criteria, $params);
-      //Break if no found item
-      if (!$data) throw new Exception('Item not found', 204);
-      //Response
-      $response = ["data" => new LeadTransformer($data)];
-      //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
-    } catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    //Return response
-    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
-  }
-
-  /**
-   * CREATE A ITEM
+   * Controller to create model
    *
    * @param Request $request
    * @return mixed
@@ -105,15 +71,18 @@ class LeadApiController extends BaseApiController
   {
     \DB::beginTransaction();
     try {
-
+      //Get model data
       $data = $request->input('attributes') ?? $request->all() ?? [];//Get data
+
+      //Validate Request
+      if (isset($this->model->requestValidation['create'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['create']($data));
+      }
 
       $form = $this->form->find($data['form_id']);
       if (empty($form->id)) {
         throw new \Exception(trans('iforms::common.forms_not_found'));
       }
-
-      $this->validateRequestApi(new CreateLeadRequest($data));
 
       $attr = array();
       $attr['form'] = $form;
@@ -156,8 +125,8 @@ class LeadApiController extends BaseApiController
         $attr['values'][$field->name] = $data[$field->name] !== 'undefined' ? $data[$field->name] :  null;
       }
 
-      //Create item
-      $lead = $this->lead->create($attr);
+      //Create model
+      $lead = $this->modelRepository->create($data);
 
       foreach ($fields as $field) {
         //If field its type FILE
@@ -168,44 +137,57 @@ class LeadApiController extends BaseApiController
       }
 
       //update the Lead with the Values parsed
-      $lead = $this->lead->updateBy($lead->id, $attr);
+      $lead = $this->modelRepository->updateBy($lead->id, $attr);
 
-      event(new  LeadWasCreated($lead, $attr));
+      event(new LeadWasCreated($lead, $attr));
 
       //Response
       $response = ["data" => $form->success_text ?? trans('iforms::leads.messages.message sent successfully')];
+
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
-      \Log::error($e->getMessage());
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
-
-//Return response
+    //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 
   /**
-   * Update the specified lead in storage.
+   * Controller to update model by criteria
+   *
+   * @param $criteria
    * @param Request $request
-   * @return Response
+   * @return mixed
    */
   public function update($criteria, Request $request)
   {
-    \DB::beginTransaction();
+    \DB::beginTransaction(); //DB Transaction
     try {
+      //Get model data
+      $data = $request->input('attributes') ?? [];
+      //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
 
-      $data = $request->input('attributes');
+      //auto-insert the criteria in the data to update
+      isset($params->filter->field) ? $field = $params->filter->field : $field = "id";
+      $data[$field] = $criteria;
 
-      $lead = $this->lead->getItem($criteria, $params);
+      //Validate Request
+      if (isset($this->model->requestValidation['update'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['update']($data));
+      }
 
-      $attr = array();
-      $updateMedia = false;
+      //Update model
+      $lead = $this->modelRepository->updateBy($criteria, $data, $params);
+
+      //Throw exception if no found item
+      if (!$lead) throw new Exception('Item not found', 204);
 
       if (isset($data["assigned_to_id"]))
-        $attr['assigned_to_id'] = $data["assigned_to_id"];
+      $attr['assigned_to_id'] = $data["assigned_to_id"];
 
       if (isset($data['form_id'])) {
         $form = $this->form->find($data['form_id']);
@@ -229,47 +211,31 @@ class LeadApiController extends BaseApiController
             }
             $attr['values'][$field->name] = $data[$field->name] ?? null;
           }
+
         }
+
       }
 
       //Update data
-      $newData = $this->lead->update($lead, $attr);
+      $newData = $this->modelRepository->update($lead, $attr);
       if ($updateMedia) event(new UpdateMedia($lead, $data));
-      //Response
+      
       //Response
       $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
-      \DB::commit(); //Commit to Data Base
+
+      \DB::commit();//Commit to DataBase
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
-    return response()->json($response, $status ?? 200);
+
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 
-  /**
-   * Remove the specified lead from storage.
-   * @return Response
-   */
-  public function delete($criteria, Request $request)
-  {
-    \DB::beginTransaction();
-    try {
-      //Get params
-      $params = $this->getParamsRequest($request);
-      //Delete data
-      $entity = $this->lead->getItem($criteria, $params);
-      $this->lead->destroy($entity);
-      //Response
-      $response = ['data' => ''];
-      \DB::commit(); //Commit to Data Base
-    } catch (\Exception $e) {
-      \DB::rollback();//Rollback to Data Base
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    return response()->json($response, $status ?? 200);
-  }
+
 
   private function saveAttachment($form, $field, &$data, &$attr, UploadedFile $file)
   {
@@ -310,4 +276,5 @@ class LeadApiController extends BaseApiController
     //replacing the attachment value with the relative path of the Iform PublicController
     $data[$field->name] = \URL::route('iform.lead.attachment', ["formId" => $form->id, "leadId" => $lead->id, "fileZone" => $form->system_name . $field->name . $field->id], false) . '?token=' . $token;
   }
+
 }

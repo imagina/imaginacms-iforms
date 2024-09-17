@@ -3,191 +3,144 @@
 namespace Modules\Iforms\Repositories\Eloquent;
 
 use Modules\Iforms\Repositories\FieldRepository;
-use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 
 use Modules\Iforms\Entities\Type;
-use Modules\Iforms\Entities\Field;
-use Modules\Iforms\Events\FieldIsDeleting;
 
-class EloquentFieldRepository extends EloquentBaseRepository implements FieldRepository
+class EloquentFieldRepository extends EloquentCrudRepository implements FieldRepository
 {
-  public function getItemsBy($params)
+  /**
+   * Filter names to replace
+   * @var array
+   */
+  protected $replaceFilters = [];
+
+  /**
+   * Relation names to replace
+   * @var array
+   */
+  protected $replaceSyncModelRelations = [];
+
+  /**
+   * Attribute to define default relations
+   * all apply to index and show
+   * index apply in the getItemsBy
+   * show apply in the getItem
+   * @var array
+   */
+  protected $with = ['all' => [] ,'index' => ['translations'],'show' => ['translations']];
+
+  /**
+   * Filter query
+   *
+   * @param $query
+   * @param $filter
+   * @param $params
+   * @return mixed
+   */
+  public function filterQuery($query, $filter, $params)
   {
-    // INITIALIZE QUERY
-    $query = $this->model->query();
-    /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
-      $query->with([]);
-    } else {//Especific relationships
-      $includeDefault = ['translations'];//Default relationships
-      if (isset($params->include))//merge relations with default relationships
-        $includeDefault = array_merge($includeDefault, $params->include);
-      $query->with($includeDefault);//Add Relationships to query
-    }
-    // FILTERS
-    if ($params->filter) {
-      $filter = $params->filter;
-      //add filter by search
-      if (isset($filter->search)) {
-        //find search in columns
-        $query->where(function ($query) use ($filter) {
-          $query->whereHas('translations', function ($query) use ($filter) {
-            $query->where('locale', $filter->locale)
-              ->where('label', 'like', '%' . $filter->search . '%');
-          })->orWhere('id', 'like', '%' . $filter->search . '%')
-            ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
-            ->orWhere('created_at', 'like', '%' . $filter->search . '%');
-        });
-      }
-      //Filter by date
-      if (isset($filter->date)) {
-        $date = $filter->date;//Short filter date
-        $date->field = $date->field ?? 'created_at';
-        if (isset($date->from))//From a date
-          $query->whereDate($date->field, '>=', $date->from);
-        if (isset($date->to))//to a date
-          $query->whereDate($date->field, '<=', $date->to);
-      }
-      //Order by
-      if (isset($filter->order)) {
-        $orderByField = $filter->order->field ?? 'order';//Default field
-        $orderWay = $filter->order->way ?? 'desc';//Default way
-        $query->orderBy($orderByField, $orderWay);//Add order to query
-      }
 
-      //Filter by parent ID
-      if (isset($filter->formId) && !empty($filter->formId)) {
-        $query->where("form_id", $filter->formId);
-      }
+    /**
+     * Note: Add filter name to replaceFilters attribute before replace it
+     *
+     * Example filter Query
+     * if (isset($filter->status)) $query->where('status', $filter->status);
+     *
+     */
 
-      //Filter by parent ID
-      if (in_array("parentId", array_keys(get_object_vars($filter)))) {
-        $query->where('parent_id', $filter->parentId);
-      }
-
-      //Filter by type ID
-      if (isset($filter->typeId) && !empty($filter->typeId)) {
-        $query->where("type", $filter->typeId);
-      }
-
-      //Filter by type
-      if (isset($filter->type) && !empty($filter->type)) {
-
-        $type = new Type();
-        $typeId = $type->getIdByValue($filter->type);
-
-        if (!is_null($typeId))
-          $query->where("type", $typeId);
-        else
-          throw new \Exception('Type not found', 404);
-
-      }
-
-      if (isset($filter->id)) {
-        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
-        $query->where('id', $filter->id);
-      }
-
-      if (isset($filter->parentId)) {
-        $query->where('parent_id', $filter->parentId);
-      }
-
-      if(isset($filter->name)){
-        $filterName = is_array($filter->name) ? $filter->name : [$filter->name];
-        $query->whereIn('name', $filterName);
-      }
-    }
-    /*== FIELDS ==*/
-    if (isset($params->fields) && count($params->fields))
-      $query->select($params->fields);
-    /*== REQUEST ==*/
-    if (isset($params->page) && $params->page) {
-      return $query->paginate($params->take);
-    } else {
-      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
-      return $query->get();
-    }
-  }
-
-  public function getItem($criteria, $params = false)
-  {
-    // INITIALIZE QUERY
-    $query = $this->model->query();
-    /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
-      $query->with([]);
-    } else {//Especific relationships
-      $includeDefault = ['translations'];//Default relationships
-      if (isset($params->include))//merge relations with default relationships
-        $includeDefault = array_merge($includeDefault, $params->include);
-      $query->with($includeDefault);//Add Relationships to query
-    }
-    /*== FIELDS ==*/
-    if (isset($params->fields) && is_array($params->fields) && count($params->fields))
-      $query->select($params->fields);
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-      if (isset($filter->field))//Filter by specific field
-        $field = $filter->field;
-      // find translatable attributes
-      $translatedAttributes = $this->model->translatedAttributes;
-      // filter by translatable attributes
-      if (isset($field) && in_array($field, $translatedAttributes))//Filter by slug
-        $query->whereHas('translations', function ($query) use ($criteria, $filter, $field) {
+    if (isset($filter->search)) {
+      //find search in columns
+      $query->where(function ($query) use ($filter) {
+        $query->whereHas('translations', function ($query) use ($filter) {
           $query->where('locale', $filter->locale)
-            ->where($field, $criteria);
-        });
+            ->where('label', 'like', '%' . $filter->search . '%');
+        })->orWhere('id', 'like', '%' . $filter->search . '%')
+          ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+          ->orWhere('created_at', 'like', '%' . $filter->search . '%');
+      });
+    }
+
+     //Filter by type ID
+     if (isset($filter->typeId) && !empty($filter->typeId)) {
+      $query->where("type", $filter->typeId);
+    }
+
+    //Filter by type
+    if (isset($filter->type) && !empty($filter->type)) {
+
+      $type = new Type();
+      $typeId = $type->getIdByValue($filter->type);
+
+      if (!is_null($typeId))
+        $query->where("type", $typeId);
       else
-        // find by specific attribute or by id
-        $query->where($field ?? 'id', $criteria);
+        throw new \Exception('Type not found', 404);
+
     }
 
-    if (!isset($params->filter->field)) {
-      $query->where('id', $criteria);
-    }
-
-    /*== REQUEST ==*/
-    return $query->first();
+    //Response
+    return $query;
   }
 
+  /**
+   * Method to sync Model Relations
+   *
+   * @param $model ,$data
+   * @return $model
+   */
+  public function syncModelRelations($model, $data)
+  {
+    //Get model relations data from attribute of model
+    $modelRelationsData = ($model->modelRelations ?? []);
+
+    /**
+     * Note: Add relation name to replaceSyncModelRelations attribute before replace it
+     *
+     * Example to sync relations
+     * if (array_key_exists(<relationName>, $data)){
+     *    $model->setRelation(<relationName>, $model-><relationName>()->sync($data[<relationName>]));
+     * }
+     *
+     */
+
+    //Response
+    return $model;
+  }
+
+  /**
+   * Method to create model
+   *
+   * @param $data
+   * @return mixed
+   */
   public function create($data)
   {
+    //Event creating model
+    $this->dispatchesEvents(['eventName' => 'creating', 'data' => $data]);
+
+    // Call function before create it, and take all change from $data
+    $this->beforeCreate($data);
+
     $data["name"] = uniqid("f" . $data["form_id"] . "_b" . $data["block_id"] ?? "" . "_");
-    $category = $this->model->create($data);
-    return $category;
-  }
 
-  public function updateBy($criteria, $data, $params = false)
-  {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-      //Update by field
-      if (isset($filter->field))
-        $field = $filter->field;
-    }
-    /*== REQUEST ==*/
-    $model = $query->where($field ?? 'id', $criteria)->first();
-    return $model ? $model->update((array)$data) : false;
-  }
+    //Create model
+    $model = $this->model->create($data);
 
-  public function deleteBy($criteria, $params = false)
-  {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-      if (isset($filter->field))//Where field
-        $field = $filter->field;
-    }
-    /*== REQUEST ==*/
-    $model = $query->where($field ?? 'id', $criteria)->first();
-    $validateField = event(new FieldIsDeleting($model));
-    $model ? $model->delete() : false;
+    // Default sync model relations
+    $model = $this->defaultSyncModelRelations($model, $data);
+
+    // Custom sync model relations
+    $model = $this->syncModelRelations($model, $data);
+
+    // Call function after create it, and take all change from $data and $model
+    $this->afterCreate($model, $data);
+
+    //Event created model
+    $this->dispatchesEvents(['eventName' => 'created', 'data' => $data, 'model' => $model]);
+
+    //Response
+    return $model;
   }
 
   public function updateOrders($data)
@@ -198,4 +151,5 @@ class EloquentFieldRepository extends EloquentBaseRepository implements FieldRep
     }
     return $fields;
   }
+
 }

@@ -3,24 +3,32 @@
 namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Icrud\Entities\CrudModel;
+
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Iforms\Presenters\FieldPresenter;
-use Illuminate\Support\Str;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
-use Modules\Isite\Traits\RevisionableTrait;
 
-use Modules\Core\Support\Traits\AuditTrait;
-
-class Field extends Model
+class Field extends CrudModel
 {
-  use Translatable, PresentableTrait, AuditTrait, RevisionableTrait;
-
-  public $transformer = 'Modules\Iforms\Transformers\FieldTransformer';
-  public $entity = 'Modules\Iforms\Entities\Field';
-  public $repository = 'Modules\Iforms\Repositories\FieldRepository';
+  use Translatable, PresentableTrait;
 
   protected $table = 'iforms__fields';
+  public $transformer = 'Modules\Iforms\Transformers\FieldTransformer';
+  public $repository = 'Modules\Iforms\Repositories\FieldRepository';
+  public $requestValidation = [
+      'create' => 'Modules\Iforms\Http\Requests\CreateFieldRequest',
+      'update' => 'Modules\Iforms\Http\Requests\UpdateFieldRequest',
+    ];
+  //Instance external/internal events to dispatch with extraData
+  public $dispatchesEventsWithBindings = [
+    //eg. ['path' => 'path/module/event', 'extraData' => [/*...optional*/]]
+    'created' => [],
+    'creating' => [],
+    'updated' => [],
+    'updating' => [],
+    'deleting' => [],
+    'deleted' => []
+  ];
 
   public $translatedAttributes = [
     'label',
@@ -68,7 +76,7 @@ class Field extends Model
   {
     return $this->belongsTo(Block::class);
   }
-  
+
   public function getSelectableAttribute($value)
   {
     return json_decode($value);
@@ -83,7 +91,7 @@ class Field extends Model
   {
     return json_decode($value);
   }
-  
+
   public function getLabelAttribute($value)
   {
     return $value . ($this->required ? config('asgard.iforms.config.requiredFieldLabel') : '');
@@ -123,7 +131,7 @@ class Field extends Model
 
   }
 
-  public function getRuleAcceptAttribute($value)
+  public function getRuleAcceptAttribute()
   {
     $rules = $this->rules;
     $accept = "";
