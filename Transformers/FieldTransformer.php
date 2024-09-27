@@ -2,56 +2,24 @@
 
 namespace Modules\Iforms\Transformers;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
-use Modules\Isite\Transformers\RevisionTransformer;
+use Modules\Core\Icrud\Transformers\CrudResource;
 
-class FieldTransformer extends JsonResource
+class FieldTransformer extends CrudResource
 {
-  public function toArray($request)
+  /**
+  * Method to merge values with response
+  *
+  * @return array
+  */
+  public function modelAttributes($request)
   {
-    $data = [
-      'id' => $this->when($this->id, $this->id),
-      'type' => $this->when($this->type, (int)$this->type),
-      'typeObject' => $this->when($this->type, $this->present()->type),
-      'name' => $this->when($this->name, $this->name),
-      'label' => $this->when($this->label, $this->label),
-      'placeholder' => $this->when($this->placeholder, $this->placeholder),
-      'description' => $this->when($this->description, $this->description),
-      'required' => $this->required ? 1 : 0,
-      'order' => $this->order,
-      'width' => $this->width ?? 12,
-      'prefix' => $this->when($this->prefix, $this->prefix),
-      'suffix' => $this->when($this->suffix, $this->suffix),
-      'blockId' => $this->block_id ?? '',
-      'formId' => $this->when($this->form_id, $this->form_id),
-      'selectable' => $this->when($this->selectable, $this->selectable),
-      'options' => $this->options,
-      'rules' => $this->rules,
-      'form' => new FormTransformer($this->whenLoaded('form')),
-      'block' => new BlockTransformer($this->whenLoaded('block')),
-      'revisions' => RevisionTransformer::collection($this->whenLoaded('revisions')),
-      'parentId' => $this->when($this->parent_id, $this->parent_id),
-      'parent' => new FieldTransformer($this->whenLoaded('parent')),
-      'systemType' => $this->when($this->system_type, $this->system_type),
-      'visibility' => $this->when($this->visibility, $this->visibility),
 
+    $data = [
+      'typeObject' => $this->when($this->type, $this->present()->type)
     ];
 
-        $filter = json_decode($request->filter);
-        // Return data with available translations
-        if (isset($filter->allTranslations) && $filter->allTranslations) {
-            // Get langs avaliables
-            $languages = \LaravelLocalization::getSupportedLocales();
-            foreach ($languages as $lang => $value) {
-                $data[$lang]['label'] = $this->hasTranslation($lang) ? $this->translate("$lang")['label'] : '';
-                $data[$lang]['placeholder'] = $this->hasTranslation($lang) ? $this->translate("$lang")['placeholder'] : '';
-                $data[$lang]['description'] = $this->hasTranslation($lang) ? $this->translate("$lang")['description'] : '';
-            }
-        }
-
-        //simplifying the type value variable
-        $fieldType = $this->present()->type['value'] ?? '';
+    //simplifying the type value variable
+    $fieldType = $this->present()->type["value"] ?? "";
 
     $vIf = true;
     if(isset($filter->renderLocation) && !empty($filter->renderLocation)){
@@ -104,39 +72,43 @@ class FieldTransformer extends JsonResource
       ]
     ];
 
-        //props type
-        $availableTypes = ['number', 'email'];
-        (in_array($fieldType, $availableTypes)) ? $data['dynamicField']['props']['type'] = $fieldType : false;
+    //props type
+    $availableTypes = ["number", "email"];
+    (in_array($fieldType, $availableTypes)) ? $data['dynamicField']['props']['type'] = $fieldType : false;
 
-        //Options for ['selectmultiple', 'select', 'radio', 'treeSelect'] field types
-        if (in_array($fieldType, ['selectmultiple', 'select', 'radio', 'treeSelect'])) {
-            // getting the options from the selectable attribute for old sites created with the Iform before Dec, 2021
-            $options = json_decode($this->selectable) ?? [];
+    //Options for ['selectmultiple', 'select', 'radio', 'treeSelect'] field types
+    if (in_array($fieldType, ['selectmultiple', 'select', 'radio', 'treeSelect'])) {
 
-            //if already exist the loadOptions saved in DB
-            if (isset($this->options['loadOptions']) && ! empty($this->options['loadOptions'])) {
-                $data['dynamicField']['loadOptions'] = $this->options['loadOptions'];
-            }
+      // getting the options from the selectable attribute for old sites created with the Iform before Dec, 2021
+      $options = json_decode($this->selectable) ?? [];
 
-            //getting the fieldOptions saved in DB for old sites created with the Iform before Dec, 2021
-            if (empty($options) && isset($this->options['fieldOptions']) && ! empty($this->options['fieldOptions'])) {
-                $data['dynamicField']['props']['options'] = [];
+      //if already exist the loadOptions saved in DB
+      if (isset($this->options["loadOptions"]) && !empty($this->options["loadOptions"])) {
+        $data['dynamicField']['loadOptions'] = $this->options["loadOptions"];
+      }
 
-                $options = $this->options['fieldOptions'];
-            }
+      //getting the fieldOptions saved in DB for old sites created with the Iform before Dec, 2021
+      if (empty($options) && isset($this->options["fieldOptions"]) && !empty($this->options["fieldOptions"])) {
 
-            //Added options in the format label: value, expected for the frontend standard
-            foreach ($options as $option) {
-                $data['dynamicField']['props']['options'][] = ['label' => $option->name ?? $option, 'value' => $option->name ?? $option];
-            }
-        }
+        $data['dynamicField']['props']['options'] = [];
 
-        //Add options for texare
-        if ($fieldType == 'textarea') {
-            $data['dynamicField']['props']['type'] = 'textarea';
-            $data['dynamicField']['props']['rows'] = 3;
-        }
+        $options = $this->options["fieldOptions"];
+      }
 
-        return $data;
+      //Added options in the format label: value, expected for the frontend standard
+      foreach ($options as $option) {
+        $data['dynamicField']['props']['options'][] = ["label" => $option->name ?? $option, "value" => $option->name ?? $option];
+      }
+
     }
+
+    //Add options for texare
+    if ($fieldType == "textarea") {
+      $data['dynamicField']['props']['type'] = "textarea";
+      $data['dynamicField']['props']['rows'] = 3;
+    }
+
+
+    return $data;
+  }
 }

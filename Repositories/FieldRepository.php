@@ -2,11 +2,8 @@
 
 namespace Modules\Iforms\Repositories;
 
-use Modules\Core\Repositories\BaseRepository;
+use Modules\Core\Icrud\Repositories\BaseCrudRepository;
 
-interface FieldRepository extends BaseRepository
+interface FieldRepository extends BaseCrudRepository
 {
-    public function getItemsBy($params);
-
-    public function getItem($criteria, $params = false);
 }

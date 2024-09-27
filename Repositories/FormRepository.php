@@ -2,28 +2,9 @@
 
 namespace Modules\Iforms\Repositories;
 
-use Modules\Core\Repositories\BaseRepository;
+use Modules\Core\Icrud\Repositories\BaseCrudRepository;
 
-interface FormRepository extends BaseRepository
+interface FormRepository extends BaseCrudRepository
 {
-    /**
-     * List or resources
-     *
-     * @return mixed
-     */
-    public function getItemsBy($params);
-
-    /**
-     * find a resource by id or slug
-     *
-     * @return mixed
-     */
-    public function getItem($criteria, $params = false);
-
-    /**
-     * Find by System Name
-     *
-     * @return mixed
-     */
     public function findBySystemName($systemName);
 }

@@ -2,10 +2,10 @@
 
 namespace Modules\Iforms\Repositories\Cache;
 
-use Modules\Core\Repositories\Cache\BaseCacheDecorator;
 use Modules\Iforms\Repositories\FormRepository;
+use Modules\Core\Icrud\Repositories\Cache\BaseCacheCrudDecorator;
 
-class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
+class CacheFormDecorator extends BaseCacheCrudDecorator implements FormRepository
 {
     public function __construct(FormRepository $form)
     {
@@ -15,34 +15,15 @@ class CacheFormDecorator extends BaseCacheDecorator implements FormRepository
     }
 
     /**
-     * List or resources
-     */
-    public function getItemsBy($params)
-    {
-        return $this->remember(function () use ($params) {
-            return $this->repository->getItemsBy($params);
-        });
-    }
-
-    /**
-     * find a resource by id or slug
-     */
-    public function getItem($criteria, $params = false)
-    {
-        return $this->remember(function () use ($criteria, $params) {
-            return $this->repository->getItem($criteria, $params);
-        });
-    }
-
-      /**
        * Find by System Name
        *
        * @return mixed
        */
-      public function findBySystemName($systemName)
-      {
-          return $this->remember(function () use ($systemName) {
-              return $this->repository->findBySystemName($systemName);
-          });
-      }
+    public function findBySystemName($systemName)
+    {
+        return $this->remember(function () use ($systemName) {
+            return $this->repository->findBySystemName($systemName);
+        });
+    }
+    
 }
