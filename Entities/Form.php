@@ -7,6 +7,7 @@ use Modules\Core\Icrud\Entities\CrudModel;
 
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Iqreable\Traits\IsQreable;
+use Modules\Core\Icrud\Traits\HasCacheClearable;
 
 class Form extends CrudModel
 {
@@ -119,5 +120,14 @@ class Form extends CrudModel
     $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
-  
+
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => [
+                config("app.url"),
+                $this->url
+            ]
+        ];
+    }
 }
