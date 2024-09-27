@@ -3,201 +3,94 @@
 namespace Modules\Iforms\Repositories\Eloquent;
 
 use Modules\Iforms\Repositories\BlockRepository;
-use Modules\Ihelpers\Events\CreateMedia;
-use Modules\Ihelpers\Events\DeleteMedia;
-use Modules\Ihelpers\Events\UpdateMedia;
+use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
 
-use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
-
-class EloquentBlockRepository extends EloquentBaseRepository implements BlockRepository
+class EloquentBlockRepository extends EloquentCrudRepository implements BlockRepository
 {
+  /**
+   * Filter names to replace
+   * @var array
+   */
+  protected $replaceFilters = [];
 
   /**
-   * Standard Api Method
-   * @param bool $params
-   * @return mixed
+   * Relation names to replace
+   * @var array
    */
-  public function getItemsBy($params = false)
-  {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-
-    /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
-      $query->with(['translations']);
-    } else {//Especific relationships
-      $includeDefault = ['translations'];//Default relationships
-      if (isset($params->include))//merge relations with default relationships
-        $includeDefault = array_merge($includeDefault, $params->include);
-      $query->with($includeDefault);//Add Relationships to query
-    }
-
-    /*== FILTERS ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;//Short filter
-
-      if (isset($filter->search)) { //si hay que filtrar por rango de precio
-        $criterion = $filter->search;
-        $param = explode(' ', $criterion);
-        $criterion = $filter->search;
-        //find search in columns
-        $query->where(function ($query) use ($filter, $criterion) {
-          $query->whereHas('translations', function (Builder $q) use ($criterion) {
-            $q->where('title', 'like', "%{$criterion}%");
-          });
-        })->orWhere('id', 'like', '%' . $filter->search . '%');
-      }
-
-
-      //Filter by date
-      if (isset($filter->date)) {
-        $date = $filter->date;//Short filter date
-        $date->field = $date->field ?? 'created_at';
-        if (isset($date->from))//From a date
-          $query->whereDate($date->field, '>=', $date->from);
-        if (isset($date->to))//to a date
-          $query->whereDate($date->field, '<=', $date->to);
-      }
-
-      if (isset($filter->ids)) {
-        is_array($filter->ids) ? true : $filter->ids = [$filter->ids];
-        $query->whereIn('iform__blocks.id', $filter->ids);
-      }
-      //Order by
-      if (isset($filter->order)) {
-        $orderByField = $filter->order->field ?? 'created_at';//Default field
-        $orderWay = $filter->order->way ?? 'desc';//Default way
-        $query->orderBy($orderByField, $orderWay);//Add order to query
-      }
-
-      if (isset($filter->id)) {
-        !is_array($filter->id) ? $filter->id = [$filter->id] : false;
-        $query->where('id', $filter->id);
-      }
-    }
-
-    /*== FIELDS ==*/
-    if (isset($params->fields) && count($params->fields))
-      $query->select($params->fields);
-
-    /*== REQUEST ==*/
-    if (isset($params->page) && $params->page) {
-      return $query->paginate($params->take);
-    } else {
-      isset($params->take) && $params->take ? $query->take($params->take) : false;//Take
-      return $query->get();
-    }
-  }
+  protected $replaceSyncModelRelations = [];
 
   /**
-   * Standard Api Method
-   * @param $criteria
-   * @param bool $params
+   * Attribute to define default relations
+   * all apply to index and show
+   * index apply in the getItemsBy
+   * show apply in the getItem
+   * @var array
+   */
+  protected $with = ['all' => [] ,'index' => ['translations'],'show' => ['translations']];
+
+  /**
+   * Filter query
+   *
+   * @param $query
+   * @param $filter
+   * @param $params
    * @return mixed
    */
-  public function getItem($criteria, $params = false)
+  public function filterQuery($query, $filter, $params)
   {
-    //Initialize query
-    $query = $this->model->query();
 
-    /*== RELATIONSHIPS ==*/
-    if (in_array('*', $params->include ?? [])) {//If Request all relationships
-      $query->with(['translations']);
-    } else {//Especific relationships
-      $includeDefault = [];//Default relationships
-      if (isset($params->include))//merge relations with default relationships
-        $includeDefault = array_merge($includeDefault, $params->include);
-      $query->with($includeDefault);//Add Relationships to query
-    }
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
+    /**
+     * Note: Add filter name to replaceFilters attribute before replace it
+     *
+     * Example filter Query
+     * if (isset($filter->status)) $query->where('status', $filter->status);
+     *
+     */
 
-      if (isset($filter->field))//Filter by specific field
-        $field = $filter->field;
-      // find translatable attributes
-      $translatedAttributes = $this->model->translatedAttributes;
-
-      // filter by translatable attributes
-      if (isset($field) && in_array($field, $translatedAttributes))//Filter by slug
-        $query->whereHas('translations', function ($query) use ($criteria, $filter, $field) {
-          $query->where('locale', $filter->locale)
-            ->where($field, $criteria);
+    if (isset($filter->search)) { //si hay que filtrar por rango de precio
+      $criterion = $filter->search;
+      $param = explode(' ', $criterion);
+      $criterion = $filter->search;
+      //find search in columns
+      $query->where(function ($query) use ($filter, $criterion) {
+        $query->whereHas('translations', function (Builder $q) use ($criterion) {
+          $q->where('title', 'like', "%{$criterion}%");
         });
-      else
-        // find by specific attribute or by id
-        $query->where($field ?? 'id', $criteria);
+      })->orWhere('id', 'like', '%' . $filter->search . '%');
     }
 
-    /*== FIELDS ==*/
-    if (isset($params->fields) && count($params->fields))
-      $query->select($params->fields);
-
-    if (!isset($params->filter->field)) {
-      $query->where('id', $criteria);
+    if (isset($filter->ids)) {
+      is_array($filter->ids) ? true : $filter->ids = [$filter->ids];
+      $query->whereIn('iform__blocks.id', $filter->ids);
     }
 
-    /*== REQUEST ==*/
-    return $query->first();
+    //Response
+    return $query;
   }
 
   /**
-   * Standard Api Method
-   * @param $data
-   * @return mixed
+   * Method to sync Model Relations
+   *
+   * @param $model ,$data
+   * @return $model
    */
-  public function create($data)
+  public function syncModelRelations($model, $data)
   {
+    //Get model relations data from attribute of model
+    $modelRelationsData = ($model->modelRelations ?? []);
 
-    $model = $this->model->create($data);
+    /**
+     * Note: Add relation name to replaceSyncModelRelations attribute before replace it
+     *
+     * Example to sync relations
+     * if (array_key_exists(<relationName>, $data)){
+     *    $model->setRelation(<relationName>, $model-><relationName>()->sync($data[<relationName>]));
+     * }
+     *
+     */
 
+    //Response
     return $model;
-  }
-
-
-  /**
-   * Standard Api Method
-   * @param $criteria
-   * @param $data
-   * @param bool $params
-   * @return bool
-   */
-  public function updateBy($criteria, $data, $params = false)
-  {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-
-      //Update by field
-      if (isset($filter->field))
-        $field = $filter->field;
-    }
-
-    /*== REQUEST ==*/
-    $model = $query->where($field ?? 'id', $criteria)->first();
-    $model ? $model->update((array)$data) : false;
-    event(new UpdateMedia($model, $data));
-  }
-
-  public function deleteBy($criteria, $params = false)
-  {
-    /*== initialize query ==*/
-    $query = $this->model->query();
-
-    /*== FILTER ==*/
-    if (isset($params->filter)) {
-      $filter = $params->filter;
-
-      if (isset($filter->field))//Where field
-        $field = $filter->field;
-    }
-
-    /*== REQUEST ==*/
-    $model = $query->where($field ?? 'id', $criteria)->first();
-    $model ? $model->delete() : false;
   }
 
   public function batchUpdate($data)
@@ -213,4 +106,5 @@ class EloquentBlockRepository extends EloquentBaseRepository implements BlockRep
     }
     return $blocks;
   }
+  
 }

@@ -2,83 +2,25 @@
 
 namespace Modules\Iforms\Http\Controllers\Api;
 
-// Requests & Response
+use Modules\Core\Icrud\Controllers\BaseCrudController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\Iforms\Http\Requests\CreateFormRequest;
-use Modules\Iforms\Http\Requests\UpdateFormRequest as UpdateRequest;
-
-// Base Api
-use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
-
-// Transformers
-use Modules\Iforms\Transformers\FormTransformer;
-
-// Repositories
+//Model
+use Modules\Iforms\Entities\Form;
 use Modules\Iforms\Repositories\FormRepository;
 
-class FormApiController extends BaseApiController
+class FormApiController extends BaseCrudController
 {
-  private $resource;
+  public $model;
+  public $modelRepository;
 
-  public function __construct(FormRepository $resource)
+  public function __construct(Form $model, FormRepository $modelRepository)
   {
-    $this->resource = $resource;
+    $this->model = $model;
+    $this->modelRepository = $modelRepository;
   }
 
   /**
-   * GET ITEMS
-   *
-   * @return mixed
-   */
-  public function index(Request $request)
-  {
-    try {
-      //Get Parameters from URL.
-      $params = $this->getParamsRequest($request);
-      //Request to Repository
-      $data = $this->resource->getItemsBy($params);
-      //Response
-      $response = ["data" => FormTransformer::collection($data)];
-      //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
-    } catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    //Return response
-    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
-  }
-
-  /**
-   * GET A ITEM
-   *
-   * @param $criteria
-   * @return mixed
-   */
-  public function show($criteria, Request $request)
-  {
-    try {
-      //Get Parameters from URL.
-      $params = $this->getParamsRequest($request);
-      //Request to Repository
-      $data = $this->resource->getItem($criteria, $params);
-      //Break if no found item
-      if (!$data) throw new \Exception('Item not found', 204);
-      //Response
-      $response = ["data" => new FormTransformer($data)];
-      //If request pagination add meta-page
-      $params->page ? $response["meta"] = ["page" => $this->pageTransformer($data)] : false;
-    } catch (\Exception $e) {
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
-    }
-    //Return response
-    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
-  }
-
-  /**
-   * CREATE A ITEM
+   * Controller to create model
    *
    * @param Request $request
    * @return mixed
@@ -87,87 +29,83 @@ class FormApiController extends BaseApiController
   {
     \DB::beginTransaction();
     try {
-      $data = $request->input('attributes') ?? [];//Get data
+      //Get model data
+      $modelData = $request->input('attributes') ?? [];
+
       //Validate Request
-      $this->validateRequestApi(new CreateFormRequest($data));
-      //Create item
-      
+      if (isset($this->model->requestValidation['create'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['create']($modelData));
+      }
+
       //validate customLeadPDFTemplate
-      if(isset($data["options"]) && isset($data["options"]["customLeadPDFTemplate"]))
-        if(!empty($data["options"]["customLeadPDFTemplate"]) && !view()->exists($data["options"]["customLeadPDFTemplate"]))
+      if(isset($modelData["options"]) && isset($modelData["options"]["customLeadPDFTemplate"]))
+        if(!empty($modelData["options"]["customLeadPDFTemplate"]) && !view()->exists($modelData["options"]["customLeadPDFTemplate"]))
           throw new \Exception(trans("iforms::forms.messages.customLeadPDFTemplateExist"),400);
-        
-      $newData = $this->resource->create($data);
+
+      //Create model
+      $model = $this->modelRepository->create($modelData);
+
       //Response
-      $response = ["data" => new FormTransformer($newData)];
+      $response = ["data" => CrudResource::transformData($model)];
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => [$e->getMessage()]];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-
+  
   /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
+   * Controller to update model by criteria
+   *
+   * @param $criteria
+   * @param Request $request
+   * @return mixed
    */
   public function update($criteria, Request $request)
   {
-
-    \DB::beginTransaction();
+    \DB::beginTransaction(); //DB Transaction
     try {
+      //Get model data
+      $modelData = $request->input('attributes') ?? [];
+      //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
 
-      $data = $request->input('attributes');
+      //auto-insert the criteria in the data to update
+      isset($params->filter->field) ? $field = $params->filter->field : $field = "id";
+      $data[$field] = $criteria;
+
       //Validate Request
-      $this->validateRequestApi(new UpdateRequest($data));
-  
-      //validate customLeadPDFTemplate
-      if(isset($data["options"]) && isset($data["options"]["customLeadPDFTemplate"]))
-        if(!empty($data["options"]["customLeadPDFTemplate"]) && !view()->exists($data["options"]["customLeadPDFTemplate"]))
-          throw new \Exception(trans("iforms::forms.messages.customLeadPDFTemplateExist"),400);
-  
-        
-      //Update data
-      $entity = $this->resource->getItem($criteria, $params);
-      $newData = $this->resource->update($entity, $data);
-      //Response
-      $response = ['data' => $newData];
-      \DB::commit(); //Commit to Data Base
-    } catch (\Exception $e) {
-      \DB::rollback();//Rollback to Data Base
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => [$e->getMessage()]];
-    }
-    return response()->json($response, $status ?? 200);
-  }
+      if (isset($this->model->requestValidation['update'])) {
+        $this->validateRequestApi(new $this->model->requestValidation['update']($modelData));
+      }
 
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function delete($criteria, Request $request)
-  {
-    \DB::beginTransaction();
-    try {
-      //Get params
-      $params = $this->getParamsRequest($request);
-      //Delete data
-      $entity = $this->resource->getItem($criteria, $params);
-      $this->resource->destroy($entity);
+      //validate customLeadPDFTemplate
+      if(isset($modelData["options"]) && isset($modelData["options"]["customLeadPDFTemplate"]))
+        if(!empty($modelData["options"]["customLeadPDFTemplate"]) && !view()->exists($modelData["options"]["customLeadPDFTemplate"]))
+          throw new \Exception(trans("iforms::forms.messages.customLeadPDFTemplateExist"),400);
+
+      //Update model
+      $model = $this->modelRepository->updateBy($criteria, $modelData, $params);
+
+      //Throw exception if no found item
+      if (!$model) throw new \Exception('Item not found', 204);
+
       //Response
-      $response = ['data' => ''];
-      \DB::commit(); //Commit to Data Base
+      $response = ["data" => CrudResource::transformData($model)];
+      \DB::commit();//Commit to DataBase
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
       $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      $response = $status == 409 ? json_decode($e->getMessage()) :
+        ['messages' => [['message' => $e->getMessage(), 'type' => 'error']]];
     }
-    return response()->json($response, $status ?? 200);
+
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
 
 }
