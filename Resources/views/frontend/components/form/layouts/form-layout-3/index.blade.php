@@ -1,7 +1,7 @@
 <div id="formLayout3" class="content-form{{$formId}} position-relative">
   @include('iforms::frontend.components.form.layouts.titles',array('layout'=>'formLayout3'))
   <div class="formerror"></div>
-    <livewire:isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
+    <x-isite::edit-link link="/iadmin/#/form/fields/{{$form->id}}"
                         :tooltip="trans('iforms::common.editLink.tooltipForm')"/>
   <form id="{{$formId}}" class="form-horizontal overflow-hidden" action="{{route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
