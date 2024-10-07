@@ -1,6 +1,8 @@
 <div class="newsletter form-content-{{ $form->system_name }} mb-4 position-relative">
-  @livewire('isite::edit-link', ['link' => "/iadmin/#/form/fields/{{$form->id}}",
-  'tooltip' => "trans('iforms::common.editLink.tooltipForm')"])
+  <x-isite::edit-link
+          link="/iadmin/#/form/fields/{{$form->id}}"
+          :tooltip="trans('iforms::common.editLink.tooltipForm')"
+  />
   <h4 class="title {{$titleClasses}}">{{ $title ?? $form->title }}</h4>
   @if(!empty($description))
   <p class="description {{$descriptionClasses}}">{{ $description }}</p>
