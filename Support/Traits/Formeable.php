@@ -33,11 +33,12 @@ trait Formeable
   public function syncForms($params)
   {
     //Instance form ID
-    $formsId = isset($params['data']['form_id']) && $params['data']['form_id'] ?
-      [$params['data']['form_id']] : [];
+    if (isset($params['data']['form_id'])) {
+      $formsId = $params['data']['form_id'] ? [$params['data']['form_id']] : [];
 
-    //Sync Forms
-    $this->forms()->sync($formsId);
+      //Sync Forms
+      $this->forms()->sync($formsId);
+    }
   }
 
   /**
