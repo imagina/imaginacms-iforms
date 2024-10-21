@@ -119,5 +119,14 @@ class Form extends CrudModel
     $embed = "<script id='scriptIframeId-{$elementUid}' src='".url("")."/iforms/external/render/{$this->id}?iframeId={$elementUid}'></script>";
     return $embed;
   }
-  
+
+    public function getCacheClearableData()
+    {
+        return [
+            'urls' => [
+                config("app.url"),
+                $this->url
+            ]
+        ];
+    }
 }
