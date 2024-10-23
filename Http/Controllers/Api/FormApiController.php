@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 //Model
 use Modules\Iforms\Entities\Form;
 use Modules\Iforms\Repositories\FormRepository;
+use Modules\Core\Icrud\Transformers\CrudResource;
 
 class FormApiController extends BaseCrudController
 {
@@ -57,7 +58,7 @@ class FormApiController extends BaseCrudController
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * Controller to update model by criteria
    *
