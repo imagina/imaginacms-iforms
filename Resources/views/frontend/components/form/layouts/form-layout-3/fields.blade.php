@@ -12,7 +12,7 @@ $fields = $form->fields;
             <div class="input-group flex-nowrap">
               @if(!empty($field->prefix))
                 @if(!empty($field->prefix->value))
-                  <div class="input-group-prepend">
+                   <div class="input-group-prepend">
                                     <span class="input-group-text bg-transparent border-right-0 text-primary">
                                         @if($field->prefix->type=='icon')
                                         <i class="text-primary {{ $field->prefix->value }}"></i>
@@ -222,7 +222,7 @@ $fields = $form->fields;
               @endif
               @endif
               @php
-                $options = $field->options['fieldOptions'] ?? json_decode($field->selectable)
+                $options = $field->options->fieldOptions ?? $field->options['fieldOptions'] ?? json_decode($field->selectable)
               @endphp
               <select
                 {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
