@@ -13,7 +13,7 @@ class EloquentFieldRepository extends EloquentCrudRepository implements FieldRep
    * Filter names to replace
    * @var array
    */
-  protected $replaceFilters = [];
+  protected $replaceFilters = ['type'];
 
   /**
    * Relation names to replace

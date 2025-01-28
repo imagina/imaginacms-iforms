@@ -107,15 +107,7 @@ class Type extends CrudStaticModel
   */
   public function getIdByValue($value)
   {
-    
-    $onlyValues = array_column($this->records, 'value');
-    $key = array_search($value, $onlyValues);
-    if($key)
-      return $this->records[$key]['id'];
-
-    return null;
-        
+    $item = collect($this->records)->where('value', $value)->first();
+    return $item['id'] ?? null;
   }
-
-
 }
