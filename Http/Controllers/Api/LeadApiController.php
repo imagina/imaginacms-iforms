@@ -79,7 +79,7 @@ class LeadApiController extends BaseCrudController
         $this->validateRequestApi(new $this->model->requestValidation['create']($data));
       }
 
-      $form = $this->form->find($data['form_id']);
+      $form = $this->form->with('fields')->find($data['form_id']);
       if (empty($form->id)) {
         throw new \Exception(trans('iforms::common.forms_not_found'));
       }
@@ -122,7 +122,7 @@ class LeadApiController extends BaseCrudController
         if ($field->type == 12 &&  $data[$field->name] !== 'undefined' ) {
           $this->saveAttachment($form, $field, $data, $attr, $data[$field->name]);
         }
-        $attr['values'][$field->name] = $data[$field->name] !== 'undefined' ? $data[$field->name] :  null;
+        $attr['values'][$field->name] = $data[$field->name] ?? null;
       }
 
       //Create model
@@ -219,7 +219,7 @@ class LeadApiController extends BaseCrudController
       //Update data
       $newData = $this->modelRepository->update($lead, $attr);
       if ($updateMedia) event(new UpdateMedia($lead, $data));
-      
+
       //Response
       $response = ["data" => trans('iforms::leads.messages.message sent successfully')];
 
