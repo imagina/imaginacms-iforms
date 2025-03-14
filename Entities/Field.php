@@ -7,10 +7,11 @@ use Modules\Core\Icrud\Entities\CrudModel;
 
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Iforms\Presenters\FieldPresenter;
+use Modules\Ifillable\Traits\isFillable;
 
 class Field extends CrudModel
 {
-  use Translatable, PresentableTrait;
+  use Translatable, PresentableTrait, isFillable;
 
   protected $table = 'iforms__fields';
   public $transformer = 'Modules\Iforms\Transformers\FieldTransformer';
@@ -60,6 +61,10 @@ class Field extends CrudModel
     'suffix' => 'array',
     'options' => 'array',
     'rules' => 'array',
+  ];
+
+  protected $with = [
+    'fields'
   ];
 
   public function form()
@@ -143,7 +148,13 @@ class Field extends CrudModel
     }
 
     return $accept;
-
   }
 
+  public function getFieldOptionsAttribute()
+  {
+    $fieldOptions = $this->fields->where('name', 'field_options')->first();
+    if ($fieldOptions) return $fieldOptions->value;
+    //getting the options from the selectable attribute for old sites created with the Iform before Dec, 2021
+    return $this->options['fieldOptions'] ?? json_decode($this->selectable) ?? [];
+  }
 }

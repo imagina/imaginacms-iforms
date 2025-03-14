@@ -218,9 +218,6 @@
               @endif
               @endif
               @endif
-              @php
-                $options = $field->options->fieldOptions ?? $field->options['fieldOptions'] ?? json_decode($field->selectable)
-              @endphp
               <select
                 {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control bg-transparent {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                 value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
@@ -232,7 +229,7 @@
                 id="input{{$field->name}}"
                 {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
               >
-                @foreach($options as $option)
+                @foreach($field->fieldOptions as $option)
                   <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
                 @endforeach
               </select>
@@ -257,10 +254,7 @@
         @endif
         @break
         @case('radio')
-        @php
-          $options = $field->options['fieldOptions'] ?? json_decode($field->selectable)
-        @endphp
-        @foreach($options as $option)
+        @foreach($field->fieldOptions as $option)
           <label>
             <input type="radio" name="{{$field->name}}"
                    value="{{ $option->name ?? $option }}"/>&nbsp; {{ $option->name ?? $option }} &nbsp;&nbsp;

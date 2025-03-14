@@ -16,7 +16,7 @@ class IformsDatabaseSeeder extends Seeder
         Model::unguard();
         ProcessSeeds::dispatch([
             'baseClass' => "\Modules\Iforms\Database\Seeders",
-            'seeds' => ['IformsModuleTableSeeder', 'BlockTableSeeder', 'ContactFormTableSeeder'],
+            'seeds' => ['IformsModuleTableSeeder', 'BlockTableSeeder', 'ContactFormTableSeeder', 'UpdateFieldOptionsSeeder'],
         ]);
     }
 }

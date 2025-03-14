@@ -78,25 +78,13 @@ class FieldTransformer extends CrudResource
 
     //Options for ['selectmultiple', 'select', 'radio', 'treeSelect'] field types
     if (in_array($fieldType, ['selectmultiple', 'select', 'radio', 'treeSelect'])) {
-
-      // getting the options from the selectable attribute for old sites created with the Iform before Dec, 2021
-      $options = json_decode($this->selectable) ?? [];
-
       //if already exist the loadOptions saved in DB
       if (isset($this->options["loadOptions"]) && !empty($this->options["loadOptions"])) {
         $data['dynamicField']['loadOptions'] = $this->options["loadOptions"];
       }
 
-      //getting the fieldOptions saved in DB for old sites created with the Iform before Dec, 2021
-      if (empty($options) && isset($this->options["fieldOptions"]) && !empty($this->options["fieldOptions"])) {
-
-        $data['dynamicField']['props']['options'] = [];
-
-        $options = $this->options["fieldOptions"];
-      }
-
       //Added options in the format label: value, expected for the frontend standard
-      foreach ($options as $option) {
+      foreach ($this->fieldOptions as $option) {
         $data['dynamicField']['props']['options'][] = ["label" => $option->name ?? $option, "value" => $option->name ?? $option];
       }
 

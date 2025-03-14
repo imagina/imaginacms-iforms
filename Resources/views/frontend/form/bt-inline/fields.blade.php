@@ -213,16 +213,13 @@ $fields = $form->fields;
                   @endif
                   @endif
                   @endif
-                  @php
-                    $options = $field->options->fieldOptions ?? json_decode($field->selectable)
-                  @endphp
                   <select
                     {{ $field->present()->type['value']=='selectmultiple'?'multiple':'' }} class="form-control {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                     name="{{$field->name}}"
                     id="input{{$field->name}}"
                     {{$field->required?'required':''}}   data-placeholder="{{ $field->placeholder ?? '' }}"
                   >
-                    @foreach($options as $option)
+                    @foreach($field->fieldOptions as $option)
                       <option value="{{ $option->name ?? $option }}">{{ $option->name ?? $option }}</option>
                     @endforeach
                   </select>
@@ -249,10 +246,7 @@ $fields = $form->fields;
           @case('radio')
           <label class="col-3 col-form-label" for="input{{$field->name}}">{{$field->label}}</label>
           <div class="col-9">
-            @php
-              $options = $field->options->fieldOptions ?? json_decode($field->selectable)
-            @endphp
-            @foreach($options as $k=>$option)
+            @foreach($field->fieldOptions as $k=>$option)
               <input class="form-check-input" id="input{{$field->name}}{{ $k }}" type="radio" name="{{$field->name}}"
                      value="{{ $option->name ?? $option }}"/>
               <label for="input{{$field->name}}{{ $k }}" class="form-check-label">{{ $option->name ?? $option }}</label>
