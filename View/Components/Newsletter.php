@@ -38,7 +38,7 @@ class Newsletter extends Component
   {
     $this->layout = $layout ?? 'newsletter-layout-1';
     $this->view = "iforms::frontend.components.newsletter.layouts.{$this->layout}.index";
-    $this->title = $title ?? '';
+    $this->title = $title ?? 'Newsletter';
     $this->description = $description;
     $this->postDescription = $postDescription;
     $this->titleClasses = $titleClasses;
@@ -77,15 +77,16 @@ class Newsletter extends Component
       $newBlockData = [
         'form_id' => $this->form->id,
       ];
-      app('Modules\\Iforms\\Repositories\\BlockRepository')->create($newBlockData);
+      $block = app('Modules\\Iforms\\Repositories\\BlockRepository')->create($newBlockData);
       $newFieldData = [
         'required' => 1,
         'name' => trans('iforms::fields.form.email.name'),
         'label' => trans('iforms::fields.form.email.label'),
         'placeholder' => trans('iforms::fields.form.email.placeholder'),
         'description' => trans('iforms::fields.form.email.description'),
-        'type' => 'email',
+        'type' => 4,
         'form_id' => $this->form->id,
+        'block_id' => $block->id,
       ];
       app('Modules\\Iforms\\Repositories\\FieldRepository')->create($newFieldData);
     }
