@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 //Model
 use Modules\Iforms\Entities\Form;
 use Modules\Iforms\Repositories\FormRepository;
+use Modules\Core\Icrud\Transformers\CrudResource;
 
 class FormApiController extends BaseCrudController
 {

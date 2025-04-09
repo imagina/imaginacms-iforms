@@ -122,7 +122,7 @@ class EloquentFormRepository extends EloquentCrudRepository implements FormRepos
     $model = $this->model->create($data);
 
     if($model) {
-      $model->fields()->update(Arr::get($data, 'fields', []));
+      $model->fields()->update(\Arr::get($data, 'fields', []));
     }
 
     // Default sync model relations
