@@ -6,18 +6,22 @@
   <p class="description {{$descriptionClasses}}">{{ $description }}</p>
   @endif
   <form id="form{{ $form->system_name }}" method="post" action="{{ route('api.iforms.leads.create') }}">
-    <input type="hidden" name="form_id" value="{{ $form->id }}" required="">
-    <div class="input-group">
-      <input type="text" class="form-control {{$inputClasses}}"
-             placeholder="{{ trans('iforms::fields.form.email.placeholder') }}"
-             name="{{ trans('iforms::fields.form.email.name') }}" required
-             aria-label="{{ trans('iforms::fields.form.email.label') }}">
-      <div class="input-group-append">
-        <button class="{{$buttonClasses}}" type="submit">
-          {{ $submitLabel }}
-        </button>
+    @foreach($fields as $field)
+      <div class="input-group mb-3">
+        <input
+               type="{{$field->present()->type['value'] ?? 'text'}}"
+               class="form-control {{$inputClasses}}"
+               placeholder="{{$field->placeholder ?? $field->name}}"
+               name="{{$field->name}}"
+               required
+               aria-label="{{$field->placeholder ?? $field->name}}">
+        <div class="input-group-append">
+          <button class="{{$buttonClasses}}" type="submit">
+            {{ $submitLabel }}
+          </button>
+        </div>
       </div>
-    </div>
+    @endforeach
     @if(!empty($postDescription))
       <p class="post-description {{$postDescriptionClasses}}">{{ $postDescription }}</p>
     @endif

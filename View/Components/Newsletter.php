@@ -11,6 +11,7 @@ class Newsletter extends Component
   public $id;
   public $layout;
   public $form;
+  public $fields;
   public $title;
   public $description;
   public $postDescription;
@@ -49,6 +50,11 @@ class Newsletter extends Component
     $this->submitLabel = $submitLabel ?? trans('iforms::forms.button.subscribe');
     $this->central = $central;
     $this->getOrAddForm();
+
+    // Extract Fields
+    if (isset($this->form->id)) {
+       $this->fields = $this->form->fields->where("visibility", "!=", "internal");
+    }
   }
 
   public function getOrAddForm()
