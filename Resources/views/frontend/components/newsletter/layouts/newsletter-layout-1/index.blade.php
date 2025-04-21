@@ -37,6 +37,7 @@
       $(formid).submit(function (event) {
         event.preventDefault();
         var info = objectifyFormSubscription($(this).serializeArray());
+        info.form_id = '{{ $form->id }}'
         $.ajax({
           type: 'POST',
           url: $(this).attr('action'),

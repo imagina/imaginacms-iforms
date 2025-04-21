@@ -14,9 +14,9 @@
                    value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
                    @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled
                    @endif
-                   @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['readonly'])) readonly
+                   @if(isset($field->options) && isset($field->options['readonly'])) readonly
                    @endif
-                   id="input{{$field->name}}"
+                   id="{{$field->options['inputId'] ?? 'input'.$field->name}}"
                    {{$field->required?'required':''}} placeholder="{{ $field->placeholder ?? '' }}">
             @include('iforms::frontend.partials.xfix',["xfix" => $field->suffix,"type"=>"suf"])
           </div>
