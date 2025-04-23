@@ -388,9 +388,14 @@
           </div>
           @break
           @case('file')
-          <label class="col-3 col-form-label" for="{{$field->name}}">{{$field->label}}
-            {{!empty($field->rule_accept) ? "(".$field->rule_accept.")" : "" }}
-          </label>
+            <label for="input{{$field->name}}" class="sel-label-{{$field->name}} mx-3 py-1 col-form-label d-flex flex-row align-items-center">
+              <span class="btn-primary px-1 px-sm-2 py-1 text-sm"
+                style="cursor: pointer; font-size: 13px; white-space: nowrap;">
+                {{$field->label}}
+                {{!empty($field->rule_accept) ? "(".$field->rule_accept.")" : "" }}
+              </span>
+              <span class="selected{{$field->name}} d-block ml-2 text-gray" style="font-size: 12.5px; line-height: 1;"></span>
+            </label>
           <div class="col-9">
             @if(!empty($field->prefix) || !empty($field->suffix))
               @if(!empty($field->prefix->value) || !empty($field->suffix->value))
@@ -412,7 +417,7 @@
                   @endif
                   <input type="file"
                          {{ !empty($field->rule_accept)? "accept=".$field->rule_accept : ""}}
-                         class="form-control-file {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
+                         class="d-none form-control-file {{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['class'] ?? '') :'' }} {{ !empty($field->prefix) ? !empty($field->prefix->value) ? 'border-left-0' : '' : '' }} {{ !empty($field->suffix) ? !empty($field->suffix->value) ? 'border-right-0' : '' : '' }}"
                          name="{{$field->name}}"
                          value="{{ isset($fieldsParams[$field->name]) ? ($fieldsParams[$field->name]['value'] ?? '') : '' }}"
                          @if(isset($fieldsParams[$field->name]) && isset($fieldsParams[$field->name]['disabled'])) disabled
@@ -441,6 +446,14 @@
               @endif
             @endif
           </div>
+            <script>
+              window.addEventListener('DOMContentLoaded', () => {
+                $('input#input{{$field->name}}').change(function () {
+                  let filename = this.files.length > 0 ? this.files[0].name : "{{ $field->placeholder ?? '' }}";
+                  $('.selected{{$field->name}}').text(filename);
+                });
+              });
+            </script>
           @break
           @default
           <label class="col-3 col-form-label">{{$field->label}}</label>
