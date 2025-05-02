@@ -153,7 +153,7 @@ class Field extends CrudModel
   public function getFieldOptionsAttribute()
   {
     $fieldOptions = $this->fields->where('name', 'field_options')->first();
-    if ($fieldOptions) return $fieldOptions->value;
+    if ($fieldOptions) return $fieldOptions->value ?? [];
     //getting the options from the selectable attribute for old sites created with the Iform before Dec, 2021
     return $this->options['fieldOptions'] ?? json_decode($this->selectable) ?? [];
   }
