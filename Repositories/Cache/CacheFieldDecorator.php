@@ -17,8 +17,9 @@ class CacheFieldDecorator extends BaseCacheCrudDecorator implements FieldReposit
 
   public function updateOrders($data)
   {
+
     $this->cache->tags($this->getTags())->flush();
     return $this->repository->updateOrders($data);
-  }
 
+  }
 }
