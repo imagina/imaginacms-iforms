@@ -4,7 +4,7 @@ namespace Modules\Iforms\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Modules\Core\Icrud\Entities\CrudModel;
-
+use Illuminate\Support\Str;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Iforms\Presenters\FieldPresenter;
 use Modules\Ifillable\Traits\isFillable;
