@@ -40,6 +40,7 @@ class Form extends Component
   public $subtitleClass;
   public $titleStyle;
   public $subtitleStyle;
+  public $actionUrl;
 
   public function __construct($id, $layout = 'form-layout-1', $livewireSubmitEvent = null, $params = [],
                               $fieldsParams = [], $formId = null, $jsSubmitEvent = null, $central = true,
@@ -68,13 +69,13 @@ class Form extends Component
     $this->titleStyle = $titleStyle;
     $this->subtitleStyle = $subtitleStyle;
     $this->getForm();
-    
+
     if(isset($this->form->id)){
-  
+
       $this->fields = $this->form->fields->where("visibility", "!=", "internal");
 
     }
-    
+
     $this->livewireSubmitEvent = $livewireSubmitEvent ?? null;
     $this->jsSubmitEvent = $jsSubmitEvent ?? null;
     $this->title = $title ?? $this->form->title ?? trans('iforms::forms.form.formDefault.title');
@@ -89,6 +90,7 @@ class Form extends Component
     $this->AlainSubtitle = $AlainSubtitle;
     $this->colorTitleByClass = $colorTitleByClass;
     $this->colorSubtitleByClass = $colorSubtitleByClass;
+    $this->actionUrl = $central ? route('api.iforms.leads.create') : tenant_route(request()->getHost(), 'api.iforms.leads.create');
   }
 
   public function getForm()

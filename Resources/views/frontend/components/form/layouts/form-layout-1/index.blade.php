@@ -12,7 +12,7 @@
           :tooltip="trans('iforms::common.editLink.tooltipForm')"
   />
   <div class="formerror"></div>
-  <form id="{{$formId}}" class="form-horizontal  overflow-hidden" method="post" action="{{route('api.iforms.leads.create')}}">
+  <form id="{{$formId}}" class="form-horizontal  overflow-hidden" method="post" action="{{$actionUrl ?? route('api.iforms.leads.create')}}">
     <input type="hidden" name="form_id" value="{{$form->id}}" required="">
 
   @include('iforms::frontend.components.form.layouts.form-layout-1.fields')
