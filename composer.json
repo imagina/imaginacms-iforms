@@ -1,0 +1,28 @@
+{
+    "name": "imagina/iform",
+    "description": "",
+    "authors": [
+        {
+            "name": "Imagina Colombia",
+            "email": "soporte@imaginacolombia.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Iform\\": "app/",
+            "Modules\\Iform\\Database\\Factories\\": "database/factories/",
+            "Modules\\Iform\\Database\\Seeders\\": "database/Seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Iform\\Tests\\": "tests/"
+        }
+    }
+}

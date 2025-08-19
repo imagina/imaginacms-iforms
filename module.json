@@ -1,0 +1,12 @@
+
+{
+    "name": "Iform",
+    "alias": "iform",
+    "description": "manage iform",
+    "keywords": ["iform"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Iform\\Providers\\IformServiceProvider"
+    ],
+    "files": []
+}
