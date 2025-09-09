@@ -12,6 +12,7 @@ use Modules\Iforms\Repositories\FieldRepository;
 use Modules\Iforms\Repositories\FormRepository;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Setting\Contracts\Setting;
+use Illuminate\Support\Facades\Response;
 
 class PublicController extends BaseApiController
 {
