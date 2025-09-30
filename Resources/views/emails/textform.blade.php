@@ -17,8 +17,12 @@
                border="0">
           <tbody>
           @foreach($fields as $field)
-            @php$isTypeTwelve = isset($field->type) && $field->type == 12;@endphp
-            
+
+            @php
+              $isTypeTwelve = false;
+              $isTypeTwelve = isset($field->type) && $field->type == 12;
+            @endphp
+
             <tr>
               <td style="width:100%; padding-top: 5px; padding-bottom: 5px;">
                 <table style="width: 100%;border-collapse: collapse;" role="presentation" cellpadding="0"
