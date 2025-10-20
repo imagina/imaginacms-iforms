@@ -29,16 +29,12 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
 
   private $params;
   private $exportParams;
-  private $leadRepository;
-  private $inotification;
 
   public function __construct($params, $exportParams)
   {
-    $this->userId = \Auth::id();//Set for ReportQueue
+    $this->userId = \Auth::id(); //Set for ReportQueue
     $this->exportParams = $exportParams;
     $this->params = $params;
-    $this->leadRepository = app('Modules\Iforms\Repositories\LeadRepository');
-    $this->inotification = app('Modules\Notification\Services\Inotification');
   }
 
   /**
@@ -48,36 +44,36 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
   {
     //Get query
     $this->params->returnAsQuery = true;
-    return $this->leadRepository->getItemsBy($this->params);
+    return app('Modules\Iforms\Repositories\LeadRepository')->getItemsBy($this->params);
   }
 
-    /*
+  /*
     /**
      * Table headings
      *
      * @return string[]
      */
-    public function headings(): array
-    {
-        //Get form data
-        $form = Form::where('id', $this->params->filter->formId)->with(['fields'])->first();
+  public function headings(): array
+  {
+    //Get form data
+    $form = Form::where('id', $this->params->filter->formId)->with(['fields'])->first();
 
-        //Set fields
-        return array_merge(
-            $form->fields->pluck('label')->toArray(),
-            ['Fecha de Creación', 'Fecha Ultima Actualización']
-        );
-    }
+    //Set fields
+    return array_merge(
+      $form->fields->pluck('label')->toArray(),
+      ['Fecha de Creación', 'Fecha Ultima Actualización']
+    );
+  }
 
-    /**
-     * @var Invoice
-     */
-    public function map($lead): array
-    {
-        $values = (array) $lead->values;
+  /**
+   * @var Invoice
+   */
+  public function map($lead): array
+  {
+    $values = (array) $lead->values;
 
-        return array_merge(array_values($values), [$lead->created_at, $lead->updated_at]);
-    }
+    return array_merge(array_values($values), [$lead->created_at, $lead->updated_at]);
+  }
 
   /**
    * //Handling Events
@@ -92,16 +88,14 @@ class LeadsPerFormExport implements FromQuery, WithHeadings, WithMapping, Should
         $this->lockReport($this->exportParams->exportName);
       },
       // Event gets raised before the download/store starts.
-      BeforeWriting::class => function (BeforeWriting $event) {
-      },
+      BeforeWriting::class => function (BeforeWriting $event) {},
       // Event gets raised just after the sheet is created.
-      BeforeSheet::class => function (BeforeSheet $event) {
-      },
+      BeforeSheet::class => function (BeforeSheet $event) {},
       // Event gets raised at the end of the sheet process
       AfterSheet::class => function (AfterSheet $event) {
         $this->unlockReport($this->exportParams->exportName);
         //Send pusher notification
-        $this->inotification->to(['broadcast' => $this->params->user->id])->push([
+        app('Modules\Notification\Services\Inotification')->to(['broadcast' => $this->params->user->id])->push([
           "title" => "New report",
           "message" => "Your report is ready!",
           "link" => url(''),

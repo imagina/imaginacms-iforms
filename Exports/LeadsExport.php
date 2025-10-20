@@ -28,14 +28,12 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
 
   private $params;
   private $exportParams;
-  private $inotification;
 
   public function __construct($params, $exportParams)
   {
-    $this->userId = \Auth::id();//Set for ReportQueue
+    $this->userId = \Auth::id(); //Set for ReportQueue
     $this->params = $params;
     $this->exportParams = $exportParams;
-    $this->inotification = app('Modules\Notification\Services\Inotification');
   }
 
   /**
@@ -52,42 +50,40 @@ class LeadsExport implements WithEvents, WithMultipleSheets, ShouldQueue
     $sheets = [];
     foreach ($forms as $form) $sheets[] = new LeadsPerFormExport($form, $this->params);
 
-        //Response
-        return $sheets;
-    }
+    //Response
+    return $sheets;
+  }
 
-    /**
-     * //Handling Events
-     */
-    public function registerEvents(): array
-    {
-        return [
-            // Event gets raised at the start of the process.
-            BeforeExport::class => function (BeforeExport $event) {
+  /**
+   * //Handling Events
+   */
+  public function registerEvents(): array
+  {
+    return [
+      // Event gets raised at the start of the process.
+      BeforeExport::class => function (BeforeExport $event) {
         $this->lockReport($this->exportParams->exportName);
-            },
-            // Event gets raised before the download/store starts.
-            BeforeWriting::class => function (BeforeWriting $event) {
-            },
-            // Event gets raised just after the sheet is created.
-            BeforeSheet::class => function (BeforeSheet $event) {
-            },
-            // Event gets raised at the end of the sheet process
-            AfterSheet::class => function (AfterSheet $event) {
+      },
+      // Event gets raised before the download/store starts.
+      BeforeWriting::class => function (BeforeWriting $event) {},
+      // Event gets raised just after the sheet is created.
+      BeforeSheet::class => function (BeforeSheet $event) {},
+      // Event gets raised at the end of the sheet process
+      AfterSheet::class => function (AfterSheet $event) {
         $this->unlockReport($this->exportParams->exportName);
-                //Send pusher notification
-                $this->inotification->to(['broadcast' => $this->params->user->id])->push([
-                    'title' => 'New report',
-                    'message' => 'Your report is ready!',
-                    'link' => url(''),
-                    'isAction' => true,
-                    'frontEvent' => [
-                        'name' => 'isite.export.ready',
-                        'data' => $this->exportParams,
-                    ],
-                    'setting' => ['saveInDatabase' => 1],
-                ]);
-            },
-        ];
-    }
+        //Send pusher notification
+        app('Modules\Notification\Services\Inotification')->to(['broadcast' => $this->params->user->id])->push([
+          'title' => 'New report',
+          'message' => 'Your report is ready!',
+          'link' => url(''),
+          'isAction' => true,
+          'frontEvent' => [
+            'name' => 'isite.export.ready',
+            'data' => $this->exportParams,
+          ],
+          'setting' => ['saveInDatabase' => 1],
+        ]);
+      },
+    ];
+  }
 }
