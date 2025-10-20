@@ -20,6 +20,8 @@ return [
     'messages' => [
         'message sent successfully' => 'Message sent successfully',
         'invalidFileExtension' => 'Invalid extension file for the field: <strong>:fieldLabel</strong>',
+      'error while sending message' => 'Error while sending message',
+
     ],
     'validation' => [
     ],
