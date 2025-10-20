@@ -46,10 +46,20 @@
           success: function (data) {
             $(".form-content-{{ $form->system_name }}").html('<p class="alert bg-primary text-white mb-0 mt-3" role="alert"><span>' + data.data + '</span> </p>');
           },
-          error: function (data) {
-            var errors = JSON.parse(data.responseJSON.errors);
-            for (var x in errors) {
-              $(".form-content-{{ $form->system_name }} .formerror").append('<p class="alert alert-danger mb-0 mt-3" role="alert"><span>' + errors[x] + '</span> </p>');
+          error: function ( data ) {
+            $( '#loading-form' ).css( 'display', 'none' );
+            var errors = {};
+            var res = data?.responseJSON;
+
+            errors = typeof res === 'object' ? res?.messages : JSON.parse( res?.messages || '' );
+
+            for ( var x in errors ) {
+              var messages = JSON.parse( errors[ x ]?.message );
+              var message = '';
+              for ( var m in messages ) {
+                message = !messages[ m ][ 0 ] ? messages[ m ][ 0 ] : '{{trans('iforms::leads.messages.error while sending message')}}';
+                $( ".content-form{{$formId}} .formerror" ).append( '<p class="alert alert-danger" role="alert"><span>' + message + '</span> </p>' );
+              }
             }
           }
         })
